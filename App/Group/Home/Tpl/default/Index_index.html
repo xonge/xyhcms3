@@ -46,11 +46,11 @@
 	<form id="SearchForm" name="SearchForm" method="post" action="<yang:searchurl />">
 	<ul class="searchFormDiv">
 	<li>
-	  <select name="cid">
-	  	<yang:catlist typeid='0' flag='0' limit='30'>
-	    <option value="{$catlist.id}">{$catlist.name}</option>
-		</yang:catlist>
-	    </select>
+	  <select name="modelid">
+	  	<yang:datatable table='model' field='id,name' where='id != 2' orderby='id' limit='30'>
+	  	<option value="{$datatable.id}" <if condition='$datatable.id eq $modelid'>selected="selected"</if>>{$datatable.name|str_replace='模型','',###}</option>
+		</yang:datatable>
+	   </select>
 	</li>
 	<li>
 	  <input name="keyword" type="text" id="keyword"  value="请输入关键词" onfocus="if(this.value=='请输入关键词'){this.value='';}" onblur="if(this.value==''){this.value='请输入关键词';}" />

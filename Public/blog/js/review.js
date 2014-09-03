@@ -29,7 +29,7 @@ $(function(){
     $('.comment-textarea textarea').keyup(function(){
         var self = $(this);
         var speed = Math.max(self.get(0).scrollHeight, 48);
-        //self.height(speed);
+        self.height(speed);
     });
 
     //表单移动
@@ -94,36 +94,36 @@ $(function(){
         $.post(post_review_url,_postForm,function(data){
             if(data.status == 1) {
                 if (data.review_id == 0) {
-                     comment_btn.find("span").remove().end().append("<span>评论成功</span>");
-                     var html = '<div class="comment-item review_item_list">'+
+                    comment_btn.find("span").remove().end().append("<span>评论成功</span>");
+                    var html = '<div class="comment-item review_item_list">'+
                                 '<a class="avatar" user_id="'+data.user_id+'" href="#" target="_blank">'+
                                 '<img src="'+ data.avatar+'" />'+
                                 '</a> '+
-                                '<div class="comment-hd">';                           
-                    html +='<a class="reply-btn" href="javascript:;" reply="'+ data.id +'">回复<i></i></a>';
-                    html += '<span class="username">' + data.username + data.ico + '</span>' + 
-                            '<span class="commment-time">' + data.posttime + '</span>'+
-                            '</div>'+
-                            '<div class="comment-bd" id="' + data.id + '">'+ content.val() + 
-                            '</div>'+
-                            '</div>';
+                                '<div class="comment-hd">'+                           
+                                '<a class="reply-btn" href="javascript:;" reply="'+ data.id +'">回复<i></i></a>'+
+                                '<span class="username">' + data.username + data.ico + '</span>' + 
+                                '<span class="commment-time">' + data.posttime + '</span>'+
+                                '</div>'+
+                                '<div class="comment-bd" id="' + data.id + '">'+ content.val() + 
+                                '</div>'+
+                                '</div>';
                     $('.comment-box h3').after(html);
                     $('.review-count').text(parseInt($('.review-count').text())+1);
+                    $("html,body").animate({scrollTop: $(".comment-box h3").offset().top}, 500); 
                 }else {
 
                     var html = '<div class="comment-item reply-item" id="' + data.id + '">'+
-                            '<a class="avatar" user_id="'+data.user_id+'" href="#" target="_blank">'+
+                                '<a class="avatar" user_id="'+data.user_id+'" href="#" target="_blank">'+
                                 '<img src="'+ data.avatar+'" />'+
-                            '</a>'+
-                            '<div class="comment-hd"><a class="reply-btn" href="javascript:;" reply="'+data.review_id+'">回复<i></i></a>';
-                        
-                        html += '<span class="username">' + data.username + data.ico + '</span>' + 
-                            '<span class="commment-time">' + data.posttime + '</span>'+
-                            '</div>'+
-                            '<div class="comment-bd">'+
-                            '<div>' + data.content + '</div>'+
-                            '</div>'
-                        '</div>';
+                                '</a>'+
+                                '<div class="comment-hd"><a class="reply-btn" href="javascript:;" reply="'+data.review_id+'">回复<i></i></a>'+
+                                '<span class="username">' + data.username + data.ico + '</span>' + 
+                                '<span class="commment-time">' + data.posttime + '</span>'+
+                                '</div>'+
+                                '<div class="comment-bd">'+
+                                '<div>' + data.content + '</div>'+
+                                '</div>'
+                                '</div>';
                         //$('#' + data.review_id).after(html);
                         $('#reviewForm').before(html);
                 }
@@ -203,37 +203,42 @@ $(function(){
                             '<a class="avatar" user_id="'+v.user_id+'" href="#" target="_blank">'+
                                 '<img src="'+ v.avatar+'" />'+
                             '</a> '+
-                            '<div class="comment-hd">';                           
-                            html +='<a class="reply-btn" href="javascript:;" reply="'+v.id+'">回复<i></i></a>';
-                            html += '<span class="username">' + v.username + v.ico + '</span>' + 
+                            '<div class="comment-hd">'+                         
+                            '<a class="reply-btn" href="javascript:;" reply="'+v.id+'">回复<i></i></a>'+
+                            '<span class="username">' + v.username + v.ico + '</span>' + 
                             '<span class="commment-time">' + v.posttime + '</span>'+
                             '</div>'+
                             '<div class="comment-bd" id="' + v.id + '">'+ v.content + 
-                            '</div>'+
-                        '</div>';
+                            '</div>';
+
+                        //review start
+                        if(v.child && (typeof v.child == 'object')){
+
+                            $.each(v.child, function(i2, v2){
+                                
+                                html += '<div class="comment-item reply-item" id="' + v2.id + '">'+
+                                    '<a class="avatar" user_id="'+v2.user_id+'" href="#" target="_blank">'+
+                                        '<img src="'+ v2.avatar+'" />'+
+                                    '</a>'+
+                                    '<div class="comment-hd"><a class="reply-btn" href="javascript:;" reply="'+v2.review_id+'" at-user="true">回复<i></i></a>'+
+                                    '<span class="username">' + v2.username + v2.ico + '</span>' + 
+                                    '<span class="commment-time">' + v2.posttime + '</span>'+
+                                    '</div>'+
+                                    '<div class="comment-bd">'+
+                                    '<div>' + v2.content + '</div>'+
+                                    '</div>'+
+                                    '</div>';
+                            });
+                        }
+
+                        
+                        //review end
+                        html += '</div>';
                         $('.more-comment').before(html);
                     });
                     page = page+1;
                 }
-                if(data.review && (typeof data.review == 'object')){
 
-                    $.each(data.review, function(i, v){
-                        var html = '<div class="comment-item reply-item" id="' + v.id + '">'+
-                            '<a class="avatar" user_id="'+v.user_id+'" href="#" target="_blank">'+
-                                '<img src="'+ v.avatar+'" />'+
-                            '</a>'+
-                            '<div class="comment-hd"><a class="reply-btn" href="javascript:;" reply="'+v.review_id+'" at-user="true">回复<i></i></a>';
-                        
-                        html += '<span class="username">' + v.username + v.ico + '</span>' + 
-                            '<span class="commment-time">' + v.posttime + '</span>'+
-                            '</div>'+
-                            '<div class="comment-bd">'+
-                            '<div>' + v.content + '</div>'+
-                            '</div>'
-                        '</div>';
-                        $('#' + v.review_id).after(html);
-                    });
-                }
                 var review_count = data.count;
                 if($('.review_item_list').length < review_count){
                     $('#more_count').text(review_count - $('.review_item_list').length);

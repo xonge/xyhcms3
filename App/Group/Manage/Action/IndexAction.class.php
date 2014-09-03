@@ -56,7 +56,9 @@ class IndexAction extends CommonAction{
 		header("Content-Type:text/html; charset=utf-8");//不然返回中文乱码
 		$count = D('CategoryView')->where(array('pid' => 0 , 'type' => 0))->count();
 		$list = D('CategoryView')->nofield('content')->where(array('pid' => 0 , 'type' => 0))->order('category.sort,category.id')->select();
-		
+		if (empty($list)) {
+			$list = array();
+		}
 
 		//权限检测
 		$checkflag = true;

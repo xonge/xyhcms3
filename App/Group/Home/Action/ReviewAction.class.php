@@ -96,7 +96,7 @@ class ReviewAction extends Action{
 
 		header("Content-Type:text/html; charset=utf-8");//不然返回中文乱码
 		if (!IS_AJAX) {
-			exit('非法请求');
+			//exit('非法请求');
 		}
 
 		$postid = I('post_id', 0, 'intval');
@@ -139,35 +139,40 @@ class ReviewAction extends Action{
 				'ico' => '',
 				'avatar' => get_avatar($v['face'],30),
 				'content' => $v['content'],
-				'posttime' => date('Y-m-d H:i:s', $v['posttime'])
+				'posttime' => date('Y-m-d H:i:s', $v['posttime']),
+				'child' => array(),//后面就不用初始化
 			);
 			$ids[] = $v['id'];
 		}
 
 		//评论回复
-		$list['review'] = array();
+		
 		if (!empty($ids)) {
-			$data = D('CommentView')->where(array('pid' => array('in', $ids), 'postid' => $postid , 'modelid' => $modelid ))->order('comment.id DESC')->select();
+			$data = D('CommentView')->where(array('pid' => array('in', $ids), 'postid' => $postid , 'modelid' => $modelid ))->order('comment.id')->select();
+	
+		
+			if (!empty($data)) {
+				foreach ($list['list'] as $k => $v) {					
+					foreach ($data as $k2 => $v2) {
+						if ($v['id'] == $v2['pid']) {
+							$list['list'][$k]['child'][] = array(
+								'id' => $v2['id'],
+								'user_id' => $v2['userid'],
+								'review_id' => $v2['pid'],
+								'username' => $v2['username'],
+								'ico' => '',
+								'avatar' => get_avatar($v2['face'],30),
+								'content' => $v2['content'],
+								'posttime' => date('Y-m-d H:i:s', $v2['posttime'])
+							);
 
-			if (empty($data )) {
-				$data = array();
-			}
-
-			if ($data) {
-				foreach ($data as $k => $v) {
-					$list['review'][] = array(
-						'id' => $v['id'],
-						'user_id' => $v['userid'],
-						'review_id' => $v['pid'],
-						'username' => $v['username'],
-						'ico' => '',
-						'avatar' => get_avatar($v['face'],30),
-						'content' => $v['content'],
-						'posttime' => date('Y-m-d H:i:s', $v['posttime'])
-					);
+							unset($data[$k2]); //删除已经认领元素,减少内循环
+						}
+					}
 				}
 			}
 		}
+
 		
 		unset($data);
 		exit(json_encode($list));

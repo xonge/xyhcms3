@@ -279,15 +279,27 @@ class CategoryAction extends CommonAction {
 		$id = I('id', 0, 'intval');
 
 		//查询是否有子类
-		$childCate = M('category')->where(array('pid' => $id))->select();
-		if ($childCate) {
+		$childnum = M('category')->where(array('pid' => $id))->count();
+		if ($childnum) {
 			$this->error('删除失败：请先删除本栏目下的子栏目');
 		}
-		$tablename = D('CategoryView')->where(array('category.id'=>$id))->getField('tablename');
+		$self = D('CategoryView')->field(array('modelid', 'tablename'))->where(array('category.id'=>$id))->find();
+		if (!$self) {
+			$this->error('栏目不存在');
+		}
+		$tablename = $self['tablename'];
+		$modelid = $self['modelid'];
+
 		if (M('category')->delete($id)) {
 			$msg = '';
 			if (!empty($tablename) && $tablename != 'page') {
-				M($tablename)->where(array('cid' => $id))->delete();
+				//删除栏目下文档之前，先删除文章资源引用
+				$arcid = M($tablename)->where(array('cid' => $id))->getField('id', true);
+				if (!empty($arcid)) {
+					M('attachmentindex')->where(array('modelid' => $modelid, 'arcid' => array('IN', $arcid)))->delete();
+					
+					M($tablename)->where(array('cid' => $id))->delete();
+				}		
 				$msg = '!!!';
 			}
 			M('categoryAccess')->where(array('catid' => $id))->delete();
