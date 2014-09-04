@@ -48,7 +48,7 @@
 	<li>
 	  <select name="modelid">
 	  	<yang:datatable table='model' field='id,name' where='id != 2' orderby='id' limit='30'>
-	  	<option value="{$datatable.id}" <if condition='$datatable.id eq $modelid'>selected="selected"</if>>{$datatable.name|str_replace='模型','',###}</option>
+	  	<option value="{$datatable.id}">{$datatable.name|str_replace='模型','',###}</option>
 		</yang:datatable>
 	   </select>
 	</li>

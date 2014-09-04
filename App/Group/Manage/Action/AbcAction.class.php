@@ -110,9 +110,7 @@ class AbcAction extends CommonAction {
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$Model =M();		
-		$batchFlag = intval($_GET['batchFlag']);
-	
+		$Model =M();			
 
 		//getField('id'),返回一个结果，getField('id',true),返回满足的所有(数组)
 		$child= M('abcDetail')->where(array('aid' => $id))->find();
