@@ -22,7 +22,7 @@ class PublicAction extends CommonAction {
 		}
 		/* uploads */
 		$this->environment_upload = ini_get('file_uploads') ? ini_get('upload_max_filesize') : '不支持';
-		$this->yycms_info =  F('ver', '', './Data/resource/');
+		$this->cms_info =  F('ver', '', './Data/resource/');
 		$this->display();
 	}
 

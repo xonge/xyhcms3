@@ -987,7 +987,7 @@ CREATE TABLE IF NOT EXISTS `#xyh#_node` (
   KEY `pid` (`pid`),
   KEY `status` (`status`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=107 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=128 ;
 
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(1, 'Manage', '后台应用', 1, NULL, 1, 0, 1);
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(2, 'Rbac', '用户权限管理', 1, NULL, 1, 1, 2);
@@ -1095,6 +1095,27 @@ INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pi
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(104, 'lists', '更新栏目', 1, NULL, 3, 101, 3);
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(105, 'shows', '更新文档', 1, NULL, 4, 101, 3);
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(106, 'special', '更新专题', 1, NULL, 5, 101, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(107, 'Menu', '菜单管理', 1, NULL, 19, 1, 2);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(108, 'index', '菜单列表', 1, NULL, 1, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(109, 'add', '添加菜单', 1, NULL, 2, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(110, 'edit', '修改菜单', 1, NULL, 3, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(111, 'sort', '排序更新', 1, NULL, 4, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(112, 'qk', '快捷更新', 1, NULL, 5, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(113, 'del', '删除菜单', 1, NULL, 6, 107, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(114, 'Attachment', '已上传文件管理', 1, NULL, 20, 1, 2);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(115, 'index', '文件列表', 1, NULL, 1, 114, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(116, 'del', '删除文件', 1, NULL, 4, 114, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(117, 'Abc', '广告管理', 1, NULL, 21, 1, 2);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(118, 'index', '广告位列表', 1, NULL, 1, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(119, 'add', '添加广告位', 1, NULL, 2, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(120, 'edit', '修改广告位', 1, NULL, 3, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(121, 'del', '删除广告位', 1, NULL, 4, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(122, 'detail', '广告列表', 1, NULL, 5, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(123, 'addDetail', '添加广告', 1, NULL, 6, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(124, 'editDetail', '修改广告', 1, NULL, 7, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(125, 'sort', '更新广告排序', 1, NULL, 7, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(126, 'getcode', '获取广告代码', 1, NULL, 8, 117, 3);
+INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(127, 'delDetail', '删除广告', 1, NULL, 9, 117, 3);
 
 DROP TABLE IF EXISTS `#xyh#_orderinfo`;
 CREATE TABLE IF NOT EXISTS `#xyh#_orderinfo` (
