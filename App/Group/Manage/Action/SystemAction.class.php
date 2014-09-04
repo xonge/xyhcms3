@@ -110,10 +110,8 @@ class SystemAction extends CommonAction {
 
 			$str .=');?>';
 
-			//print($str);exit();
 
 
-			//p($url_route_rules);exit();
 			//if(F('config.url',$_POST,CONF_PATH)) {
 			if(file_put_contents(CONF_PATH.'/config.url.php',$str)) {
 				$this->success('修改成功',U(GROUP_NAME. '/System/url'));

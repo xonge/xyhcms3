@@ -147,6 +147,126 @@ class PublicAction extends Action {
 		return Image::buildImageVerify(4, 1);
 	}
 
+	//online
+	public function online(){
+
+		if (C('cfg_online_mode') != 1) {
+			return '';
+		}
+
+		$_cfg_online_style = C('cfg_online_style');
+		$_cfg_online_style = empty($_cfg_online_style) ? 'blue' : $_cfg_online_style;
+		$_cfg_online_qq = C('cfg_online_qq');
+		$_cfg_online_wangwang = C('cfg_online_wangwang');
+		if (empty($_cfg_online_qq)) {
+			$_cfg_online_qq = array();
+		}else {
+			$_cfg_online_qq = explode('|||', $_cfg_online_qq );
+		}
+		if (empty($_cfg_online_wangwang)) {
+			$_cfg_online_wangwang = array();
+		}else {
+			$_cfg_online_wangwang = explode('|||', $_cfg_online_wangwang );
+		}
+		$_cfg_online_qq_param = C('cfg_online_qq_param');
+		$_cfg_online_wangwang_param = C('cfg_online_wangwang_param');
+		//位置
+		$_divL = C('cfg_online_h') == 1 ? (-C('cfg_online_h_margin')-0.01) : C('cfg_online_h_margin');//水平
+		$_divT = C('cfg_online_v') == 1 ? (-C('cfg_online_v_margin')-0.01) : C('cfg_online_v_margin');
+		$_divM = 0;
+		if (C('cfg_online_h') == 2 && C('cfg_online_v') == 2) {
+			$_divM = 2;
+		}elseif (C('cfg_online_h') == 2) {
+			$_divM = 1;
+		}elseif (C('cfg_online_v') == 2) {
+			$_divM = -1;
+		}
+		//$js_path = str_replace("/", "\/", __ROOT__.'/Data');
+		$js_path =  __ROOT__.'/Data';
+		
+
+		$str =<<<str
+//动态加载
+function loadScript(url,callback){ 
+   var script = document.createElement("script") 
+   script.type = "text/javascript"; 
+   if (script.readyState){//IE 
+      script.onreadystatechange = function(){ 
+         if (script.readyState ==  "loaded" || script.readyState == "complete"){ 
+            script.onreadystatechange = null;
+
+            callback(); 
+         } 
+      }; 
+   } else { //Others: Firefox, Safari, Chrome, and Opera 
+      script.onload = function(){ 
+          callback(); 
+      }; 
+   } 
+   script.src = url; 
+   document.body.appendChild(script);
+
+}
+function online_show() {
+	if(document.getElementById("XYHOnlineView")){
+		new scrollx({id:"XYHOnlineView",l:{$_divL},t:{$_divT},f:1,m:{$_divM}});
+	}
+}
+	document.write('<link href="{$js_path}/static/js_plugins/online/{$_cfg_online_style}.css" rel="stylesheet" type="text/css" />');
+	document.write('<div id="XYHOnlineView" class="xyh_online_view">');
+	document.write('<div class="top_b"></div>');
+	document.write('<div class="body">');
+	document.write('<dl>');
+	document.write('<dd class="title">在线客服</dd>');
+	document.write('<dd>');
+	document.write('	<span class="ico_zx">在线咨询</span>');
+	document.write('</dd>');
+str;
+	
+	foreach($_cfg_online_qq as $autoindex => $_qq):
+		$_qq_array = explode('$$$', $_qq);
+		$_qq_array[1] = isset($_qq_array[1]) ? $_qq_array[1] : '点击这里给我发消息';
+		$str .= 'document.write(\'<dd class="qq">\');';
+		$str .= "document.write('".str_replace(array('[客服号]', '[客服说明]',"\r\n","'"), array($_qq_array[0], $_qq_array[1], '', "\'"), $_cfg_online_qq_param)."');";
+		$str .= "document.write('</dd>');\n";
+	endforeach;
+
+	
+	foreach($_cfg_online_wangwang as $autoindex => $_wangwang):
+		$_wangwang_array = explode('$$$', $_wangwang);
+		$_wangwang_array[1] = isset($_wangwang_array[1]) ? $_wangwang_array[1] : '点击这里给我发消息';
+		$str .= 'document.write(\'<dd class="qq">\');';
+		$str .= "document.write('".str_replace(array('[客服号]', '[客服说明]',"\r\n","'"), array($_wangwang_array[0], $_wangwang_array[1], '', "\'"), $_cfg_online_wangwang_param)."');";
+		$str .= "document.write('</dd>');";
+	endforeach;
+			
+	$str .= "document.write('</dl>');";
+	$str .= "document.write('<dl>');";
+			 
+	if(C('cfg_online_phone') == 1) {	
+		$str .= 'document.write(\'<dd class="title bborder">电话咨询</dd>\');';
+		$str .= 'document.write(\'<dd><span class="ico_tel">'.C('cfg_phone').'</span></dd>\');';
+
+	}			
+
+
+	if(C('cfg_online_guestbook') == 1) {
+
+		$str .= 'document.write(\'<dd class="msg noborder"><a href="'.U('Guestbook/index').'" target="_blank">给我们留言</a></dd>\');';
+	}
+		
+		
+	$str .= "document.write('</dl>');";
+	$str .= "document.write('</div>');";
+	$str .= "document.write('</div>');";
+	$str .= 'loadScript("'.$js_path.'/static/js_plugins/online/scrollx.js",online_show)';
+
+
+	echo $str;
+
+	}
+
+
 
 
 }
