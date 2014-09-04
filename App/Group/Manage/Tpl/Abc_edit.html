@@ -12,13 +12,13 @@
 	function select_type(id) {
 		if (id == 1) {
 			$("#SizeDl").hide();
-			$("#setting").html('<loop><a href="{'+'$url}">{'+'$content}</a></loop>');
+			$("#setting").html('&lt;loop&gt;&lt;a href=&quot;{'+'$url}&quot;&gt;{'+'$content}&lt;/a&gt;&lt;/loop&gt;');
 		}else if(id == 2) {
 			$("#SizeDl").show();
-			$("#setting").html('<loop><a href="{'+'$url}"><img src="{'+'$content}" /></a></loop>');
+			$("#setting").html('&lt;loop&gt;&lt;a href=&quot;{'+'$url}&quot;&gt;&lt;img src=&quot;{'+'$content}&quot; /&gt;&lt;/a&gt;&lt;/loop&gt;');
 		}else {
 			$("#SizeDl").show();
-			$("#setting").html('<loop><embed src="{'+'$content}" quality="high" width="{'+'$width}" height="{'+'$height}" wmode="opaque" type="application/x-shockwave-flash"></embed></loop>');
+			$("#setting").html('&lt;loop&gt;&lt;embed src=&quot;{'+'$content}&quot; quality=&quot;high&quot; width=&quot;{'+'$width}&quot; height=&quot;{'+'$height}&quot; wmode=&quot;opaque&quot; type=&quot;application/x-shockwave-flash&quot;&gt;&lt;/embed&gt;&lt;/loop&gt;');
 		}
 		
 	}
