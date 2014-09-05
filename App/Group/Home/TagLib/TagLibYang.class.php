@@ -86,7 +86,7 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
-		//v1.6 --ad --20140821--debug
+		//v1.6 --ad --20140821
 		'abc'	=> array(
 			'attr'	=> 'id,limit',//attr 属性列表
 			'close'	=> 1,
@@ -1437,7 +1437,7 @@ str;
 		if ($pagesize > 0) {
 			
 			import('Class.Page', APP_PATH);
-			\$count = D(ucfirst(\$_tablename ).'View')->where(\$where)->count();
+			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
 			\$thisPage = new Page(\$count, $pagesize);			
 			\$ename = I('e', '', 'htmlspecialchars,trim');
 		
@@ -1451,7 +1451,7 @@ str;
 			\$limit = "$limit";
 		}	
 
-		\$_archivelist = D(ucfirst(\$_tablename ).'View')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		\$_archivelist = D2('ArcView',"\$_tablename")->where(\$where)->order("$orderby")->limit(\$limit)->select();
 		if (empty(\$_archivelist)) {
 			\$_archivelist = array();
 		}
@@ -1694,7 +1694,7 @@ str;
 		echo '无记录';
 	} else {
 		//上一条记录
-        \$_vo=D(ucfirst(\$cate['tablename'].'View'))->where(array(\$cate['tablename'].'.status' => 0, 'cid' => \$content['cid'], 'id' => array('lt',\$content['id'])))->order('id desc')->find();
+        \$_vo= D2('ArcView', \$cate['tablename'])->where(array(\$cate['tablename'].'.status' => 0, 'cid' => \$content['cid'], 'id' => array('lt',\$content['id'])))->order('id desc')->find();
 
         if (\$_vo) {
 
@@ -1722,7 +1722,7 @@ str;
 		echo '无记录';
 	} else {
 		//下一条记录
-        \$_vo=D(ucfirst(\$cate['tablename'].'View'))->where(array(\$cate['tablename'].'.status' => 0, 'cid' => \$content['cid'], 'id' => array('gt',\$content['id'])))->order('id ASC')->find();
+        \$_vo= D2('ArcView',\$cate['tablename'])->where(array(\$cate['tablename'].'.status' => 0, 'cid' => \$content['cid'], 'id' => array('gt',\$content['id'])))->order('id ASC')->find();
 
         if (\$_vo) {	
 

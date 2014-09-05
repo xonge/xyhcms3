@@ -25,11 +25,11 @@ class ShowAction extends Action{
 			$this->error('栏目不存在');
 		}
 
+
 		$cid = $self['id'];//当使用ename获取的时候，就要重新给$cid赋值，不然0
 		$_GET['cid'] = $cid;//栏目ID
 		$self['url'] = getUrl($self);
 
-		
 		//访问权限
 		$groupid = intval(get_cookie('groupid'));
 		$groupid = empty($groupid) ? 1 : $groupid;//1为游客
@@ -66,8 +66,9 @@ class ShowAction extends Action{
 		$this->tablename = $self['tablename'];
 		$this->id = $id;
 
+		
 
-		switch ($self['tablename']) {		
+		switch ($self['tablename']) {			
 			case 'article':
 				break;		
 			case 'phrase':
@@ -137,15 +138,17 @@ class ShowAction extends Action{
 						);
 					}				
 				}
-				$content['downlink'] = $downlink;		
+				$content['downlink'] = $downlink;			
 
-				break;	
+
+				break;			
 			default:
 				$userOther = A(ucfirst($self['tablename']));
 				$userOther->shows();
 				return;
 				break;
 		}
+
 
 		$this->content = $content;
 		$this->display($template_show);		

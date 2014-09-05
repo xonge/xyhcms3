@@ -6,6 +6,7 @@ class ListAction extends Action{
 		
 		$cid = I('cid', 0,'intval');
 		$ename = I('e', '', 'htmlspecialchars,trim');
+
 		$cate = getCategory(1);
 		import('Class.Category', APP_PATH);	
 		
@@ -19,11 +20,11 @@ class ListAction extends Action{
 		if(empty($self)) {
 			$this->error('栏目不存在');
 		}
+		
 	
 		$cid = $self['id'];//当使用ename获取的时候，就要重新给$cid赋值，不然0
 		$_GET['cid'] = $cid;//栏目ID
 		$self['url'] = getUrl($self);
-
 
 		//访问权限
 		$groupid = intval(get_cookie('groupid'));
@@ -44,7 +45,7 @@ class ListAction extends Action{
 		$this->cid = $cid;
 
 		
-		$patterns = array('/^List_/', '/.html$/');
+		$patterns = array('/^List_/', '/'.C('TMPL_TEMPLATE_SUFFIX').'$/');
 		$replacements = array('', '');
 		$template_list = preg_replace($patterns, $replacements, $self['template_list']);
 		
@@ -81,7 +82,7 @@ class ListAction extends Action{
 			case 'phrase':
 				$this->display($template_list);
 				return;
-				break;			
+				break;		
 			default:
 				//$this->error('参数错误');
 				$userOther = A(ucfirst($self['tablename']));
