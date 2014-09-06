@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><?php echo $lang['install_license'];?>-XYHCms安装向导</title>
+<title><?php echo $lang['install_license'];?>-<?php echo $lang['install_title'];?></title>
 
 <link rel="stylesheet" href="css/global.css" type="text/css" />
 </head>
