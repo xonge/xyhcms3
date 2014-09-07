@@ -12,34 +12,34 @@
 	<div class="main">
 		<div class="step">
 			<ul>
-				<li class="current"><em>1</em>检测环境</li>
-				<li><em>2</em>创建数据</li>
-				<li><em>3</em>完成安装</li>
+				<li class="current"><em>1</em><?php echo $lang['detection_environment']; ?></li>
+				<li><em>2</em><?php echo $lang['data_create']; ?></li>
+				<li><em>3</em><?php echo $lang['complete_installation']; ?></li>
 			</ul>
 		</div>
 		<table class="table1">
 			<tr>
-				<th>环境检测</th>
-				<th>推荐配置</th>
-				<th>当前状态</th>
+				<th><?php echo $lang['environmental_testing']; ?></th>
+				<th><?php echo $lang['recommended_configuration']; ?></th>
+				<th><?php echo $lang['current_status']; ?></th>
 			</tr>
 			<tr>
-				<td>操作系统</td>
+				<td><?php echo $lang['operating_system']; ?></td>
 				<td>Linux&nbsp;/&nbsp;WNT</td>
 				<td><?php echo $os_software;?></td>
 			</tr>
 			<tr>
-				<td>PHP版本</td>
+				<td>PHP <?php echo $lang['version']; ?></td>
 				<td>&gt;5.2.8</td>
 				<td><?php echo $environment_phpversion;?></td>
 			</tr>
 			<tr>
-				<td>Mysql版本</td>
+				<td>Mysql <?php echo $lang['version']; ?></td>
 				<td>&gt;5.1.0</td>
 				<td><?php echo $environment_mysql;?></td>
 			</tr>
 			<tr>
-				<td>附件上传</td>
+				<td><?php echo $lang['attachment_upload']; ?></td>
 				<td>&gt;2M</td>
 				<td><?php echo $environment_upload;?></td>
 			</tr>
@@ -54,22 +54,22 @@
 				<td><?php echo $environment_iconv;?></td>
 			</tr>
 			<tr>
-				<td>GD扩展</td>
+				<td>GD <?php echo $lang['extension'];?></td>
                 <td><?php echo $lang['mustopen'];?></td>
 				<td><?php echo $environment_gd;?></td>
 			</tr>			
 			<tr>
-				<td>mbstring扩展</td>
+				<td>mbstring <?php echo $lang['extension'];?></td>
                 <td><?php echo $lang['mustopen'];?></td>
 				<td><?php echo $environment_mb;?></td>
 			</tr>
 		</table>
 		<table class="table1">
 			<tr>
-				<th>目录权限检测</th>
+				<th><?php echo $lang['directory_permissions'];?></th>
 				<th>&nbsp;</th>
-				<th>写入</th>
-				<th>读取</th>
+				<th><?php echo $lang['write'];?></th>
+				<th><?php echo $lang['read'];?></th>
 			</tr>
 			<?php foreach ($file as $dirvalue) {?>
 			<tr>
@@ -84,7 +84,7 @@
 			</tr>
 			<?php }?>
 		</table>
-		<div class="action"><a href="javascript:history.go(-1);" class="btn_blue">上一步</a>&nbsp;&nbsp;&nbsp;<a href="index.php?step=3" class="btn_blue">下一步</a></div>
+		<div class="action"><a href="javascript:history.go(-1);" class="btn_blue"><?php echo $lang['previous'];?></a>&nbsp;&nbsp;&nbsp;<a href="index.php?step=3" class="btn_blue"><?php echo $lang['next'];?></a></div>
 	</div>
 </body>
 </html>

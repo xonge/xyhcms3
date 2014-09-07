@@ -13,7 +13,7 @@
 		<div class="license">
 		<?php echo format_textarea($license)?>			
 		</div>
-		<div class="action"><a href="index.php?step=2" class="btn_blue">同意并接受</a></div>
+		<div class="action"><a href="index.php?step=2" class="btn_blue"><?php echo $lang['agree_and_accept'];?></a></div>
 	</div>
 </body>
 </html>

@@ -13,82 +13,82 @@
 	<div class="main">
 		<div class="step">
 			<ul>
-				<li class="ok"><em>1</em>检测环境</li>
-				<li class="current"><em>2</em>创建数据</li>
-				<li><em>3</em>完成安装</li>
+				<li class="ok"><em>1</em><?php echo $lang['detection_environment']; ?></li>
+				<li class="current"><em>2</em><?php echo $lang['data_create']; ?></li>
+				<li><em>3</em><?php echo $lang['complete_installation']; ?></li>
 			</ul>
 		</div>
 		<form action="index.php?step=3" method="post">
 		<table class="table1">
 			<tr>
-				<th width="10%">数据库信息</th>
-				<th>安装后,原数据库会被清空,请做好备份</th>
+				<th width="10%"><?php echo $lang['database_information']; ?></th>
+				<th><?php echo $lang['database_information_tip']; ?></th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;数据库服务器：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['install_mysql_host']; ?>：</td>
 				<td><input type="text" class="text" value="localhost" name="DB_HOST" /></td>
-				<td>本地填写：localhost或127.0.0.1</td>
+				<td><?php echo $lang['install_mysql_host_intro']; ?></td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;数据库端口：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['install_mysql_port']; ?>：</td>
 				<td><input type="text" class="text" value="3306" name="DB_PORT" /></td>
-				<td>数据库端口一般为3306</td>
+				<td><?php echo $lang['install_mysql_port_intro']; ?></td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;数据库用户名：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['install_mysql_username']; ?>：</td>
 				<td><input type="text" class="text" value="root" name="DB_USER" /></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td>数据库密码：</td>
+				<td><?php echo $lang['install_mysql_password']; ?>：</td>
 				<td><input type="text" class="text" value="" name="DB_PWD" /></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;数据库名：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['install_mysql_name']; ?>：</td>
 				<td><input type="text" class="text" value="xyhcms" name="DB_NAME" /></td>
-				<td>不存在则自动创建。</td>
+				<td><?php echo $lang['install_mysql_name_intro']; ?></td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;数据库表前缀：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['install_mysql_prefix']; ?>：</td>
 				<td><input type="text" class="text" value="xyh_" name="DB_PREFIX" /></td>
-				<td>推荐使用默认。</td>
+				<td><?php echo $lang['install_mysql_prefix_intro']; ?></td>
 			</tr>
 			<tr>
-				<th>网站配置</th>
+				<th><?php echo $lang['site_configuration']; ?></th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
-				<td>网站名称：</td>
-				<td><input type="text" class="text" value="我的网站" name="WEB_NAME" /></td>
+				<td><?php echo $lang['site_name']; ?>：</td>
+				<td><input type="text" class="text" value="<?php echo $lang['site_name_default']; ?>" name="WEB_NAME" /></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;网站网址：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['site_url']; ?>：</td>
 				<td><input type="text" class="text" value="<?php echo $weburl;?>" name="WEB_URL" /></td>
-				<td>请以http://或https://开头</td>
+				<td><?php echo $lang['site_url_intro']; ?></td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;网站风格：</td>
-				<td><input type="radio" name="WEB_STYLE" value="default" checked="checked">企业站 <input type="radio" name="WEB_STYLE" value="blog">博客</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['site_style']; ?>：</td>
+				<td><input type="radio" name="WEB_STYLE" value="default" checked="checked"><?php echo $lang['site_style_c']; ?><input type="radio" name="WEB_STYLE" value="blog"><?php echo $lang['site_style_b']; ?></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<th>网站超级管理员</th>
+				<th><?php echo $lang['website_administrator']; ?></th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;用户名：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['username']; ?>：</td>
 				<td><input type="text" class="text" value="xyhcms" name="username" /></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td><font class="red">*</font>&nbsp;密&nbsp;&nbsp;&nbsp;码：</td>
+				<td><font class="red">*</font>&nbsp;<?php echo $lang['password']; ?>：</td>
 				<td><input type="text" class="text" value="" name="password" /></td>
-				<td>最少6位</td>
+				<td><?php echo $lang['password_intro']; ?></td>
 			</tr>
 			<tr>
 				<td><font class="red">*</font>&nbsp;E-mail：</td>
@@ -96,12 +96,12 @@
 				<td>&nbsp;</td>
 			</tr>			
 			<tr>
-				<td>测试数据：</td>
-				<td><label><input type="checkbox" value="1" name="add_test" />添加默认数据！(适合新手第一次使用)</label></td>
+				<td><?php echo $lang['test_data']; ?>：</td>
+				<td><label><input type="checkbox" value="1" name="add_test" /><?php echo $lang['test_data_intro']; ?></label></td>
 				<td>&nbsp;</td>
 			</tr>			
 		</table>
-		<div class="action"><a href="javascript:history.go(-1);" class="btn_blue">上一步</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="btn_blue" onclick="postData()">下一步</a></div>
+		<div class="action"><a href="javascript:history.go(-1);" class="btn_blue"><?php echo $lang['previous'];?></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="btn_blue" onclick="postData()"><?php echo $lang['next'];?></a></div>
 		</form>
 	</div>
 <script type="text/javascript">

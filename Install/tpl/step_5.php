@@ -10,9 +10,9 @@
 	<?php require 'tpl/header.php';?>
 	<div class="main">
 		<div class="complete">
-				<p style="font-family: microsoft yahei,simhei; font-size:20px; font-weight:bold; color:#FF3300">恭喜您，安装成功！</p>
-				<p><a href="../" target="_blank"  class="btn_blue">访问网站首页</a><a href="../index.php?g=Manage" target="_blank" class="btn_blue">进入后台管理</a></p>
-				<p>为了您站点的安全，安装完成后请立即删除网站根目录下的“Install”文件夹删除。</p>
+				<p style="font-family: microsoft yahei,simhei; font-size:20px; font-weight:bold; color:#FF3300"><?php echo $lang['congratulations_installation_success'];?></p>
+				<p><a href="../" target="_blank"  class="btn_blue"><?php echo $lang['visit_home'];?></a><a href="../index.php?g=Manage" target="_blank" class="btn_blue"><?php echo $lang['enter_admin'];?></a></p>
+				<p><?php echo $lang['safe_notes'];?></p>
 		
 		</div>
 	</div>
