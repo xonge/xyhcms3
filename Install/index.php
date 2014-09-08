@@ -31,19 +31,19 @@ switch ($step ) {
 		if (intval($phpversion)-intval($lowest) >=0) {
 			$environment_phpversion = '<span class="ok">'.$phpversion.'</span>';
 		} else {
-			exit('系统安装要求：PHP版本最低不能低于'.$lowest);
+			exit($lang['system_installation_requirements_php'].$lowest);
 			$environment_phpversion = '<span class="no red">&nbsp;</span>';
 		}
 		/* mysql */
 		if (function_exists('mysql_connect')) {
-			$environment_mysql = '<span class="ok">开启</span>';
+			$environment_mysql = '<span class="ok">'.$lang['install_on'].'</span>';
 		} else {
 			$environment_mysql = '<span class="no red">&nbsp;</span>';
 		}
 
 		/* session_start */
 		if (function_exists('session_start')) {
-			$environment_session = '<span class="ok">开启</span>';
+			$environment_session = '<span class="ok">'.$lang['install_on'].'</span>';
 		} else {
 			$environment_session = '<span class="no red">'. $lang['unsupport'] .'</span>';
 		}
@@ -87,22 +87,22 @@ switch ($step ) {
 	case 3:
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (empty($_POST['DB_HOST'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写数据库服务器！','input'=>'DB_HOST')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['install_mysql_host_empty'],'input'=>'DB_HOST')));
 			}
 			if (empty($_POST['DB_PORT'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写数据库端口！','input'=>'DB_PORT')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['install_mysql_port_empty'],'input'=>'DB_PORT')));
 			}
 			if (empty($_POST['DB_USER'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写数据库用户名！','input'=>'DB_USER')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['install_mysql_username_empty'],'input'=>'DB_USER')));
 			}
 			if (empty($_POST['DB_NAME'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写数据库名！','input'=>'DB_NAME')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['install_mysql_name_empty'],'input'=>'DB_NAME')));
 			}
 			if (empty($_POST['DB_PREFIX'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写数据库服表前缀！','input'=>'DB_PREFIX')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['install_mysql_prefix_empty'],'input'=>'DB_PREFIX')));
 			}
 			if (empty($_POST['WEB_URL'])) {
-				exit(json_encode(array('status'=>'error','info'=>'请填写网站网址！','input'=>'WEB_URL')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['site_url_empty'],'input'=>'WEB_URL')));
 			}
 			if (empty($_POST['username'])) {
 				exit(json_encode(array('status'=>'error','info'=>$lang['install_founder_name_empty'],'input'=>'username')));
@@ -114,16 +114,16 @@ switch ($step ) {
 				exit(json_encode(array('status'=>'error','info'=>$lang['founder_invalid_password'],'input'=>'password')));
 			}
 			if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-				exit(json_encode(array('status'=>'error','info'=>'E-mail格式不正确！','input'=>'email')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['email_failed'],'input'=>'email')));
 			}
 			$connect = mysql_connect($_POST['DB_HOST'],$_POST['DB_USER'],$_POST['DB_PWD']);
 			if (!$connect) {
-				exit(json_encode(array('status'=>'error','info'=>'数据库连接失败，错误信息'.mysql_error($connect))));
+				exit(json_encode(array('status'=>'error','info'=>$lang['database_connection_failed'].','.$lang['error_message'].mysql_error($connect))));
 			}
 			if (!mysql_select_db($_POST['DB_NAME'])) {
 				$result = mysql_query("CREATE DATABASE `".$_POST['DB_NAME']."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;");
 				if (!$result) {
-					exit(json_encode(array('status'=>'error','info'=>'数据库创建失败，错误信息'.mysql_error($connect),'input'=>'DB_NAME')));
+					exit(json_encode(array('status'=>'error','info'=>$lang['database_create_failed'].','.$lang['error_message'].mysql_error($connect),'input'=>'DB_NAME')));
 				}
 			}
 // 				右边的/一定要去除
@@ -133,12 +133,12 @@ switch ($step ) {
 			if (file_put_contents('temp.php',"<?php\r\nreturn " .$content."\r\n?>")) {
 				exit(json_encode(array('status'=>'success')));
 			} else {
-				exit(json_encode(array('status'=>'error','info'=>'写入临时文件失败！')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['write_tmp_failed'])));
 			}
 
 			//判断配置目录是否可写
 			if (!is_writable("../App/Conf")) {
-				exit(json_encode(array('status'=>'error','info'=>'Conf目录没有写权限!')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['conf_not_write'])));
 			}
 
 		} else {
@@ -165,7 +165,7 @@ switch ($step ) {
 
 			$content = file_get_contents($datafile);//带演示
 			if (empty($setting)) {				
-				exit(json_encode(array('status'=>'error','info'=>'加载文件失败，请重新安装！')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['load_failed_reinstall'])));
 			}
 
 
@@ -201,10 +201,10 @@ switch ($step ) {
 			$installNum = count($content);
 			$connect = mysql_connect($setting['DB_HOST'],$setting['DB_USER'],$setting['DB_PWD']);
 			if (!$connect) {
-				exit(json_encode(array('status'=>'error','info'=>'数据库连接失败，错误信息'.mysql_error($connect))));
+				exit(json_encode(array('status'=>'error','info'=>$lang['database_connection_failed'].','.$lang['error_message'].mysql_error($connect))));
 			} 
 			if (!mysql_select_db($setting['DB_NAME'],$connect)) {
-				exit(json_encode(array('status'=>'error','info'=>'选择数据库失败，错误信息'.mysql_error($connect))));
+				exit(json_encode(array('status'=>'error','info'=>$lang['database_select_fails'].','.$lang['error_message'].mysql_error($connect))));
 			} 
 			mysql_query("SET NAMES UTF8");
 			$forNum = 0;
@@ -228,12 +228,12 @@ switch ($step ) {
 				preg_match('/create\s+table.*\`(.*)\`.*/Ui',$sql, $match);
 				$flagOfTable = false;
 				if (isset($match[1]) && !empty($match[1])) {
-					$tableName = '数据表'.$match[1].'！';
+					$tableName = $lang['data_table'].$match[1].'！';
 					$flagOfTable = true;
 				} else {
 					preg_match('/insert\s+into\s+\`(.*)\`.*/iU',$sql,$match);
 					if (isset($match[1]) && !empty($match[1])) {
-						$tableName = '写入数据表'.$match[1];
+						$tableName = $lang['write_data_table'].$match[1];
 					} else {
 						$tableName = '';
 					}
@@ -241,13 +241,13 @@ switch ($step ) {
 				$result = mysql_query($sql.';');
 				if (!$result) {
 					$status = 'error';
-					$info .= '安装'.$tableName.'失败，错误信息'.mysql_error().'<br/>';
+					$info .= $lang['install'].$tableName.$lang['faile'].','.$lang['error_message'].mysql_error().'<br/>';
 					//错误直接返回
 					exit(json_encode(array('status'=>$status,'info'=>$info ,'num'=>$forNum)));
 				} else {
 					$status = 'success';
 					if ($flagOfTable) {
-						$info .= '成功安装'.$tableName.'<br/>';
+						$info .= $lang['installation_successful'].$tableName.'<br/>';
 					}
 					$flagOfTable = false;
 					
@@ -269,14 +269,14 @@ switch ($step ) {
 			$result = mysql_query("INSERT INTO `{$setting['DB_PREFIX']}admin` (`username`,`password`,`encrypt`,`usertype`,`logintime`,`loginip`,`islock`) VALUES ('{$setting['username']}','$password','$encrypt',9,'$time','$ip',0);");
 			$insertId = mysql_insert_id();
 			if (!$result || !$insertId) {
-				exit(json_encode(array('status'=>'error','info'=>'创建管理员失败，错误信息'.mysql_error().'，请重新刷新安装！')));
+				exit(json_encode(array('status'=>'error','info'=>$lang['create_administrator_failed'].','.$lang['error_message'].mysql_error().','.$lang['please_refresh_installation'])));
 			}
 		
 			/* 保存install记录,如果删除则得不到最新的更新提示 */
 			@file_get_contents('http://www.0871k.com/index.php?g=Api&m=Cms&a=getInstallInfo&email='.base64_encode($setting['email']));
 			
 			$status = 'success_all';
-			$info .='XYHCMS已成功安装！';
+			$info .='XYHCMS'.$lang['installation_successful'];
 
 			exit(json_encode(array('status'=>$status,'info'=>$info,'num'=>$forNum)));
 		} 

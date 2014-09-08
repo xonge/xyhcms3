@@ -12,8 +12,8 @@
 	<div class="main">
 		<div class="step">
 			<ul>
-				<li><em>1</em><?php echo $lang['detection_environment']; ?></li>
-				<li><em>2</em><?php echo $lang['data_create']; ?></li>
+				<li class="ok" class="ok"><em>1</em><?php echo $lang['detection_environment']; ?></li>
+				<li class="ok"><em>2</em><?php echo $lang['data_create']; ?></li>
 				<li class="current"><em>3</em><?php echo $lang['complete_installation']; ?></li>
 			</ul>
 		</div>
