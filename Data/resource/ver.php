@@ -1,5 +1,5 @@
 <?php return array (
-  'XYHCMS_VER' => '1.6beta',
-  'XYHCMS_TIME' => '20140904',
+  'XYHCMS_VER' => '2.0',
+  'XYHCMS_TIME' => '20140909',
   'XYHCMS_LANG' => 'zh-cn',
 );?>

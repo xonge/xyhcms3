@@ -1,7 +1,7 @@
 <?php
 if(!defined('XYHCMS_INSTALL')) exit('Access Denied');
 $lang = array(
-	'install_title' => 'XYHCMS 1.6安装向导',
+	'install_title' => 'XYHCMS 2.0安装向导',
 	'install_license' => '行云海内容管理系统-安装用户协议',
 	'install_is_lock' => '您已成功安装XYHCMS，需重新安装请手动删除网站目录下install/install.lock文件', 
 	'install_db_error' => '数据库文件无法读取，请检查install/inc/xyhcms.sql是否存在。',	
