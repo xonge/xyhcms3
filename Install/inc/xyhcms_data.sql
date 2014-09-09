@@ -928,10 +928,11 @@ CREATE TABLE IF NOT EXISTS `#xyh#_link` (
   `posttime` int(10) unsigned NOT NULL,
   `sort` smallint(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
-INSERT INTO `#xyh#_link` (`id`, `name`, `url`, `logo`, `description`, `ischeck`, `posttime`, `sort`) VALUES(1, '行云海CMS', 'http://www.0871k.com', '', '', 0, 1396255203, 1);
-INSERT INTO `#xyh#_link` (`id`, `name`, `url`, `logo`, `description`, `ischeck`, `posttime`, `sort`) VALUES(2, '许愿网', 'http://www.yuanabc.com', '', '', 0, 1398226595, 1);
+INSERT INTO `#xyh#_link` (`id`, `name`, `url`, `logo`, `description`, `ischeck`, `posttime`, `sort`) VALUES(1, '行云海CMS', 'http://www.xyhcms.com', '', '', 0, 1396255203, 1);
+INSERT INTO `#xyh#_link` (`id`, `name`, `url`, `logo`, `description`, `ischeck`, `posttime`, `sort`) VALUES(2, '行云海软件', 'http://www.0871k.com', '', '', 0, 1396255203, 1);
+INSERT INTO `#xyh#_link` (`id`, `name`, `url`, `logo`, `description`, `ischeck`, `posttime`, `sort`) VALUES(3, '许愿网', 'http://www.yuanabc.com', '', '', 0, 1396255203, 1);
 
 DROP TABLE IF EXISTS `#xyh#_member`;
 CREATE TABLE IF NOT EXISTS `#xyh#_member` (
