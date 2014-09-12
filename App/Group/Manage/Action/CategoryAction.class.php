@@ -56,7 +56,7 @@ class CategoryAction extends CommonAction {
 
 
 		if (empty($data['ename'])) {
-			$data['ename'] = get_pinyin(iconv('utf-8','gb2312//ignore',$data['name']),0);
+			$data['ename'] = get_pinyin(iconv('utf-8','GBK//ignore',$data['name']),0);
 		}elseif ($data['type'] == 0) {
 			if (!ctype_alnum($data['ename'])) {
 				$this->error('别名只能由字母和数字组成，不能包含特殊字符！');
@@ -175,7 +175,7 @@ class CategoryAction extends CommonAction {
 		}
 
 		if (empty($data['ename'])) {
-			$data['ename'] = get_pinyin(iconv('utf-8','gb2312//ignore',$data['name']),0);
+			$data['ename'] = get_pinyin(iconv('utf-8','GBK//ignore',$data['name']),0);
 		}elseif ($data['type'] == 0) {
 			if (!ctype_alnum($data['ename'])) {
 				$this->error('别名只能由字母和数字组成，不能包含特殊字符！');

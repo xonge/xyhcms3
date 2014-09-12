@@ -2,31 +2,31 @@ function subinit()
 {
   if (form1.username.value=="")
    { 
-	alert("ÄúÃ»ÓĞÌîĞÕÃû");
+	alert("æ‚¨æ²¡æœ‰å¡«å§“å");
 	document.form1.username.focus();
 	return false;
 	 }
   if (form1.tel.value=="")
    { 
-	alert("ÄúÃ»ÓĞÌîµç»°»òQQºÅ");
+	alert("æ‚¨æ²¡æœ‰å¡«ç”µè¯æˆ–QQå·");
 	document.form1.tel.focus();
 	return false;
 	 }
   if (form1.todate.value=="")
    { 
-	alert("ÄúÃ»ÓĞÌî¾ÍÕïÈÕÆÚ");
+	alert("æ‚¨æ²¡æœ‰å¡«å°±è¯Šæ—¥æœŸ");
 	document.form1.todate.focus();
 	return false;
 	 }
 	if (form1.disease.value=="")
    { 
-	alert("ÄúÃ»ÓĞÌî²¡ÖÖ");
+	alert("æ‚¨æ²¡æœ‰å¡«ç—…ç§");
 	document.form1.disease.focus();
 	return false;
 	 }
   if (form1.doctor.value=="")
    { 
-	alert("ÄúÃ»ÓĞÌî×¨¼Ò");
+	alert("æ‚¨æ²¡æœ‰å¡«ä¸“å®¶");
 	document.form1.doctor.focus();
 	return false;
 	 }
