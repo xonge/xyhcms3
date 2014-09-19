@@ -1517,6 +1517,10 @@ str;
 
 	\$_field_array = array();
 	foreach (\$_table as \$k => \$v) {
+		if (strtolower(\$v) == 'admin') {
+			\$_table = array();
+			break;//不允许查询admin
+		}
 		\$_field_temp = empty(\$_field[\$k])? array('*') : explode(',', \$_field[\$k]);
 		foreach (\$_field_temp as \$k2 => \$v2) {
 			\$v2 = trim(\$v2);
@@ -1528,47 +1532,51 @@ str;
 		\$_table[\$k] = C('DB_PREFIX').\$v.' '.\$v;
 	}
 
-	\$_field_str = implode(',', \$_field_array);
-	if (!empty(\$_joinwhere)) {
-		foreach (\$_joinwhere as \$k => \$v) {
-			\$_temp = explode(':', \$v);
-			if (isset(\$_temp[1]) && in_array(strtoupper(\$_temp[1]), array('INNER','LEFT','RIGHT'))) {
-				\$_jointype = strtoupper(\$_temp[1]);
+	if (!empty(\$_table)) {
+		
+		\$_field_str = implode(',', \$_field_array);
+		if (!empty(\$_joinwhere)) {
+			foreach (\$_joinwhere as \$k => \$v) {
+				\$_temp = explode(':', \$v);
+				if (isset(\$_temp[1]) && in_array(strtoupper(\$_temp[1]), array('INNER','LEFT','RIGHT'))) {
+					\$_jointype = strtoupper(\$_temp[1]);
+				}
+				\$_jointype .= ' JOIN';			
+				\$_joinwhere[\$k] = \$_jointype.' '.\$_table[\$k+1].' ON '.\$_temp[0];
 			}
-			\$_jointype .= ' JOIN';			
-			\$_joinwhere[\$k] = \$_jointype.' '.\$_table[\$k+1].' ON '.\$_temp[0];
 		}
-	}
-	
-	
+		
+		
 
-	//分页
-	if ($pagesize > 0) {
+		//分页
+		if ($pagesize > 0) {
+			
+			import('Class.Page', APP_PATH);
+			if (count(\$_table) == 1) {	
+				\$count = M()->table(\$_table[0])->where(\$where)->count();
+			}else {
+				\$count = M()->table(\$_table[0])->join(\$_joinwhere)->where(\$where)->count();	
+			}
+			\$thisPage = new Page(\$count, $pagesize);
+			
 		
-		import('Class.Page', APP_PATH);
-		if (count(\$_table) == 1) {	
-			\$count = M()->table(\$_table[0])->where(\$where)->count();
+			//设置显示的页数
+			
+			\$thisPage->rollPage = $pageroll;
+			\$thisPage->setConfig('theme',"$pagetheme");
+			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+			\$page = \$thisPage->show();
 		}else {
-			\$count = M()->table(\$_table[0])->join(\$_joinwhere)->where(\$where)->count();	
+			\$limit = "$limit";
 		}
-		\$thisPage = new Page(\$count, $pagesize);
 		
-	
-		//设置显示的页数
-		
-		\$thisPage->rollPage = $pageroll;
-		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
-		\$page = \$thisPage->show();
-	}else {
-		\$limit = "$limit";
-	}
-	
-	if (count(\$_table) == 1) {	
-		\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->where(\$where)->order("$orderby")->limit(\$limit)->select();
-	}else {
-		\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->join(\$_joinwhere)->
-		where(\$where)->order("$orderby")->limit(\$limit)->select();	
+		if (count(\$_table) == 1) {	
+			\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		}else {
+			\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->join(\$_joinwhere)->
+			where(\$where)->order("$orderby")->limit(\$limit)->select();	
+		}
+
 	}
 
 	if (empty(\$_datatable)) {
