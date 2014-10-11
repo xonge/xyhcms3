@@ -85,7 +85,7 @@ class MemberAction extends CommonAction {
 			}
 			
 			$self = M('member')->field(array('email', 'password' ,'encrypt'))->where(array('id' => $uid))->find();
-			if (!self) {
+			if (!$self) {
 				$this->error('用户不存在，请重新登录');
 			}
 

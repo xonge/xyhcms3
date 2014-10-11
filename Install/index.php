@@ -28,7 +28,7 @@ switch ($step ) {
 		/* phpversion */
 		$phpversion = phpversion();
 		$lowest = '5.2.5';
-		if (intval($phpversion)-intval($lowest) >=0) {
+		if (version_compare($phpversion, $lowest, '>=')) {
 			$environment_phpversion = '<span class="ok">'.$phpversion.'</span>';
 		} else {
 			exit($lang['system_installation_requirements_php'].$lowest);

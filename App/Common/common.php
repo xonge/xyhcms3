@@ -307,6 +307,7 @@ function getAbc($id, $flag = 0) {
     $abc = M('abc')->find($id);
     if ($abc) {
         $where = array('aid' => $id,
+                    'status'   => 1,
                     'starttime' => array('lt', time()),
                     'endtime'   => array('gt', time()),
             );

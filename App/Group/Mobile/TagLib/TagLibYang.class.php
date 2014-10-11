@@ -1232,7 +1232,7 @@ str;
 <?php
 	\$_id = intval($id);
 	
-	\$where = array('aid'=> \$_id);
+	\$where = array('aid'=> \$_id, 'status' => 1);
 	\$limit = "$limit";
 
 	\$abc_cate = M('abc')->find(\$_id);
