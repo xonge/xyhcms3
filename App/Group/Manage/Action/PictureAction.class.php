@@ -58,7 +58,7 @@ class PictureAction extends CommonContentAction {
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
-		$this->cate = Category::getLevelOfModel($cate, $actionName);
+		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'add');
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
 		$this->display();
 	}
@@ -222,7 +222,7 @@ class PictureAction extends CommonContentAction {
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
-		$this->cate = Category::getLevelOfModel($cate, $actionName);
+		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'edit');
 		
 		$vo = M($actionName)->find($id);
 		
@@ -416,7 +416,7 @@ class PictureAction extends CommonContentAction {
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
-		$this->cate = Category::getLevelOfModel($cate, $actionName);
+		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'move');
 
 		
 		$this->id = $id;

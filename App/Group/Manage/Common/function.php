@@ -71,5 +71,40 @@ function check_category_access($catid, $action, $roleid, $flag = 1) {
 	return $value;
 }
 
+/**
+* 返回有权限的栏目(添加文档或修改文档时)
+* @param array $cate 栏目数组
+* @param string $action 动作
+* @return array   
+*/
+function get_category_access($cate, $action = 'add') {
+	if (empty($cate)) {
+		return array();
+	}
+	//权限检测//超级管理员
+	if (!empty($_SESSION[C('ADMIN_AUTH_KEY')])) {
+    	return $cate;
+    }
+
+    $where = array('flag' => 1, 'roleid' => intval($_SESSION['yang_adm_roleid']));
+    if (!empty($action)) {
+    	$where['action'] = $action;
+    } 
+    
+	$checkaccess = M('categoryAccess')->distinct(true)->where($where)->getField('catid', true);
+    if(empty($checkaccess)) { 
+		$checkaccess= array(); 
+	}      
+
+	$array = array();
+	foreach ($cate as $v) {
+		if (in_array($v['id'], $checkaccess) ) {				
+			$array[] = $v;
+		}
+	}
+
+	return $array;
+}
+
 
 ?>
