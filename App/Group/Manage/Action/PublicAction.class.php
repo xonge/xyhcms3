@@ -499,9 +499,14 @@ class PublicAction extends CommonAction {
 			$spath = base64_decode($spath);
 		}
 	
-		$spath = str_replace('.', '', ltrim($spath,$base_path));
+		$spath = str_replace('.', '', $spath);
+		if (strpos($spath, $base_path) === 0) {
+			$spath = substr($spath,strlen($base_path));
+		}
 	
-		$path = $base_path . '/'. $spath;
+		$path = $base_path . '/'. $spath;		
+		$path = str_replace('//', '/', $path);
+		
 		import('Class.Dir', APP_PATH);
 	
 		$dir = new Dir('.'. $path);//加上.
