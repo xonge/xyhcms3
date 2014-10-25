@@ -555,6 +555,7 @@ class PublicAction extends CommonAction {
 		$imageManagerUrl = U(GROUP_NAME. '/Public/getFileOfImg');
 		$fileUrl = U(GROUP_NAME. '/Public/uploadFile');
 		$PHPSESSID = session_id();
+		$lang = C('DEFAULT_LANG');
 		$getEditor = '';
 	
 		if (!empty($editorId)) {
@@ -581,6 +582,9 @@ class PublicAction extends CommonAction {
         window.UEDITOR_CONFIG.videoUrl = "{$fileUrl}";//附件上传提交地址
         window.UEDITOR_CONFIG.videoPath = "" ; //附件修正地址，同imagePath
         window.UEDITOR_CONFIG.PHPSESSID = "{$PHPSESSID}";
+        
+        //lang
+        window.UEDITOR_CONFIG.lang = "{$lang}";
         
 		{$getEditor}
 
