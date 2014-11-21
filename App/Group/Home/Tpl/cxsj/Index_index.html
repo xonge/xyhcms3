@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>成象设计 - 山东样板房设计-山东售楼处设计-山东软装设计-山东酒店会所设计</title>
+<meta name="keywords" content="成象设计,山东样板房设计,山东售楼处设计,山东软装设计,山东精品酒店设计">
+<meta name="description" content="成象设计是山东地区专业从事样板房设计，软装设计，酒店会所设计，售楼中心设计，唯一服务过中海，保利，绿城，绿地等一些地产企业的山东室内设计公司，电话0531-86023878！">
+<meta name="google-site-verification" content="00lOH5uXGbsOTSmtWY3IV42emDCtLJBz9oCKcgXFFVc">
+<!-- <base href="http://www.cxsjgs.com/"> -->
+<script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
+<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script>
+<script type="text/javascript">
+var base_file = base_url= "http://www.cxsjgs.com/";
+</script>
+<link href="favicon.ico" rel="shortcut icon">
+<link href="favicon.ico" rel="bookmark">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+<!-- <script type="text/javascript" src="http://www.cxsjgs.com/minify?f=tpl/www/images/js/jquery.js,tpl/www/images/js/global.js,tpl/www/images/js/www.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/www.js"></script>
+<!--[if lte IE 6]>
+<script src="tpl/www/images/js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('div, ul, img, li, input , a, cite, em');
+    </script>
+<![endif]-->
+<script src="http://bdimg.share.baidu.com/static/js/logger.js?cdnversion=393436"></script>
+</head>
+<body>
+<include file="Public:header" />
+
+<script type="text/javascript">
+$(document).ready(function(){
+//订单滚动
+  var _wrap=$('#ryzz ul');
+  var _interval=2000;
+  var _moving;
+  _wrap.hover(function(){ 
+    clearInterval(_moving);
+  },function(){ 
+    _moving=setInterval(function(){ 
+      var _field=_wrap.find('li:first');
+      var _h=_field.height(); 
+      _field.animate({marginTop:-_h+'px'},400,function(){
+        _field.css('marginTop',0).appendTo(_wrap);
+      }) 
+    },_interval)
+  }).trigger('mouseleave');
+
+});
+
+</script>
+<!-- 首页轮播图 -->
+<div class="navpic">
+<div class="column">
+<!--图片播放器-->
+<eq name="$cid" value="">
+<style>
+#IndexPlay_R { position:relative; z-index:1; overflow:hidden; width:960px; height:360px; margin-bottom:10px;}
+#ImgBox-R {overflow:hidden;width: 960px;height: 360px; text-align:center;}
+#ImgBox_R a {display:block;}
+#ImgBox_R img {width: 960px;height:360px;}
+
+#ImgLenBox_R {position:absolute; z-index:98;left:0; top:0; text-align:center; width:120px;height:100%; overflow:hidden;}
+#ImgLenBox_R a {display:block;float:left;width:120px;height:auto;line-heihgt:45px;padding:20px 0;text-decoration:none;color:#FFF;background:rgba(0, 0, 0, 0.6) none repeat scroll 0 0 !important; filter:Alpha(opacity=60);background:#000000;border-top:1px solid #948966; cursor:pointer;}
+#ImgLenBox_R em,#ImgLenBox_R cite{display:block;float:left;height:25px;width:120px;text-align:center;}
+#ImgLenBox_R em{font-weight:bold;}
+#ImgLenBox_R cite{font-size:11px;font-family:Arial;color:#CCC;}
+
+#ImgLenBox_R a.hover, #ImgLenBox_R a:hover.hover, #ImgLenBox_R a:hover{background:rgba(245,128,0,1.0) none repeat scroll 0 0 !important;filter:Alpha(opacity=100);background:#F58000;color:#FFF;}
+
+#ImgLenBox_R a cite
+#ImgLenBox_R a:hover cite
+#ImgLenBox_R a.hover em,#ImgLenBox_R a:hover em{background:url(__PUBLIC__/images/iPlayer.gif) 10px 4px no-repeat;}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    var curr = 0;
+    var imgLen=$('#ImgBox_R').find('a').length;
+  var IsImgLen = 1;
+  var IsPrevNext = 0;
+  //判断是否显示上下翻按钮
+  if(IsPrevNext > 0){
+    $("#prev_R").show();
+    $("#next_R").show();
+  }
+  //判断是否显示数字框和前后翻按钮
+  if(imgLen > 1 && IsImgLen > 0){
+    $('#ImgLenBox_R').show();
+  }else{
+    $("#prev_R").hide();
+    $("#next_R").hide();
+  }
+  $('#ImgLenBox_R a').each(function(i){
+    $(this).mouseover(function(){
+      curr = i;
+      $('#ImgBox_R a').eq(i).fadeIn('slow').siblings('a').hide();
+      $(this).siblings('a').removeClass('hover').end().addClass('hover');
+      return false;
+    });
+  });
+  //前翻
+  $("#prev_R").click(function(){
+    if (curr == 0)todo = imgLen-1;
+    else todo = (curr - 1) % imgLen;
+    $('#ImgLenBox_R a').eq(todo).click();
+  });
+  //后翻
+  $("#next_R").click(function(){
+    todo = (curr + 1) % imgLen;
+    $('#ImgLenBox_R a').eq(todo).click();
+  });
+  /*鼠标悬停在触发器上时停止自动翻
+  $("#ImgBox_R").hover(function(){
+    clearInterval(timer);
+  },function(){
+    timer = setInterval(function(){
+      todo = (curr + 1) % imgLen;
+      $('#ImgLenBox_R a').eq(todo).click();
+    },4000);    
+  }).trigger('mouseleave');
+  */
+  $('#ImgLenBox_R a').eq(0).mouseover();
+});
+</script>
+<div id="IndexPlay_R">
+  <div id="ImgBox_R">
+    <volist name="flash" id="vo" offset="0" length="4">
+      <a href="{$vo.url}" target="_blank" title="{$vo.title}" style="display: <eq name="i" value="0">block<else/>none</eq>;">
+      <img src="{$vo.imgurl}" alt="样 板 间"></a>
+    </volist>
+  </div>
+  <div id="ImgLenBox_R">
+    <a href="/sampleroom.html" target="_blank" title="点击进入样 板 间设计中心专题" class="">
+      <em>样 板 间</em>
+      <br>  
+      <cite>sample room</cite>
+    </a>
+    <a href="/displaydesign.html" target="_blank" title="点击进入软装设计设计中心专题">
+      <em>软装设计</em>
+      <br>  
+      <cite>soft decoration design</cite>
+    </a>
+    <a href="/salecenter.html" target="_blank" title="点击进入售楼中心设计中心专题" class="">
+      <em>售楼中心</em>
+      <br>  
+      <cite>sales center</cite>
+    </a>
+    <a href="hotelclub.html" target="_blank" title="点击进入酒店会所设计中心专题" class="hover">
+      <em>酒店会所</em>
+      <br>  
+      <cite>boutique hotel</cite>
+    </a>
+  </div>
+</div>
+<else/>
+<img src="upfiles/2013/03/14/a1ba05b2d7a14487.jpg" alt="样板间设计" border="0" width="960">
+</eq>
+</div>
+</div>
+
+<!-- 主体部分 -->
+<div class="main index">
+<div class="blank5"></div>
+<div class="column">
+<div class="mod" id="ryzz">
+<div class="hd1">
+<h2>荣誉奖项</h2>
+</div>
+<div class="blank20"></div>
+<ul>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<li style="margin-top: 0px;">·2010年10月成象设计《熙园》作品获IAI住宅类入围奖</li><li style="margin-top: 0px;">·2010年亚太设计双年展住宅类提名奖</li><li style="margin-top: 0px;">·2009年亚太IAI中国风设计邀请赛办公类入围奖</li><li style="margin-top: 0px;">·2009年亚太IAI中国风设计邀请赛亚太十佳设计新锐</li><li style="margin-top: 0px;">·2013中国室内设计年度评选金堂奖</li><li style="margin-top: 0px;">·2013年时代楼盘第八届金盘奖总决赛，最佳样板间房-大户型奖</li><li style="margin-top: 0px;">·2011年APDC可持续舒适空间亚太室内设计精英邀请赛办公空间优胜奖</li><li style="margin-top: 0px;">·2011年金堂奖年度优秀别墅设计奖</li><li style="margin-top: 0px;">·2011年亚太设计精英邀请赛办样板间类入围奖</li><li style="margin-top: 0px;">·2011年亚太设计精英邀请赛办公室类优胜奖</li><li style="margin-top: 0px;">·2011年IAI AWORDS “自然风”亚太设计精英邀请赛入围奖</li><li style="margin-top: 0px;">·2011年中国建筑装饰协会“筑巢奖”办公室设计优胜奖</li></ul> 
+</div>
+<div class="mod" id="khlb">
+<div class="hd">
+<h2>客户列表</h2>
+<a href="/client" title="更多.." class="more1" target="_blank">更多</a> 
+</div>
+<div class="blank20"></div>
+<ul class="clearfix">
+  <li> 
+    <a href="/37.html" title="保利地产" target="_blank" class="imga">
+      <img src="__PUBLIC__/images/2651d1b225f95b60.jpg" alt="保利地产" border="0/">
+    </a>
+    <p>
+      <a href="/37.html" title="保利地产" target="_blank">保利地产</a>
+    </p>
+    <div class="blank10"></div>
+    <dl>
+      <dt><span>合作项目</span></dt>
+      <dd>·<a href="/286.html" title="【成象设计作品】烟台保利紫薇郡售楼处设计" target="_blank">【成象设计作品】烟台保利紫薇郡售楼处设计</a></dd>
+<dd>·<a href="/171.html" title="【成象设计作品】济南保利华庭售楼中心设计" target="_blank">【成象设计作品】济南保利华庭售楼中心设计</a></dd>
+<dd>·<a href="/176.html" title="【成象设计作品】济南保利中心售楼处设计" target="_blank">【成象设计作品】济南保利中心售楼处设计</a></dd>
+<dd>·<a href="/141.html" title="【成象设计作品】烟台保利香榭里I户型样板间设计" target="_blank">【成象设计作品】烟台保利香榭里I户型样板间设计</a></dd>
+<dd>·<a href="/48.html" title="【成象设计作品】烟台保利香榭里A户型样板间设计" target="_blank">【成象设计作品】烟台保利香榭里A户型样板间设计</a></dd>
+<dd>·<a href="/49.html" title="【成象设计作品】烟台保利香榭里公馆B户型样板间设计" target="_blank">【成象设计作品】烟台保利香榭里公馆B户型样板间设计</a></dd>
+<dd>·<a href="/45.html" title="【成象设计作品】威海保利凯旋公馆A户型样板间设计" target="_blank">【成象设计作品】威海保利凯旋公馆A户型样板间设计</a></dd>
+<dd>·<a href="/46.html" title="【成象设计作品】威海保利凯旋公馆B户型样板间设计" target="_blank">【成象设计作品】威海保利凯旋公馆B户型样板间设计</a></dd>
+<dd>·<a href="/47.html" title="【成象设计作品】威海保利凯旋公馆G户型样板间设计" target="_blank">【成象设计作品】威海保利凯旋公馆G户型样板间设计</a></dd>
+<dd>·<a href="/128.html" title="【成象设计作品】济南保利大名湖样板间设计" target="_blank">【成象设计作品】济南保利大名湖样板间设计</a></dd>
+<dd>·<a href="/125.html" title="【成象设计作品】济南保利海德公馆A户型精装样板间设计" target="_blank">【成象设计作品】济南保利海德公馆A户型精装样板间设计</a></dd>
+<dd>·<a href="/126.html" title="【成象设计作品】济南保利海德公馆B户型精装样板间设计" target="_blank">【成象设计作品】济南保利海德公馆B户型精装样板间设计</a></dd>
+<dd>·<a href="/127.html" title="【成象设计作品】济南保利海德公馆D户型精装样板间设计" target="_blank">【成象设计作品】济南保利海德公馆D户型精装样板间设计</a></dd>
+<dd>·<a href="/42.html" title="【成象设计作品】保利大名湖样板间静林府" target="_blank">【成象设计作品】保利大名湖样板间静林府</a></dd>
+<dd>·<a href="/117.html" title="【成象设计作品】济南保利海德公馆二期温莎堡公共空间设计" target="_blank">【成象设计作品】济南保利海德公馆二期温莎堡公共空间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/69.html" title="绿地集团" target="_blank" class="imga"><img src="upfiles/2013/03/06/e75c121023cdd1c3.jpg" alt="绿地集团" border="0/"></a><p><a href="/69.html" title="绿地集团" target="_blank">绿地集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/570.html" title="【成象设计作品】雪人先森的家——济宁绿地国际城A2样板间实景" target="_blank">【成象设计作品】雪人先森的家——济宁绿地国际城A2样板间实景</a></dd>
+<dd>·<a href="/568.html" title="【成象设计作品】七分熟的春天—济宁绿地国际城D1户型样板间实景" target="_blank">【成象设计作品】七分熟的春天—济宁绿地国际城D1户型样板间实景</a></dd>
+<dd>·<a href="/559.html" title="【成象设计作品】泰安绿地公馆精装样板间设计" target="_blank">【成象设计作品】泰安绿地公馆精装样板间设计</a></dd>
+<dd>·<a href="/492.html" title="【成象设计作品】泰安绿地公馆精装样板间设计" target="_blank">【成象设计作品】泰安绿地公馆精装样板间设计</a></dd>
+<dd>·<a href="/187.html" title="【成象设计作品】济南绿地泉景天沅LOFT 样板间设计" target="_blank">【成象设计作品】济南绿地泉景天沅LOFT 样板间设计</a></dd>
+<dd>·<a href="/44.html" title="【成象设计作品】泰安绿地公馆A户型样板间设计" target="_blank">【成象设计作品】泰安绿地公馆A户型样板间设计</a></dd>
+<dd>·<a href="/43.html" title="【成象设计作品】泰安绿地公馆样板间B户型样板间设计" target="_blank">【成象设计作品】泰安绿地公馆样板间B户型样板间设计</a></dd>
+<dd>·<a href="/105.html" title="【成象设计作品】绿地90平米样板间软装" target="_blank">【成象设计作品】绿地90平米样板间软装</a></dd>
+<dd>·<a href="/104.html" title="【成象设计作品】绿地120平米样板间软装" target="_blank">【成象设计作品】绿地120平米样板间软装</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/36.html" title="绿城集团" target="_blank" class="imga"><img src="upfiles/2013/02/26/0be05c17d2e79f9c.jpg" alt="绿城集团" border="0/"></a><p><a href="/36.html" title="绿城集团" target="_blank">绿城集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/115.html" title="【成象设计作品】济南海尔绿城玉兰广场2期办公楼设计" target="_blank">【成象设计作品】济南海尔绿城玉兰广场2期办公楼设计</a></dd>
+<dd>·<a href="/558.html" title="【成象设计作品】济南绿城-盛福庄·百合园精装房和公共空间及泛会所设计" target="_blank">【成象设计作品】济南绿城-盛福庄·百合园精装房和公共空间及泛会所设计</a></dd>
+<dd>·<a href="/41.html" title="【成象设计作品】济南海尔绿城全运村2期锦兰园9#G户型精装样板间设计" target="_blank">【成象设计作品】济南海尔绿城全运村2期锦兰园9#G户型精装样板间设计</a></dd>
+<dd>·<a href="/40.html" title="【成象设计作品】济南海尔绿城全运村2期锦兰园5#B户型精装样板间设计" target="_blank">【成象设计作品】济南海尔绿城全运村2期锦兰园5#B户型精装样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/72.html" title="中海地产" target="_blank" class="imga"><img src="upfiles/2013/03/06/01f826a033e6d624.jpg" alt="中海地产" border="0/"></a><p><a href="/72.html" title="中海地产" target="_blank">中海地产</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/119.html" title="【成象设计作品】济南中海国际社区105㎡精装样板间设计" target="_blank">【成象设计作品】济南中海国际社区105㎡精装样板间设计</a></dd>
+<dd>·<a href="/118.html" title="【成象设计作品】济南中海国际社区85㎡精装样板间设计" target="_blank">【成象设计作品】济南中海国际社区85㎡精装样板间设计</a></dd>
+<dd>·<a href="/120.html" title="【成象设计作品】济南中海国际社区125㎡精装样板间设计" target="_blank">【成象设计作品】济南中海国际社区125㎡精装样板间设计</a></dd>
+<dd>·<a href="/129.html" title="【成象设计作品】淄博中海文昌湖萌水镇农民新型社区样板间" target="_blank">【成象设计作品】淄博中海文昌湖萌水镇农民新型社区样板间</a></dd>
+<dd>·<a href="/114.html" title="【成象设计作品】济南中海济南奥龙官邸公共空间设计" target="_blank">【成象设计作品】济南中海济南奥龙官邸公共空间设计</a></dd>
+<dd>·<a href="/61.html" title="【成象设计作品】济南中海国际社区66#售楼宴会厅设计" target="_blank">【成象设计作品】济南中海国际社区66#售楼宴会厅设计</a></dd>
+<dd>·<a href="/344.html" title="【成象设计作品】淄博中海B07地块样板间设计" target="_blank">【成象设计作品】淄博中海B07地块样板间设计</a></dd>
+<dd>·<a href="/310.html" title="【成象设计作品】淄博中海精装房样板间设计A户型" target="_blank">【成象设计作品】淄博中海精装房样板间设计A户型</a></dd>
+<dd>·<a href="/309.html" title="【成象设计作品】淄博中海公共空间设计" target="_blank">【成象设计作品】淄博中海公共空间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/10.html" title="北京建工集团" target="_blank" class="imga"><img src="upfiles/2013/02/23/ca9c2328ebb8e2d8.jpg" alt="北京建工集团" border="0/"></a><p><a href="/10.html" title="北京建工集团" target="_blank">北京建工集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/447.html" title="【成象设计作品】济南建邦二期C12号楼上跃户型样板间软装" target="_blank">【成象设计作品】济南建邦二期C12号楼上跃户型样板间软装</a></dd>
+<dd>·<a href="/446.html" title="【成象设计作品】济南建邦二期C12号楼下跃户型" target="_blank">【成象设计作品】济南建邦二期C12号楼下跃户型</a></dd>
+<dd>·<a href="/445.html" title="【成象设计作品】济南建邦原香溪谷二期D5户型样" target="_blank">【成象设计作品】济南建邦原香溪谷二期D5户型样</a></dd>
+<dd>·<a href="/444.html" title="【成象设计作品】济南建邦原香溪谷二期301户型" target="_blank">【成象设计作品】济南建邦原香溪谷二期301户型</a></dd>
+<dd>·<a href="/191.html" title="【成象设计作品】济南建邦原香溪谷上跃户型样板间" target="_blank">【成象设计作品】济南建邦原香溪谷上跃户型样板间</a></dd>
+<dd>·<a href="/192.html" title="【成象设计作品】济南建邦原香溪谷下跃样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷下跃样板间设计</a></dd>
+<dd>·<a href="/356.html" title="【成象设计作品】济南建邦原香溪谷二期D5户型样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷二期D5户型样板间设计</a></dd>
+<dd>·<a href="/424.html" title="【成象设计作品】济南建邦原香溪谷二期301户型样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷二期301户型样板间设计</a></dd>
+<dd>·<a href="/190.html" title="【成象设计作品】济南建邦二期样板间设计" target="_blank">【成象设计作品】济南建邦二期样板间设计</a></dd>
+<dd>·<a href="/189.html" title="【成象设计作品】建邦二期会所" target="_blank">【成象设计作品】建邦二期会所</a></dd>
+<dd>·<a href="/54.html" title="【成象设计作品】济南建邦原香溪谷售楼处设计" target="_blank">【成象设计作品】济南建邦原香溪谷售楼处设计</a></dd>
+<dd>·<a href="/88.html" title="【成象设计作品】济南建邦原香溪谷200平米别墅样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷200平米别墅样板间设计</a></dd>
+<dd>·<a href="/89.html" title="【成象设计作品】济南建邦原香溪谷240平米别墅样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷240平米别墅样板间设计</a></dd>
+<dd>·<a href="/90.html" title="【成象设计作品】济南建邦原香溪谷400平米别墅样板间设计" target="_blank">【成象设计作品】济南建邦原香溪谷400平米别墅样板间设计</a></dd>
+<dd>·<a href="/62.html" title="【成象设计作品】济南建邦原香溪谷售楼中心软装设计" target="_blank">【成象设计作品】济南建邦原香溪谷售楼中心软装设计</a></dd>
+<dd>·<a href="/91.html" title="【成象设计作品】济南建邦原香溪谷240平米别墅样板间软装设计" target="_blank">【成象设计作品】济南建邦原香溪谷240平米别墅样板间软装设计</a></dd>
+<dd>·<a href="/92.html" title="【成象设计作品】济南建邦原香溪谷400平米别墅样板间软装设计" target="_blank">【成象设计作品】济南建邦原香溪谷400平米别墅样板间软装设计</a></dd>
+<dd>·<a href="/93.html" title="【成象设计作品】济南建邦原香溪谷200平米别墅样板间软装设计" target="_blank">【成象设计作品】济南建邦原香溪谷200平米别墅样板间软装设计</a></dd>
+ </dl>
+  </li>
+  <li class=""> 
+    <a href="/284.html" title="滕州亿丰房地产综合开发公司" target="_blank" class="imga"><img src="upfiles/2014/08/22/c2940d3cd2c9973a.jpg" alt="滕州亿丰房地产综合开发公司" border="0/"></a><p><a href="/284.html" title="滕州亿丰房地产综合开发公司" target="_blank">滕州亿丰房地产综合开</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/561.html" title="【成象设计作品】“山居”--滕州亿丰.和家園样板间302户型" target="_blank">【成象设计作品】“山居”--滕州亿丰.和家園样板间302户型</a></dd>
+<dd>·<a href="/560.html" title="【成象设计作品】滕州亿丰.和家園101户型样板间设计" target="_blank">【成象设计作品】滕州亿丰.和家園101户型样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/566.html" title="临沂正直地产" target="_blank" class="imga"><img src="upfiles/2014/07/08/bda5aaaf5adcf133.jpg" alt="临沂正直地产" border="0/"></a><p><a href="/566.html" title="临沂正直地产" target="_blank">临沂正直地产</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/584.html" title="【成象设计作品】人鱼海岸的传说——临沂正直花园样板间实景" target="_blank">【成象设计作品】人鱼海岸的传说——临沂正直花园样板间实景</a></dd>
+<dd>·<a href="/580.html" title="【成象设计作品】Mr.哲的都市型格——临沂正直花园样板间实景" target="_blank">【成象设计作品】Mr.哲的都市型格——临沂正直花园样板间实景</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/86.html" title="经开置业" target="_blank" class="imga"><img src="upfiles/2013/03/08/76e8d7f38d1aca9b.jpg" alt="经开置业" border="0/"></a><p><a href="/86.html" title="经开置业" target="_blank">经开置业</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/121.html" title="【成象设计作品】临沂经开置业别墅样板设计BS户型" target="_blank">【成象设计作品】临沂经开置业别墅样板设计BS户型</a></dd>
+<dd>·<a href="/122.html" title="【成象设计作品】临沂经开置业别墅样板间设计D户型" target="_blank">【成象设计作品】临沂经开置业别墅样板间设计D户型</a></dd>
+<dd>·<a href="/123.html" title="【成象设计作品】临沂经开置业别墅样板间设计E户型" target="_blank">【成象设计作品】临沂经开置业别墅样板间设计E户型</a></dd>
+<dd>·<a href="/124.html" title="【成象设计作品】临沂经开置业别墅样板间设计F户型" target="_blank">【成象设计作品】临沂经开置业别墅样板间设计F户型</a></dd>
+<dd>·<a href="/96.html" title="【成象设计作品】皇山会所" target="_blank">【成象设计作品】皇山会所</a></dd>
+ </dl>
+  </li>
+  <li class=""> 
+    <a href="/136.html" title="银丰集团" target="_blank" class="imga"><img src="upfiles/2013/03/15/5970dd46a81e4223.jpg" alt="银丰集团" border="0/"></a><p><a href="/136.html" title="银丰集团" target="_blank">银丰集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/346.html" title="【成象设计作品】济南银丰唐郡双拼别墅样板间设计" target="_blank">【成象设计作品】济南银丰唐郡双拼别墅样板间设计</a></dd>
+<dd>·<a href="/345.html" title="【成象设计作品】济南银丰唐郡独栋别墅样板间设计" target="_blank">【成象设计作品】济南银丰唐郡独栋别墅样板间设计</a></dd>
+<dd>·<a href="/98.html" title="【成象设计作品】银丰私人住宅会所" target="_blank">【成象设计作品】银丰私人住宅会所</a></dd>
+ </dl>
+  </li>
+  <li class=""> 
+    <a href="/279.html" title="杰正投资" target="_blank" class="imga"><img src="upfiles/2013/07/04/01641fbf827e6782.jpg" alt="杰正投资" border="0/"></a><p><a href="/279.html" title="杰正投资" target="_blank">杰正投资</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/425.html" title="【成象设计作品】济南杰正山山山2号楼loft--A户型" target="_blank">【成象设计作品】济南杰正山山山2号楼loft--A户型</a></dd>
+<dd>·<a href="/295.html" title="【成象设计作品】杰正山山山软装设计D户型" target="_blank">【成象设计作品】杰正山山山软装设计D户型</a></dd>
+<dd>·<a href="/294.html" title="【成象设计作品】杰正山山山软装设计B户型" target="_blank">【成象设计作品】杰正山山山软装设计B户型</a></dd>
+<dd>·<a href="/293.html" title="【成象设计作品】杰正山山山软装设计A3户型" target="_blank">【成象设计作品】杰正山山山软装设计A3户型</a></dd>
+<dd>·<a href="/292.html" title="【成象设计作品】杰正山山山软装设计A2户型" target="_blank">【成象设计作品】杰正山山山软装设计A2户型</a></dd>
+<dd>·<a href="/291.html" title="【成象设计作品】杰正山山山软装设计A1户型" target="_blank">【成象设计作品】杰正山山山软装设计A1户型</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/74.html" title="山东黄金集团" target="_blank" class="imga"><img src="upfiles/2013/03/07/8c2a920170a602e1.jpg" alt="山东黄金集团" border="0/"></a><p><a href="/74.html" title="山东黄金集团" target="_blank">山东黄金集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/188.html" title="【成象设计作品】济南黄金集团景城2#楼样板间设计" target="_blank">【成象设计作品】济南黄金集团景城2#楼样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/278.html" title="恒生地产" target="_blank" class="imga"><img src="upfiles/2013/07/04/6947516e7c4383e5.jpg" alt="恒生地产" border="0/"></a><p><a href="/278.html" title="恒生地产" target="_blank">恒生地产</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/305.html" title="恒生望山售楼处设计" target="_blank">恒生望山售楼处设计</a></dd>
+<dd>·<a href="/304.html" title="【成象设计作品】济南恒生望山样板间设计" target="_blank">【成象设计作品】济南恒生望山样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/85.html" title="万泰装饰" target="_blank" class="imga"><img src="upfiles/2013/03/16/0135ecf25481a86f.jpg" alt="万泰装饰" border="0/"></a><p><a href="/85.html" title="万泰装饰" target="_blank">万泰装饰</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="?" title="" target="_blank"></a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/137.html" title="莱芜钢铁集团" target="_blank" class="imga"><img src="upfiles/2013/03/15/28b5ca60b0a69813.jpg" alt="莱芜钢铁集团" border="0/"></a><p><a href="/137.html" title="莱芜钢铁集团" target="_blank">莱芜钢铁集团</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/307.html" title="【成象设计作品】莱钢济南凯旋公馆售楼处设计" target="_blank">【成象设计作品】莱钢济南凯旋公馆售楼处设计</a></dd>
+<dd>·<a href="/308.html" title="【成象设计作品】泰安东岳鑫城售楼处设计" target="_blank">【成象设计作品】泰安东岳鑫城售楼处设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/77.html" title="天兴置业" target="_blank" class="imga"><img src="upfiles/2013/03/07/cd0ad63fd111579a.jpg" alt="天兴置业" border="0/"></a><p><a href="/77.html" title="天兴置业" target="_blank">天兴置业</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/53.html" title="【成象设计作品】邹平星河上城样板间150平米" target="_blank">【成象设计作品】邹平星河上城样板间150平米</a></dd>
+<dd>·<a href="/52.html" title="【成象设计作品】邹平星河上城样板间130平米" target="_blank">【成象设计作品】邹平星河上城样板间130平米</a></dd>
+<dd>·<a href="/51.html" title="【成象设计作品】邹平东方明珠116平米样板间设计" target="_blank">【成象设计作品】邹平东方明珠116平米样板间设计</a></dd>
+<dd>·<a href="/50.html" title="【成象设计作品】邹平东方明珠108平米样板间设计" target="_blank">【成象设计作品】邹平东方明珠108平米样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/73.html" title="同圆置业" target="_blank" class="imga"><img src="upfiles/2013/03/06/d575ca22a8514d1e.jpg" alt="同圆置业" border="0/"></a><p><a href="/73.html" title="同圆置业" target="_blank">同圆置业</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/103.html" title="【成象设计作品】济南润和山居样板间软装设计" target="_blank">【成象设计作品】济南润和山居样板间软装设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/283.html" title="济南蓝石田源置业有限公司" target="_blank" class="imga"><img src="upfiles/2013/07/05/893e01a88909648c.jpg" alt="济南蓝石田源置业有限公司" border="0/"></a><p><a href="/283.html" title="济南蓝石田源置业有限公司" target="_blank">济南蓝石田源置业有限</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/302.html" title="【成象设计作品】济南蓝石大溪地二期售楼处设计" target="_blank">【成象设计作品】济南蓝石大溪地二期售楼处设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/280.html" title="雅高.宜必思" target="_blank" class="imga"><img src="upfiles/2013/07/04/bcaffd87163f036a.jpg" alt="雅高.宜必思" border="0/"></a><p><a href="/280.html" title="雅高.宜必思" target="_blank">雅高.宜必思</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/287.html" title="【成象设计作品】雅高宜必思济南店" target="_blank">【成象设计作品】雅高宜必思济南店</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/70.html" title="金佰利置业" target="_blank" class="imga"><img src="upfiles/2014/07/08/1527aaf4b43b33ed.jpg" alt="金佰利置业" border="0/"></a><p><a href="/70.html" title="金佰利置业" target="_blank">金佰利置业</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/112.html" title="【成象设计作品】临沂金佰利办公楼设计" target="_blank">【成象设计作品】临沂金佰利办公楼设计</a></dd>
+<dd>·<a href="/111.html" title="【成象设计作品】临沂金佰利置业环球国际写字楼室内设计" target="_blank">【成象设计作品】临沂金佰利置业环球国际写字楼室内设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/68.html" title="德国曼恩公司" target="_blank" class="imga"><img src="upfiles/2013/03/06/a3da6b13eb82bccd.jpg" alt="德国曼恩公司" border="0/"></a><p><a href="/68.html" title="德国曼恩公司" target="_blank">德国曼恩公司</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/58.html" title="【成象设计作品】德国MAN公司济南办公室设计" target="_blank">【成象设计作品】德国MAN公司济南办公室设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/82.html" title="尚都投资" target="_blank" class="imga"><img src="upfiles/2013/03/07/7110e954b651b2e9.jpg" alt="尚都投资" border="0/"></a><p><a href="/82.html" title="尚都投资" target="_blank">尚都投资</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/99.html" title="【成象设计作品】尚都会所" target="_blank">【成象设计作品】尚都会所</a></dd>
+ </dl>
+  </li>
+  <li class=""> 
+    <a href="/138.html" title="华新地产" target="_blank" class="imga"><img src="upfiles/2013/03/23/f414b6258a52354e.jpg" alt="华新地产" border="0/"></a><p><a href="/138.html" title="华新地产" target="_blank">华新地产</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/442.html" title="【成象设计作品】泰安华新和园样板间" target="_blank">【成象设计作品】泰安华新和园样板间</a></dd>
+<dd>·<a href="/303.html" title="【成象设计作品】泰安华新和园样板间设计" target="_blank">【成象设计作品】泰安华新和园样板间设计</a></dd>
+<dd>·<a href="/288.html" title="【成象设计作品】泰安华新新城样板间设计" target="_blank">【成象设计作品】泰安华新新城样板间设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/81.html" title="世联怡高" target="_blank" class="imga"><img src="upfiles/2013/03/07/071f06914c1103a2.jpg" alt="世联怡高" border="0/"></a><p><a href="/81.html" title="世联怡高" target="_blank">世联怡高</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/116.html" title="【成象设计作品】济南世联怡高办公室设计" target="_blank">【成象设计作品】济南世联怡高办公室设计</a></dd>
+ </dl>
+  </li>
+  <li> 
+    <a href="/70.html" title="金佰利置业" target="_blank" class="imga"><img src="upfiles/2014/07/08/1527aaf4b43b33ed.jpg" alt="金佰利置业" border="0/"></a><p><a href="/70.html" title="金佰利置业" target="_blank">金佰利置业</a></p>
+<div class="blank10"></div>
+<dl>
+<dt><span>合作项目</span></dt>
+ <dd>·<a href="/112.html" title="【成象设计作品】临沂金佰利办公楼设计" target="_blank">【成象设计作品】临沂金佰利办公楼设计</a></dd>
+<dd>·<a href="/111.html" title="【成象设计作品】临沂金佰利置业环球国际写字楼室内设计" target="_blank">【成象设计作品】临沂金佰利置业环球国际写字楼室内设计</a></dd>
+ </dl>
+  </li>
+</ul>  
+</div>
+</div>
+<div class="blank20"></div>
+<div class="column">
+<div class="mod clearfix" id="sjtd">
+<div class="hd">
+<h2>设计团队</h2>
+</div>
+<div class="blank20"></div>
+<div class="team_player">
+<!--图片播放器-->
+<style>
+#IndexPlay{position:relative; overflow:hidden; width:380px; height:190px; overflow:hidden;}
+#ImgBox{overflow:hidden; width:380px; height:190px;}
+#ImgBox a{display:block;}
+#ImgBox img{width:380px; height:190px;}
+
+#ImgLenBox{position:absolute; z-index:98; bottom:5px; text-align:center; width:100%; font-size:1px;font-weight:bold; line-height:20px; overflow:hidden;left:0px;height:20px;}
+#ImgLenBox a,#ImgLenBox a:hover{text-decoration:none; width:1px;height:1px;line-height:1px;padding:4px;margin-left: -1px; margin-right:10px;background:#ffffff;color:#ffffff;font-family:arial;display:inline-block;overflow:hidden;}
+#ImgLenBox a.hover,#ImgLenBox a:hover.hover{background:#FCD900;color:#FCD900;}
+
+#prev,#next{position:absolute;display:none; width:50px; height:85px; top:100px; cursor:pointer; z-index:99}
+#prev{left:10px;background:url(/tpl/www//images/ad-gallery/ad_prev.png) no-repeat 0 0;_background:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/tpl/www//images/ad-gallery/ad_prev.png" ,sizingMethod="crop");}
+#next{right:10px; background:url(/tpl/www//images/ad-gallery/ad_next.png) no-repeat 0 0;_background:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/tpl/www//images/ad-gallery/ad_next.png" ,sizingMethod="crop");}
+
+#CasesPlay a:active {outline: none;star:expression(this.onFocus=this.blur());}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    var curr = 0;
+    var imgLen=$('#ImgBox').find('a').length;
+  var IsImgLen = 1;
+  var IsPrevNext = 0;
+  //判断是否显示上下翻按钮
+  if(IsPrevNext > 0){
+    $("#prev").show();
+    $("#next").show();
+  }
+  //判断是否显示数字框和前后翻按钮
+  if(imgLen > 1 && IsImgLen > 0){
+    $('#ImgLenBox').show();
+  }else{
+    $("#prev").hide();
+    $("#next").hide();
+  }
+  $('#ImgLenBox a').each(function(i){
+    $(this).click(function(){
+      curr = i;
+      $('#ImgBox a').eq(i).fadeIn('slow').siblings('a').hide();
+      $(this).siblings('a').removeClass('hover').end().addClass('hover');
+      return false;
+    });
+  });
+  //前翻
+  $("#prev").click(function(){
+    if (curr == 0)todo = imgLen-1;
+    else todo = (curr - 1) % imgLen;
+    $('#ImgLenBox a').eq(todo).click();
+  });
+  //后翻
+  $("#next").click(function(){
+    todo = (curr + 1) % imgLen;
+    $('#ImgLenBox a').eq(todo).click();
+  });
+  //鼠标悬停在触发器上时停止自动翻
+  $("#ImgBox").hover(function(){
+    clearInterval(timer);
+  },function(){
+    timer = setInterval(function(){
+      todo = (curr + 1) % imgLen;
+      $('#ImgLenBox a').eq(todo).click();
+    },4000);    
+  }).trigger('mouseleave');
+  
+  $('#ImgLenBox a').eq(0).click();
+});
+</script>
+<div id="IndexPlay">
+  <div id="ImgBox">
+    <a href="/team" target="_blank" title="设计团队-幻灯片" style="display: none;"><img src="upfiles/2013/02/25/80672363a038a921.gif" alt="设计团队-幻灯片"></a>
+    <a href="/team" target="_blank" title="工作环境" style="display: block;"><img src="upfiles/2013/03/15/0af694c6df85c3d6.jpg" alt="工作环境"></a>
+    </div>
+  <div id="ImgLenBox" style="">
+    <a href="javascript:void(0)" class="circle5">1</a><a href="javascript:void(0)" class="circle5 hover">2</a>  </div>
+  <a id="prev" href="javascript:void(0)"></a>
+  <a id="next" href="javascript:void(0)"></a>
+</div>
+</div>
+<div class="team_first">
+<a href="/team" target="_blank"><img src="upfiles/2013/02/23/3a6dbf3b083e6eef.gif" title="岳蒙 [成象空间策划创始人]"></a>
+  
+</div>
+<div class="team_pic">
+<a href="/team" title="成象设计团队照片" target="_blank" class="imga"><img src="upfiles/2013/02/23/a516e03539e23b98.jpg" alt="成象设计团队照片" border="0/"></a>
+  
+</div>
+</div>
+<div class="blank20"></div>
+<div class="mod" id="team_ad">
+<a href="/134.html" title="首页-设计团队-广告" target="_blank" class="imga"><img src="__PUBLIC__/images/7d7a135c65ac3fa9.jpg" alt="首页-设计团队-广告" border="0/"></a>  
+</div>
+<div class="blank20"></div>
+<div class="mod" id="zxwm">
+<div class="hd1">
+<h2>咨询我们</h2>
+</div>
+<a href="http://weibo.com/imagingdesignyuemeng" title="成象微博" target="_blank" class="wb">成象微博</a>
+<a href="javascript:void(0)" title="分享到" target="_blank" class="fx"><!-- Baidu Button BEGIN -->
+                <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare ShareLogs">
+                    <em class="bds_more">&nbsp;&nbsp;&nbsp;</em>
+                </div>
+           <!-- Baidu Button END --></a>
+       <script type="text/javascript" id="bdshare_js" data="type=tools" src="http://bdimg.share.baidu.com/static/js/bds_s_v2.js?cdnversion=393436"></script>
+
+<script type="text/javascript">document.getElementById("bdshell_js").src = 
+"http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();</script>
+
+
+</div>
+<div class="mod" id="news_ad">
+<a href="http://www.cxsjgs.com/service02.html" title="增值服务" target="_blank" class="imga"><img src="__PUBLIC__/images/bc4c5411551e6800.jpg" alt="增值服务" border="0/"></a>  
+</div>
+<div class="mod" id="zxzx">
+<div class="hd1">
+<h2>资讯中心</h2>
+</div>
+<div class="blank10"></div>
+<ul>
+    <li>
+<em>01</em>
+<p><a href="/567.html" title="【成象设计 案例展示】七分熟的春天—济宁绿地国际城样板间实景" target="_blank">【成象设计 案例展示】七分熟的春天—济宁绿地国际城样板间</a></p>
+<p><span class="hits">525</span></p>
+</li>
+    <li>
+<em>02</em>
+<p><a href="/564.html" title="【成象设计 签约资讯】济南保利华庭样板间设计" target="_blank">【成象设计 签约资讯】济南保利华庭样板间设计</a></p>
+<p><span class="hits">449</span></p>
+</li>
+    <li>
+<em>03</em>
+<p><a href="/565.html" title="【成象设计 签约资讯】济南凯旋中心公共空间" target="_blank">【成象设计 签约资讯】济南凯旋中心公共空间</a></p>
+<p><span class="hits">264</span></p>
+</li>
+    <li>
+<em>04</em>
+<p><a href="/532.html" title="【成象设计 案例展示】“山居”--滕州亿丰. 和家園样板间302户型" target="_blank">【成象设计 案例展示】“山居”--滕州亿丰. 和家園样板间302</a></p>
+<p><span class="hits">744</span></p>
+</li>
+    <li>
+<em>05</em>
+<p><a href="/528.html" title="【成象设计】&nbsp;滕州亿丰·和家園样板间设计" target="_blank">【成象设计】&nbsp;滕州亿丰·和家園样板间设计</a></p>
+<p><span class="hits">530</span></p>
+</li>
+  </ul>  
+</div>
+</div>
+<div class="blank20"></div>
+<div class="column links">
+<div class="hd1">
+<div class="h2">&nbsp;</div>
+</div>
+
+        <a href="http://www.zhuangxiu99.com" title="金山区厂房装修" target="_blank">金山区厂房装修</a> 
+        <a href="http://www.cxsjgs.com/cases04" title="山东软装设计案例" target="_blank">山东软装设计案例</a> 
+        <a href="http://www.cxsjgs.com/cases03" title="山东精品酒店设计案例" target="_blank">山东精品酒店设计案例</a> 
+        <a href="http://www.cxsjgs.com/cases02" title="山东售楼处设计案例" target="_blank">山东售楼处设计案例</a> 
+        <a href="http://www.cxsjgs.com/cases01" title="山东样板间设计案例" target="_blank">山东样板间设计案例</a> 
+        <a href="http://blog.sina.com.cn/u/2188332127" title="成象设计新浪博客" target="_blank">成象设计新浪博客</a> 
+         
+      </div>
+<div class="blank10"></div>
+</div>
+
+<!-- 尾部 -->
+<include file="Public:footer" />

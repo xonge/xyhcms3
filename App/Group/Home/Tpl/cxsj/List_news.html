@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>成象设计 - 山东样板房设计-山东售楼处设计-山东软装设计-山东酒店会所设计</title>
+<meta name="keywords" content="成象设计,山东样板房设计,山东售楼处设计,山东软装设计,山东精品酒店设计">
+<meta name="description" content="成象设计是山东地区专业从事样板房设计，软装设计，酒店会所设计，售楼中心设计，唯一服务过中海，保利，绿城，绿地等一些地产企业的山东室内设计公司，电话0531-86023878！">
+<meta name="google-site-verification" content="00lOH5uXGbsOTSmtWY3IV42emDCtLJBz9oCKcgXFFVc">
+<!-- <base href="http://www.cxsjgs.com/"> -->
+<script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
+<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script>
+<script type="text/javascript">
+var base_file = base_url= "http://www.cxsjgs.com/";
+</script>
+<link href="favicon.ico" rel="shortcut icon">
+<link href="favicon.ico" rel="bookmark">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+<!-- <script type="text/javascript" src="http://www.cxsjgs.com/minify?f=tpl/www/images/js/jquery.js,tpl/www/images/js/global.js,tpl/www/images/js/www.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/www.js"></script>
+<!--[if lte IE 6]>
+<script src="tpl/www/images/js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('div, ul, img, li, input , a, cite, em');
+    </script>
+<![endif]-->
+<script src="http://bdimg.share.baidu.com/static/js/logger.js?cdnversion=393436"></script>
+</head>
+<body>
+<!-- 头部 -->
+<include file="Public:header" />
+<!-- 轮播图 -->
+<div class="navpic">
+  <div class="column">
+    <img src="__PUBLIC__/images/a1ba05b2d7a14487.jpg" alt="样板间设计" border="0" width="960">
+  </div>
+</div>
+<!-- 身体 -->
+<div class="main page">
+
+<include file="Public:nav" />
+
+<!-- <div class="blank15"></div> -->
+
+<div class="column">
+  <div class="blank15"></div>
+  <ul class="list_news">
+    <yang:list typeid="$cid" pagesize="20">
+    <li class="clearfix">
+      <a href="{$list.url}" title="{$list.title}" class="imga" target="_blank">
+        <img src="{$list.litpic}" alt="{$list.title}"></a>
+      <dl>
+        <dt>
+          <h3>
+            <a href="{$list.url}" title="{$list.title}" target="_blank">{$list.title}</a>
+          </h3>
+        </dt>
+        <dd>
+          <a href="{$list.url}" title="read more" class="read_more" target="_blank">read more</a>
+        </dd>
+        <dd>{$list.content|strip_tags}....<a href="{$list.url}" title="{$list.title}" class="f_f58" target="_blank">[详情]</a>
+        </dd>
+      </dl>
+      <div class="other_msg">
+        <p>{$list.publishtime|date='Y/m',###}</p>
+        <cite>{$list.publishtime|date='d',###}</cite>
+        <a href="{$list.url}" title="{$list.title}" class="xq" target="_blank">详情</a>
+      </div>
+    </li>
+    </yang:list>
+  </ul>
+  <div class="blank20"></div>
+  <div class="pagelist">
+    <eq name="page['up']['url']" value="">
+    <span class="disabled prev">&nbsp;</span>
+    <else/>
+    <a class="prev" href="{$page.up.url}">&nbsp;</a>
+    </eq>
+    <volist name="page['linkPage']" id="vo">
+    <eq name="vo.cur" value="1">
+    <span class="disabled current">{$vo.title}</span>
+    <else/>
+    <a class="" href="{$vo.url}">{$vo.title}</a>
+    </eq>
+    </volist>
+    <a class="next" href="/news01_2">&nbsp;</a>
+  </div>
+</div>
+</div>
+<!-- 尾部 -->
+<include file="Public:footer" />

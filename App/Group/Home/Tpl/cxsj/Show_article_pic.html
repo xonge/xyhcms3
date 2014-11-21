@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="{$keywords}" name="Keywords">
+<meta content="{$description}" name="Description">
+<title>{$title}-<yang:sitename /></title>
+<link href="__PUBLIC__/css/chf.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/art_model.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/jquery.pack.js"></script>
+<script src="__PUBLIC__/js/jsPopup.js"></script>
+</head>
+
+<body>
+<!--top -->
+<include file="Public:header" />
+
+<div id="bp">
+  <div class="h10"></div>
+  <div class="artCon">
+    <span class="luamnPath">您现在的位置：<yang:position />
+      <!-- <a href="http://www.hbwhxx.com/">武汉小学</a>&gt;&gt;
+      <a href="/Category_10/Index.aspx" target="_self">校园动态</a>&gt;&gt;
+      <a href="/Category_25/Index.aspx" target="_self">图片故事</a> -->
+    </span>
+    <div class="picConDiv">
+      <div class="title">
+        <h1>{$content.title}</h1>
+      </div>
+      <div class="picInfo">
+        <span>作者：{$content.author}</span>
+        <span>来源：{$content.copyfrom}</span>
+        <span>发布时间：{$content.publishtime|date='Y-m-d',###}</span>
+        <span>点击数：{$content.click}</span>
+      </div>
+      <div class="mainPic">
+        <script language="javascript">
+function resizepic(thispic)
+{
+if(thispic.width>700){thispic.height=thispic.height*700/thispic.width;thispic.width=700;}
+}
+function bbimg(o)
+{
+  var zoom=parseInt(o.style.zoom, 10)||100;
+  zoom+=event.wheelDelta/12;
+  if (zoom>0) o.style.zoom=zoom+'%';
+  return false;
+}
+var IsPlaying=false;
+var PhotoIndex=1;
+function SlidePlay(){
+  var sTimer,url;
+  if(IsPlaying==false){
+    IsPlaying=true;
+    document.getElementById('SlideButton').value='停止播放';
+    sTimer=setTimeout("ViewNext()",2000);
+  }else{
+    clearTimeout(sTimer);
+    IsPlaying=false;
+    document.getElementById('SlideButton').value='幻灯放映';
+  }
+}
+function ViewNext(){
+  if(IsPlaying==false){return false;}
+  if(PhotoIndex<arrUrl.length){
+    ViewPhoto(arrUrl[PhotoIndex]);
+    PhotoIndex+=1;
+  }
+  if(PhotoIndex>=arrUrl.length){
+    PhotoIndex=0;
+  }
+  var iTimeout=parseInt(document.getElementById('interval').value * 1000);
+  if (isNaN(iTimeout)){
+      iTimeout = 3000;
+  }
+  if(iTimeout<1000){iTimeout=5000;}
+  sTimer=setTimeout("ViewNext()",iTimeout);
+}
+</script>
+<div id="imgBox">
+</div>
+<script language="javascript">
+function ViewPhoto(PhotoUrl){
+  var strHtml;
+  var FileExt=PhotoUrl.substr(PhotoUrl.lastIndexOf('.')+1).toLowerCase();
+  if(FileExt=='gif'||FileExt=='jpg'||FileExt=='png'||FileExt=='bmp'||FileExt=='jpeg'){
+    strHtml="<a href='"+PhotoUrl+"' target='PhotoView'><img src='"+PhotoUrl+"' border='0' onload='if(this.width>882) this.width=882'></a>";
+  }else if(FileExt=='swf'){
+    strHtml="<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='882' height='400' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0'><param name='movie' value='"+PhotoUrl+"'><param name='quality' value='high'><embed src='"+PhotoUrl+"' pluginspage='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash' type='application/x-shockwave-flash' width='550' height='400'></embed></object>";
+  }else{
+    strHtml=PhotoUrl;
+  }
+  document.getElementById('imgBox').innerHTML=strHtml;
+}
+ViewPhoto('<volist name="picArr" id="vo" offset="0" length="1">{$vo.src}</volist>');
+</script>
+
+<yang:prev />
+<neq name="prev['url']" value="">
+<input id="prev" onclick="javascript:window.open('{$prev.url}', '_self')" type="image" src="__PUBLIC__/images/prev_icon.gif" name="prev">
+</neq>
+<yang:next />
+<neq name="next['url']" value="">
+<input id="next" onclick="javascript:window.open('{$next.url}', '_self')" type="image" src="__PUBLIC__/images/next_icon.gif" name="next">
+</neq>
+<input id="SlideButton" onclick="SlidePlay()" type="button" value="自动播放" name="Prev"><input id="interval" style="text-align: center" size="3" value="5" name="interval"> 秒
+<script language="javascript">
+var arrUrlName=new Array();
+var arrUrl=new Array();
+<volist name="picArr" id="vo" offset="0">
+arrUrlName[{$i-1}]='图片地址2';
+arrUrl[{$i-1}]='{$vo.src}';
+</volist>
+</script>
+<div id="PhotoUrlList">
+<script language="javascript">
+function ShowUrlList(page){
+  if(arrUrl.length<=1) return '';
+  var dTotalPage=arrUrl.length/5;
+  var TotalPage;
+  var MaxPerPage=5;
+  if(arrUrl.length%MaxPerPage==0){TotalPage=Math.floor(dTotalPage);}else{TotalPage=Math.floor(dTotalPage)+1;}
+  if(page<1) page=1;
+  if(page>TotalPage) page=TotalPage;
+  var strPage='<table border=0 id="photoUrl"><tr>';
+  for(var i=(page-1)*MaxPerPage;i<arrUrl.length&&i<page*MaxPerPage;i++){
+    strPage+="<td><a href='#Title' onclick=ViewPhoto('"+arrUrl[i]+"')><img src='"+arrUrl[i]+"' border='0'  width='148' height='112'></a></td>";
+    if((i+1)%5==0&&i+1<MaxPerPage){strPage+='</tr><tr>';}
+  }
+  strPage+="</tr></table>";
+  if(TotalPage>1){strPage+="<table><tr><td><a href='javascript:ShowUrlList(1)'>首页</a> <a href='javascript:ShowUrlList("+(page-1)+")'>上一页</a> <a href='javascript:ShowUrlList("+(page+1)+")'>下一页</a> <a href='javascript:ShowUrlList("+TotalPage+")'>尾页</a></td></tr></table>";}
+  document.getElementById('PhotoUrlList').innerHTML=strPage;
+}
+ShowUrlList(1);
+</script>
+</div>
+</div>
+<div class="p_info">
+  <h4>图片简介：</h4>
+  <p>&nbsp;</p>
+  <p style="text-align: left; margin-top: 8.4pt; unicode-bidi: embed; direction: ltr; margin-bottom: 0pt; vertical-align: baseline; language: zh-CN">
+    <span style="language: zh-CN">
+      学校教学条件优越，校园布局科学美观，教学设施设备先进，专用教室功能齐全，布设了塑胶操场，足球场，篮球场，羽毛球场。学校先后筹措资金数百万元，构建了先进的现代教育技术平台。
+    </span>
+  </p>
+      </div>
+    </div>
+  </div>
+  <div class="h10"></div>
+</div>
+<!-- 尾部 -->
+<include file="Public:footer" />

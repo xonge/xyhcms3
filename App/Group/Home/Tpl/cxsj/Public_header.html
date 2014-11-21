@@ -1,0 +1,62 @@
+<div class="header">
+<div class="column1">
+
+<eq name="$cid" value="">
+<div class="logo">
+  <a href="http://www.cxsjgs.com/" title="成象设计">
+  <img src="__PUBLIC__/images/1e143c15bd8e0b2e.gif" alt="成象设计"></a>
+</div>
+<div class="menubox">
+  <div class="menubox-T">
+    <img src="__PUBLIC__/images/d22593062cef89bc.gif" alt="联系电话：400-0809-061" class="tel">
+    <ul class="top_menu">
+      <li>
+        <a href="http://weibo.com/imagingdesignyuemeng" title="成象微博" target="_blank" class="ico_1">成象微博</a>
+      </li>
+      <li>
+        <a href="/service02.html" title="服务优势" target="_blank" class="ico_2">服务优势</a>
+      </li>
+      <li>
+        <a href="/faq" title="常见问题" target="_blank" class="ico_3">常见问题</a>
+      </li>
+      <li>
+        <a href="/about05.html" title="联系我们" target="_blank" class="ico_4">联系我们</a>
+      </li>
+      <li>
+        <a href="/aboutus.html" title="About US" target="_blank" class="ico_5">About US</a>
+      </li>
+    </ul>
+    <div class="search_box">
+      <form method="get" action="/search">
+        <input type="hidden" name="mid" value="102">
+        <input type="submit" value="" class="submit_box" id="submit_box">
+        <input type="text" class="input_box" id="so_keyword" name="keywords" value="" x-webkit-speech="true">
+      </form>
+    </div>
+  </div>
+  <!--菜单开始-->
+  <ul class="nav">
+    <li class="menu-effect current" -data-highlight="current">
+      <a href="/" title="网站首页">网站首页</a>
+    </li>
+    <yang:navlist typeid='0'>
+    <li class="menu-effect" -data-highlight="">
+      <a href="{$navlist.url}" title="{$navlist.name}">{$navlist.name}</a>
+      <ul class="submenu">
+        <yang:catlist typeid="$navlist['id']" type="son" flag="1">
+        <li class="<eq name="autoindex" value="$countx-1">last</eq>">
+          <a href="{$catlist.url}" title="{$catlist.name}">{$catlist.name}</a>
+        </li>
+        </yang:catlist>
+      </ul>
+    </li>
+    </yang:navlist>
+  </ul>
+</div>
+<!--菜单结束-->
+<else/>
+<img src="__PUBLIC__/images/a1ba05b2d7a14487.jpg" alt="样板间设计" border="0" width="960">
+</eq>
+
+</div>
+</div>

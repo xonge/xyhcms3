@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="{$keywords}" name="Keywords">
+<meta content="{$description}" name="Description">
+
+<link href="__PUBLIC__/css/chf.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/ind_con.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/art_model.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" charset="gb2312" language="javascript" src="__PUBLIC__/js/nowdate.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery.pack.js"></script>
+<title>
+  {$title}-<yang:sitename />
+</title></head>
+
+<body>
+<!--top -->
+<include file="Public:header" />
+
+<div id="bp">
+  <div class="h10"></div>
+  <div class="artCon">
+    <span class="luamnPath">您现在的位置：<yang:position />
+      <!-- <a href="http://www.hbwhxx.com/">武汉小学</a>&gt;&gt;
+      <a href="/Category_10/Index.aspx" target="_self">校园动态</a>&gt;&gt;
+      <a href="/Category_60/Index.aspx" target="_self">少先队阵地</a> -->
+    </span>
+    <div class="content_contmain"> 
+      <!-- 主体内容开始 -->
+      <div class="c_main_box" oncontextmenu="return false" ondragstart="return false" onselectstart="return false" onselect="if(document.all){document.selection.empty()}" oncopy="if(document.all){document.selection.empty()}" onbeforecopy="return false"> 
+        <!-- 标题 -->
+        <div class="c_title_text">
+          <h1>{$content.title}<br></h1>
+        </div>
+        <!-- 作者 -->
+        <div class="c_title_author">
+          <span>作者：{$content.author}</span>
+          <span>来源：{$content.copyfrom}</span>
+          <span>发布时间：{$content.publishtime|date='Y年m月d日',###}</span>
+          <span>点击数：{$content.click}</span>
+        </div>
+          <div class="h10"></div>
+          <div class="h10"></div>
+          <!-- 正文 -->
+          <div class="c_content_text">
+            <div class="c_content_overflow" id="fontzoom">
+              {$content.content}
+            </div>
+          </div>
+          <div class="c_bot_text">
+            <span id="pe100_page_contentpage" class="pagecss"></span>
+          </div>
+          <div class="h10"></div>
+          <div class="h10"></div>
+          <div id="btAuthor" class="c_title_author">
+            <span>点击数：{$content.click}</span>
+            <span>【<a href="/User/Contents/Favorite.aspx?Action=add&amp;Id=2739">收藏本文</a>】</span>
+            <span>【<a href="/Print.aspx?id=2739">打印文章</a>】</span>
+          </div>
+          <div class="h10"></div>
+        </div>
+        <!-- 文章上下篇 -->
+        <div class="nextPrePage">
+          <ul>
+            <li>
+              <font style="color:red">上一篇：</font>
+              <yang:prev />
+              <a href="{$prev.url}" target="_self">{$prev.title}</a>
+            </li>
+            <li>
+              <font style="color:red">下一篇：</font>
+              <yang:next />
+              <a href="{$next.url}" target="_self">{$next.title}</a>
+            </li>
+            <div class="clear"></div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <div class="h10"></div>
+</div>
+<!-- 尾部 -->
+<include file="Public:footer" />

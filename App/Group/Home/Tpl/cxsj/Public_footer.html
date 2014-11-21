@@ -1,0 +1,109 @@
+<!-- 尾部 -->
+<div class="FootBg">
+
+<div class="sSidenav">
+<strong>相关设计专题：</strong>
+<a href="/sampleroom.html" target="_blank" title="样板间设计">样板间设计</a> | 
+<a href="/salecenter.html" target="_blank" title="售楼处设计">售楼处设计</a> | 
+<a href="/hotelclub.html" target="_blank" title="酒店会所设计">酒店会所设计</a> | 
+<a href="/displaydesign.html" target="_blank" title="软装设计">软装设计</a> | 
+  
+
+</div>
+
+<div class="blank20"></div>
+<div class="footer">
+<div class="column">
+<div class="footer_left">
+<p>博客 / <a href="http://blog.sina.com.cn/u/1907766683" title="成象官方博客" target="_blank">Blog</a> </p>
+<p>招聘 / <a href="/about04.html" title="人才招聘" target="_blank">Career</a> </p>
+<p>微博 / <a href="http://weibo.com/imagingdesignyuemeng" title="成象微博" target="_blank" class="weibo">&nbsp;<span>成象微博</span>&nbsp;</a>  </p>
+<p>RSS  /  <a href="/rss.xml" title="RSS订阅" target="_blank" class="rss">&nbsp;<span>RSS</span>&nbsp;</a></p>
+</div>
+<div class="footer_center">
+<p>地址：山东省济南市泉城路318号丰利大厦6楼</p>
+<p>邮箱：chengxiang@imaging.hk</p>
+<p>电话：0531-86023995</p>
+<p>传真：0531-86023878</p>
+</div>
+<div class="footer_right">
+<div class="service_online">
+<script type="text/javascript">var online=new Array();</script>
+<script type="text/javascript" src="http://webpresence.qq.com/getonline?Type=1&amp;2968924197:"></script>
+<script type="text/javascript"> 
+$(function(){
+  for( i=0;i<online.length;i++ )
+  {
+    if(parseInt(online[i]) == 1 )
+    {
+      $(".service_online a:eq("+i+")").addClass("on");
+      $(".service_online a:eq("+i+")").attr("title","亲!我正在线上,点击和我交谈!");
+    }
+    else
+    {
+      $(".service_online a:eq("+i+")").attr("title","亲!我此时不再线上,您可以留言或拨打客服电话！");
+      //$(".service_online a:eq("+i+") img").attr('src','/tpl/www//images/qq_offline.png');
+    }
+  }
+});
+</script>
+
+ 
+  <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2968924197&amp;site=qq&amp;menu=yes" target="_blank" class="on" title="亲!我正在线上,点击和我交谈!"><img id="qqimg" src="__PUBLIC__/images/qq_online.png"></a>
+
+
+</div>
+<p>Copyright © imaging design. All rights reserved.</p>
+<p>浙ICP备13003341号-1 </p>
+<p>济南成象设计有限公司版权所有    <a title="站点地图" href="/sitemap.html"><strong>站点地图</strong></a></p>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  //导航下拉
+  $(".menu-effect").each(function(){
+    var theSpan = $(this);
+    var theMenu = theSpan.find(".submenu");
+    // console.log(theMenu);
+    var tarHeight = theMenu.height();
+    // console.log("hhhhhh"+tarHeight);
+    theMenu.css({height:0,opacity:0});
+    // console.log("gggg"+theSpan);
+    theSpan.hover(
+      // console.log("h");
+      function(){
+        $(this).addClass("current");
+        // console.log("zzzzzz"+theMenu);
+        theMenu.stop().show().animate({height:tarHeight,opacity:1},400);
+        // theMenu.show();
+        // console.log("show"+theMenu);
+      },
+      function(){
+        if(!$(this).attr('-data-highlight')){
+          // console.log($(this));
+          $(this).removeClass("current");
+        }
+        theMenu.stop().animate({height:0,opacity:0},400,function(){
+          $(this).css({display:"none"});
+        });
+      }
+    );
+  });
+
+  $("ul li").hover(function(){$(this).addClass('hover');},function(){$(this).removeClass('hover');});
+  
+  $("#so_keyword").focus(function(){
+    $(this).animate({width: '180px'}, "fast").addClass("input_boxon");
+    $("#submit_box").addClass("submit_boxon")
+  }).blur(function(){
+    $(this).animate({width: '80px'}, "fast").removeClass("input_boxon");
+    $("#submit_box").removeClass("submit_boxon")
+  })
+});
+
+</script>
+</body>
+</html>

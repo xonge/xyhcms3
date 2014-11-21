@@ -1,0 +1,42 @@
+<!-- 中间导航部分 -->
+<div class="column mainnav" id="nav2">
+  <!--当前位置导航-->
+  <div class="leader">
+    <p>
+      当前位置 <em>：</em><yang:position />
+<!--       <a href="/">首页</a>
+      <em>&gt;</em>
+      <a href="/cases">设计作品</a>
+      <em>&gt;</em>
+      <a href="/cases01">样板间设计</a> -->
+    </p>
+  </div>
+</div>
+<eq name="cate['pid']" value="0">
+<yang:catlist typeid="$cid" type="son" flag="1">
+</yang:catlist>
+<else/>
+<yang:catlist typeid="$cid" type="self" flag="1">
+</yang:catlist>
+</eq>
+<eq name="countx" value="">
+<else/>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('html,body').animate({
+    scrollTop: $('.subnav').offset().top
+  },300);
+});
+</script>
+<div class="subnav column">
+  <ul>
+    <yang:catlist typeid="$cid" type="self" flag="1">
+    <li class="<eq name="catlist['id']" value="$cid">current</eq>">
+      <a href="{$catlist.url}" title="{$catlist.name}" class="circle3">{$catlist.name}</a>
+      <p>model</p>
+    </li>
+    </yang:catlist>
+  </ul>
+</div>
+<div class="blank10"></div>
+</eq>

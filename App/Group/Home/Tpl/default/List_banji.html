@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{$title}-<yang:sitename /></title>
+<link href="__PUBLIC__/css/chf_bjInd.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery.pack.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/ks-switch.pack.js"></script>
+<script>
+jQuery(function($){
+$("#main").switchTab({titCell: ".schName li", trigger: "mouseover", delayTime: 0,titOnClassName: "on",mainCell: ".bjList"});
+});
+</script>
+</head>
+<body>
+<div id="warp">
+  <div class="top">
+    <div class="indLink"><a title="" href="http://www.hbwhxx.com/"></a></div>
+    <div class="link"><a title="设为首页" style="cursor:pointer" id="setForIndex" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.hbwhxx.com/')">设为首页</a>|<a href="javascript:if(document.all){window.external.addFavorite('http://www.hbwhxx.com/','武汉小学');}else if(window.sidebar){window.sidebar.addPanel('武汉小学', 'http://www.hbwhxx.com/','');}" title="加入收藏">加入收藏</a>|<a href="http://www.hbwhxx.com/">网站首页</a> </div>
+  </div>
+  <div id="main" class="main">
+    <div class="schName fr">
+      <ul>
+        <yang:catlist typeid='$cid' type='son' flag='1'>
+        <li <eq name="autoindex" value="0">class="on"</eq>><a>{$catlist.name}</a></li>
+        </yang:catlist>
+      </ul>
+    </div>
+    <div class="bjList" style="display: block;">
+      <div class="oo" id="wUL1" style="width: 492px;">
+        <yang:catlist typeid="106" type='son' flag='1' id="vo">
+        <dl>
+          <dt><a>{$catlist.name}</a></dt>
+          <dd>
+            <ul>
+              <yang:catlistx typeid="$catlist['id']" type='son' flag='1' />
+              <volist name="__catlistx" id="vo">
+              <li><a href="{$vo.url}">{$vo.name}</a></li>
+              </volist>
+            </ul>
+          </dd>
+        </dl>
+        </yang:catlist>
+        <div class="clear"></div>
+      </div>
+    </div>
+<div class="bjList" style="display: none;">
+  <div class="oo" id="wUL2" style="width: 492px;">
+          <dl>
+  <dt><a>2012届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://blog.sina.com.cn/u/2935245752">二（1）班</a></li>
+<li><a href="http://blog.sina.com.cn/whdyjsxx0102">二（2）班</a></li>
+<li><a href="http://blog.sina.com.cn/u/2936236261">二（3）班</a></li>
+<li><a href="http://a67573822-.blog.163.com/">二（4）班</a></li>
+</ul>
+  </dd>
+</dl>
+<dl>
+  <dt><a>2011届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://user.qzone.qq.com/36812890/infocenter">三（1）班</a></li>
+<li><a href="http://user.qzone.qq.com/153757103/infocenter">三（2）班</a></li>
+<li><a href="http://user.qzone.qq.com/1836336478/infocenter">三（3）班</a></li>
+<li><a href="http://blog.sina.com.cn/whxx0104/">三（4）班</a></li>
+</ul>
+  </dd>
+</dl>
+<dl>
+  <dt><a>2010届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://blog.sina.com.cn/huangjerry2008">四（1）班</a></li>
+<li><a href="http://user.qzone.qq.com/972112829/infocenter">四（2）班</a></li>
+<li><a href="http://user.qzone.qq.com/368941598/main">四（3）班</a></li>
+<li><a href="http://blog.sina.com.cn/u/2425765072">四（4）班</a></li>
+</ul>
+  </dd>
+</dl>
+<dl>
+  <dt><a>2009届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://user.qzone.qq.com/11636848/main">五（1）班</a></li>
+<li><a href="http://zxyy0527.blog.163.com/?newreg">五（2）班</a></li>
+</ul>
+  </dd>
+</dl>
+<dl>
+  <dt><a>2008届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://blog.sina.com.cn/lb217">六（1）班</a></li>
+<li><a href="http://blog.sina.com.cn/zy20101230">六（2）班</a></li>
+</ul>
+  </dd>
+</dl>
+<dl>
+  <dt><a>2013届</a></dt>
+  <dd>
+    <ul>
+<li><a href="http://user.qzone.qq.com/461985092/infocenter#!app=2&amp;via=QZ.HashRefresh&amp;pos=add">一（1）班</a></li>
+<li><a href="http://user.qzone.qq.com/1294789884/infocenter">一（2）班</a></li>
+<li><a href="http://user.qzone.qq.com/2624928561/infocenter">一（3）班</a></li>
+<li><a href="http://user.qzone.qq.com/2725779201/infocenter">一（4）班</a></li>
+</ul>
+  </dd>
+</dl>
+          <div class="clear"></div>
+  </div>
+</div></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+var bigK = $('#main .bjList').length;
+for(var i = 1;i < bigK + 1;i++){$('#wUL' + i).width(82*$('#wUL' + i).children("dl").length);}
+});
+</script>
+
+
+</body></html>
