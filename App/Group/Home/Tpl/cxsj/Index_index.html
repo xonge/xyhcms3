@@ -128,7 +128,7 @@ $(document).ready(function(){
   <div id="ImgBox_R">
     <volist name="flash" id="vo" offset="0" length="4">
       <a href="{$vo.url}" target="_blank" title="{$vo.title}" style="display: <eq name="i" value="0">block<else/>none</eq>;">
-      <img src="{$vo.imgurl}" alt="样 板 间"></a>
+      <img src="{$vo.imgurl}" alt="{$vo.title}"></a>
     </volist>
   </div>
   <div id="ImgLenBox_R">
