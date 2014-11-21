@@ -3,11 +3,20 @@
 class ListAction extends Action{
 	//方法：index
 	public function index(){
+		// echo 'test';
+		// dump($page);die;
 		
 		$cid = I('cid', 0,'intval');
 		$ename = I('e', '', 'htmlspecialchars,trim');
 
-		$cate = getCategory(1);
+		// 获得栏目分页当前第几页 实现栏目分页
+		$cp = I('cp', 0,'intval');
+		if (!$cp) {
+			$cp = 1;
+		}
+		// echo $cp;
+
+		$cate = getCategory(0);
 		import('Class.Category', APP_PATH);	
 		
 		if (!empty($ename)) {//ename不为空
@@ -35,6 +44,7 @@ class ListAction extends Action{
 		if (!empty($access) && !in_array($groupid, $access)) {
 			$this->error('您没有访问该信息的权限！');
 		}
+		// dump($self);die;
 
 
 		$this->cate = $self;
@@ -44,6 +54,76 @@ class ListAction extends Action{
 		$this->description = $self['description'];
 		$this->cid = $cid;
 
+		// $this->cp = $cp;
+		// echo $cp;
+		// echo $this->cp;
+		// 开始子栏目分类 2014-11-15
+		$ccount = count(Category::getChilds(getCategory(0),$cid));
+		// echo $ccount;die;
+		$pn = 4;
+		$pnum = intval($ccount/$pn);
+		// $total = $pnum;
+		if (($ccount%$pn)>0) {
+			$pnum = $pnum+1;
+		}
+		// echo $pnum;die;
+		// 总共有多少页
+		$cpage['total'] = $pnum;
+		// 生成总页数的数组
+		$cpage['cps'] = range(1,$pnum);
+		// foreach ($cpage['cps'] as $k => $v) {
+		// 	$cpage['cps'][$k]['url'] = 'http://'
+		// }
+		$cpage['top'] = 1;
+		$cpage['last'] = $pnum;
+		$cpage['cur'] = $cp;
+		// 上一页
+		$cpage['pre'] = $cp - 1;
+		// 下一页
+		// echo $cp + 1;echo $pnum;die;
+		if ($cp + 1 > $pnum) {
+			// echo 'h';die;
+			$cpage['next'] = $pnum;
+		}else{
+			$cpage['next'] = $cp + 1;
+		}
+		$cpage['pn'] = $pn;
+		$this->cpage = $cpage;
+
+		// 开始栏目文章列表分类 觉得自带的page不好用 2014-11-16
+		// $ccount = count(Category::getChilds(getCategory(0),$cid));
+		// $_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		// echo $ccount;die;
+		// $pn = 4;
+		// $pnum = intval($ccount/$pn);
+		// // $total = $pnum;
+		// if (($ccount%$pn)>0) {
+		// 	$pnum = $pnum+1;
+		// }
+		// // echo $pnum;die;
+		// // 总共有多少页
+		// $cpage['total'] = $pnum;
+		// // 生成总页数的数组
+		// $cpage['cps'] = range(1,$pnum);
+		// // foreach ($cpage['cps'] as $k => $v) {
+		// // 	$cpage['cps'][$k]['url'] = 'http://'
+		// // }
+		// $cpage['top'] = 1;
+		// $cpage['last'] = $pnum;
+		// $cpage['cur'] = $cp;
+		// // 上一页
+		// $cpage['pre'] = $cp - 1;
+		// // 下一页
+		// // echo $cp + 1;echo $pnum;die;
+		// if ($cp + 1 > $pnum) {
+		// 	// echo 'h';die;
+		// 	$cpage['next'] = $pnum;
+		// }else{
+		// 	$cpage['next'] = $cp + 1;
+		// }
+		// $cpage['pn'] = $pn;
+		// $this->cpage = $cpage;
+
 		
 		$patterns = array('/^List_/', '/'.C('TMPL_TEMPLATE_SUFFIX').'$/');
 		$replacements = array('', '');
@@ -52,7 +132,11 @@ class ListAction extends Action{
 		if (empty($template_list)) {
 			$this->error('模板不存在');
 		}
-
+		// echo $self['tablename'];
+		// echo $template_list;
+		// dump($this->page);
+		// dump($page);die;
+		// dump($self['tablename']);die;
 		switch ($self['tablename']) {
 			case 'article':
 				$this->display($template_list);
@@ -90,7 +174,8 @@ class ListAction extends Action{
 				return;
 				break;
 		}
-		
+		// echo 'test';
+		// dump($page);die;
 		$this->display();
 
 	}

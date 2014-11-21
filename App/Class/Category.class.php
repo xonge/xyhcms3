@@ -108,12 +108,17 @@ class Category {
 		if (empty($self)) {
 			return $arr;
 		}
-
+		// dump($self);
+		// dump($cate);
+		$_self = $self['pid'];
 		foreach ($cate as $v) {
-			if ($v['id'] == $self['pid']) {
+			// echo $self['pid'];
+			// dump($v);
+			if ($v['pid'] == $_self) {
 				$arr[] = $v;
 			}
 		}
+		// dump($arr);
 		return $arr;
 	}
 

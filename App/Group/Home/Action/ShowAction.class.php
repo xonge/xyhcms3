@@ -11,7 +11,9 @@ class ShowAction extends Action{
 			$this->error('参数错误');
 		}
 
-		$cate = getCategory(1);
+		// $cate = getCategory(1);
+		$cate = getCategory(0);
+		// dump($cate);
 		import('Class.Category', APP_PATH);	
 		
 		if (!empty($ename)) {//ename不为空
@@ -19,6 +21,8 @@ class ShowAction extends Action{
 		}else {//$cid来判断
 
 			$self = Category::getSelf($cate, $cid);//当前栏目信息
+			// echo $cid;
+			$same = Category::getSameCate($cate, $cid);
 		}		
 
 		if(empty($self)) {
@@ -49,7 +53,7 @@ class ShowAction extends Action{
 		}
 
 		$content = M($self['tablename'])->where(array('status' => 0, 'id' => $id))->find();
-
+		// dump($content);die;
 		if (empty($content)) {
 			$this->error('内容不存在');
 		}
@@ -59,13 +63,53 @@ class ShowAction extends Action{
 		$content['url'] = getContentUrl($content['id'], $content['cid'], $self['ename'], $_jumpflag, $content['jumpurl']);
 
 		$this->cate = $self;
+		// dump($same);
+		// 获得栏目的url 在 common/common.php 106
+		foreach ($same as $k => $v) {
+			$same[$k]['url'] = getUrl($v);
+		}
+		// $same['url'] = getUrl($same);
+		// dump($same);die;
+		$this->same = $same;
 		$this->title = $content['title'];
 		$this->keywords = $content['keywords'];
 		$this->description = empty($content['description'])? $content['title']: $content['description'];
 		$this->commentflag = $content['commentflag'];//是否允许评论,debug,以后加上个全局评价 $content['commentflag'] && CFG_Comment
 		$this->tablename = $self['tablename'];
 		$this->id = $id;
-
+		$this->cid = $cid;
+		// $this->article = $content;
+		// dump($content['content']);
+		// preg_match_all("/(src|src)=[\"|\'| ]{0,}((.*).(gif|jpg|jpeg|png|bmp))[\'|\"]/isu",$content['content'],$picArr);
+		
+		//正则表达式把图片的整个都获取出来了
+		preg_match_all("/<img.*\>/isU", $content['content'], $imgArr);
+		// $imgArr是所有的img标签 但下面只得到了第一个
+		// 得到img src属性的正则
+		$p = "#src=('|\")(.*)('|\")#isU";
+		$picArr = array();
+		foreach ($imgArr[0] as $k => $v) {
+			// dump($v);
+			preg_match_all($p, $v, $srcArr);
+			$imgSrc = $srcArr[2][0];
+			// dump($imgSrc);die;
+			$picArr[$k]['src'] = $imgSrc;
+		}
+		// die;
+		// $img = $imgArr[0][0];//图片
+		// dump($imgArr);die;
+		// $p = "#src=('|\")(.*)('|\")#isU";
+		// 所有的src属性
+		
+		// dump($img1);die;
+		//获取第一张图片路径
+   		// $img_path =$img1[2][0];
+		// if (!$img_path) {
+    		// $img_path="images/nopic.jpg";
+		//} //如果新闻中不存在图片，用默认的nopic.jpg替换 */
+		// echo $img_path;die;
+		// dump($picArr);die;
+		$this->picArr = $picArr;
 		
 
 		switch ($self['tablename']) {			

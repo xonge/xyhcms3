@@ -1,97 +1,333 @@
-<!doctype html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="{$keywords}" name="Keywords">
+<meta content="{$description}" name="Description">
 <title>{$title}-<yang:sitename /></title>
-<meta name="keywords" content="{$keywords}" />
-<meta name="description" content="{$description}" />
-<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
-<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/css/chf.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/ind_con.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/art_model.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" charset="gb2312" language="javascript" src="__PUBLIC__/js/nowdate.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery.pack.js"></script>
 </head>
-
 <body>
-<!--top -->
-<div id="top">
+<!-- 头部 -->
 <include file="Public:header" />
+<!-- 身体 -->
+<div id="bp">
+  <div class="h10"></div>
+  <div>
+    <div class="b_side fl">
+      <div class="subNav">
+        <div class="hd">
+          <h3>栏目导航</h3>
+        </div>
+        <div class="bd">
+          <ul>
+          <yang:catlist typeid='$cid' type='son' flag='1'>
+            <li><a href="{$catlist.url}">{$catlist.name}</a></li>
+          </yang:catlist>
+          </ul>
+        </div>
+        <div class="fb"></div>
+      </div>
+      <div class="h10"></div>
+      <div id="LoginFrom" class="uLogin Login_ajax" onkeypress="javascript:return DefaultButton(event, 'BtnLogOn')">
+<script type="text/javascript" language="JavaScript">
+  function RefreshValdisplayDateCodeImage(ValdisplayDateCodeImageControl){
+      ValdisplayDateCodeImageControl.src = ValdisplayDateCodeImageControl.src + '?code=' + RandomNum(10);
+  }
 
-<div class="warp1 mt">
-	<include file="Public:announce" />
+  function RandomNum(n){
+      var rnd = '';
+      for (var i = 0; i < n; i++) 
+          rnd += Math.floor(Math.random() * 10);
+      return rnd;
+  }
+
+  function DefaultButton(event, linkOpenType){
+      if (event.keyCode == 13 && !(event.srcElement && (event.srcElement.tagName.toLowerCase() == "textarea"))) {
+          var defaultButton = $(linkOpenType);
+          if (defaultButton && typeof(defaultButton.click) != "undefined") {
+              defaultButton.click();
+              event.cancelBubble = true;
+              if (event.stopPropagation) 
+                  event.stopPropagation();
+              return false;
+          }
+      }
+      return true;
+  }
+  </script>
+  <div class="ulogDiv">
+    <span><label>账&nbsp;&nbsp;号：</label><input name="TxtUserName" id="TxtUserName" class="w120 bline" type="text"></span>
+    <span><label>密&nbsp;&nbsp;码：</label><input name="TxtPassword" id="TxtPassword" class="w120 bline" type="password"></span>
+    <span id="checkcode"><label>验证码：</label><input name="TxtValdisplayDateCode" type="text" class="bline w50" value="" id="TxtValdisplayDateCode" onfocus="this.select();"><img id="VcodeLogOn" title="看不清楚，换一个" onclick="RefreshValdisplayDateCodeImage(this);" src="/Controls/ValidateCodeImage.aspx" align="absmiddle" style="border-width: 0px; cursor: hand;"></span>
+    <span style="display:none;">Cookie：
+  <select name="DropExpiration" id="DropExpiration">
+          <option value="None">不保存</option>
+          <option value="Day">保存一天</option>
+          <option value="Month">保存一月</option>
+          <option value="Year">保存一年</option>
+    </select>
+    </span>
+    <span class="tc"><input type="image" name="BtnLogOn" id="BtnLogOn" onclick="Login();" src="__PUBLIC__/images/loginBt.gif">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/Register.aspx" target="_blank"><img src="__PUBLIC__/images/regBt.gif"></a></span>
+  </div>
 </div>
-<div class="clear"></div>
+<div id="PnlLogOnStatus" class="uLogin Login_ajax" style="display: none;"><img src="/Template/Default/Skin/Images/loading.gif" alt=""></div>
+<script language="javascript" type="text/javascript">
+CheckIsLogin();
 
+function Loginin(LoginString){
+    document.getElementById("LoginFrom").innerHTML = document.getElementById("LoginFrom").innerHTML + LoginString;
+}
+
+function CheckIsLogin(){
+    document.getElementById("PnlLogOnStatus").innerHTML = "<img src=\"/Template/Default/Skin/Images/loading.gif\" alt=\"\"/>";
+    var x = new AjaxRequest('XML', 'status');
+    x.para = [];
+    x.post('logincheck', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        
+        if (status == 'ok') {
+            document.getElementById("PnlLogOnStatus").style.display = "";
+            document.getElementById("LoginFrom").style.display = "none";
+            document.getElementById("PnlLogOnStatus").innerHTML = GetUserInfo(xml);
+        }
+        else {
+            document.getElementById("PnlLogOnStatus").style.display = "none";
+            document.getElementById("LoginFrom").style.display = "";
+            CheckEnableValidCode();
+        }
+    });
+}
+
+function GetUserInfo(xml){
+    var userInfo = "<div class=\"ulogDiv\">" + xml.getElementsByTagName("username")[0].firstChild.data + "，您好！您有：<br/>";
+    userInfo = userInfo + "经验积分：" + xml.getElementsByTagName("exp")[0].firstChild.data + " 分<br/>";
+    userInfo = userInfo + "待阅短信：" + xml.getElementsByTagName("msg")[0].firstChild.data + " 条<br/>";
+    userInfo = userInfo + "登录次数：" + xml.getElementsByTagName("logintimes")[0].firstChild.data + " 次<br/>";
+    userInfo = userInfo + "待签文章：" + xml.getElementsByTagName("signincontent")[0].firstChild.data + " 篇<br/>";
+    userInfo = userInfo + "<div style=\"text-align: center\"><a href=\"/User/Default.aspx\" linkOpenType=\"_top\">会员中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
+    userInfo = userInfo + "<a href=\"#\"  onclick=\"loginout()\" linkOpenType=\"_top\">退出登录</a></div>";
+    userInfo = userInfo + "</div>";
+    return userInfo;
+}
+
+function loginout(){
+    var x = new AjaxRequest('XML','');
+    x.post('userlogout', '/ajax.aspx', function(s) {
+    var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        if (status == "ok") {
+                if (xml.getElementsByTagName("API_Enable")[0].firstChild.data == "1") {
+                    var LogOutString = xml.getElementsByTagName("LogOutString")[0].firstChild.data;
+                    Loginin(LogOutString);
+                }
+         }
+        document.getElementById("TxtUserName").value = '';
+        document.getElementById("TxtPassword").value = '';
+        CheckEnableValidCode();
+        var VcodeLogOn = document.getElementById("VcodeLogOn");
+        if(VcodeLogOn  != null)
+        {
+  RefreshValdisplayDateCodeImage(VcodeLogOn);
+        }
+        document.getElementById("DropExpiration").value = 'None';
+        document.getElementById("PnlLogOnStatus").style.display = "none";
+        document.getElementById("LoginFrom").style.display = "";
+    });
+}
+
+function CheckEnableValidCode(){
+    var x = new AjaxRequest('XML', 'status');
+    x.para = [];
+    x.post('EnableValidCode', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        if (status == "yes") {
+            document.getElementById("checkcode").style.display = '';
+            document.getElementById("TxtValdisplayDateCode").value = '';
+        }
+    });
+}
+
+function Login(){
+    if (document.getElementById("TxtUserName").value == '') {
+        alert("请填写用户名！");
+        document.getElementById("TxtUserName").focus();
+        return;
+    }
+    if (document.getElementById("TxtPassword").value == '') {
+        alert("请填写密码！");
+        document.getElementById("TxtPassword").focus();
+        return;
+    }
+    
+    if(document.getElementById("checkcode").style.display=="")
+    {
+      if (document.getElementById("TxtValdisplayDateCode").value == '') {
+          alert("请填写验证码！");
+          document.getElementById("TxtValdisplayDateCode").focus();
+          return;
+      }
+    }
+    var x = new AjaxRequest('XML', 'status');
+    x.para = ['username=' + document.getElementById("TxtUserName").value, 'password=' + document.getElementById("TxtPassword").value, 'checkcode=' + document.getElementById("TxtValdisplayDateCode").value, 'expiration=' + document.getElementById("DropExpiration").value];
+    x.post('userlogin', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        switch (status) {
+            case "ok":
+                if (xml.getElementsByTagName("API_Enable")[0].firstChild.data == "1") {
+                    var LoginString = xml.getElementsByTagName("LoginString")[0].firstChild.data;
+                    Loginin(LoginString);
+                }
+                CheckIsLogin();
+                break;
+            case "err":
+                var errorMessage = xml.getElementsByTagName("body")[0].firstChild.data;
+                alert(errorMessage);
+                break;
+
+        }
+        
+    });
+}
+</script>
+      <div class="h10"></div>
+      <div class="indSideDiv">
+        <div class="hd">
+          <h3><a><img src="__PUBLIC__/images/indsIcon1.gif">最新推荐</a></h3>
+        </div>
+        <div class="bd bOrg list2">
+          <ul>
+            
+            <li class="fli"><div class="imgPic"><a href="/Item/2458.aspx" target="_blank"><img src="/UploadFiles/xxfc/2012/11/201211151155584324_S.jpg" alt="武汉小学领导班子简介" border="0"></a></div><div class="imgTxt"><a href="/Item/2458.aspx" target="_blank" title="标题：武汉小学领导班子简介
+点击数：6161
+发表时间：12年11月07日"><b>武汉小学领导班子…</b></a><p>武汉小学领导班子简介
+武汉小…<a href="/Item/2458.aspx" target="_blank">[详细]</a></p></div><div class="clear"></div></li><li><a href="/Item/2257.aspx" target="_blank" title="标题：与童心和谐共振
+点击数：1148
+发表时间：07年01月11日">与童心和谐共振</a></li><li><a href="/Item/2256.aspx" target="_blank" title="标题：武汉小学“童心教育”理念的建构和实践
+点击数：502
+发表时间：07年05月22日">武汉小学“童心教育”理念的建构和…</a></li><li><a href="/Item/1806.aspx" target="_blank" title="标题：以科研兴校为基础的学校科学发展思考和实践
+点击数：327
+发表时间：07年01月18日">以科研兴校为基础的学校科学发展思…</a></li><li><a href="/Item/1805.aspx" target="_blank" title="标题：愿做阳光滋养生命-------记武汉小学杨雅勤
+点击数：2511
+发表时间：07年06月29日">愿做阳光滋养生命-------记武汉小…</a></li><li><a href="/Item/1804.aspx" target="_blank" title="标题：武汉小学名师简介
+点击数：4357
+发表时间：06年09月26日">武汉小学名师简介</a></li><li><a href="/Item/1803.aspx" target="_blank" title="标题：武汉小学“童心教育”理念的建构和实践
+点击数：2960
+发表时间：07年05月22日">武汉小学“童心教育”理念的建构和…</a></li><li><a href="/Item/1802.aspx" target="_blank" title="标题：严格安全管理关注教育细节创建平安校园
+点击数：240
+发表时间：07年03月01日">严格安全管理关注教育细节创建平安…</a></li>
+          
+          </ul>
+          <div class="h5"></div>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <div class="indSideDiv">
+  <div class="hd"><h3><a><img src="__PUBLIC__/images/indsIcon5.gif">网站统计</a></h3></div>
+  <div class="bd bGra webTj">
+    <ul>
+<script src="/Analytics/CounterLink.aspx?Style=all"></script><script type="text/javascript" src="http://www.hbwhxx.com/Analytics/Counter.aspx?style=all&amp;Referer=http%3A//www.hbwhxx.com/Category_9/Index.aspx&amp;Timezone=-480&amp;Width=1920&amp;Height=1080&amp;Color=24"></script><li>总访问量：185183人次</li><li>总浏览量：371346人次</li><li>今日访问：149人次</li><li>日均访问：197人次</li>
+    </ul>
+  </div>
+</div> </div>
+    <div class="b_main fr">
+      <div class="topNews">
+        <div class="hd">
+          <span class="luamnPath fr">您现在的位置：<yang:position /></span>
+          <h3>最新动态</h3>
+        </div>
+        <!-- 文章列表 -->
+        <div class="bd">
+          <ul>
+          <yang:list typeid="$cid" pagesize='10' pageroll='4'>
+            <eq name="autoindex" value="0">
+            <li class="fli">
+              <img src="{$list.litpic}" alt="{$list.title}" border="0">
+              <div class="tit">
+                <span class="titBg"></span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：12年11月07日">{$list.title}</a>
+              </div>
+            </li>
+            <else/>
+            <li>
+              <span class="date">{$list.publishtime|date='m-d',###}</span>
+              <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：1148 发表时间：07年01月11日">{$list.title}</a>
+            </li>
+            </eq>
+          </yang:list>
+          </ul>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <div class="cBanner"><script type="text/javascript" src="/IAA/201204/1.js"></script><div id="BannerZoneAD_Div1" style="visibility:visible; z-index:1; width:740px; height:110px;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" name="AD_1" id="AD_1" width="740px" height="110px"><param name="movie" value="/uploadfiles/uploadadpic/201206041548452739.swf"><param name="quality" value="autohigh"><embed name="AD_1" id="AD_1" width="740px" height="110px" src="/uploadfiles/uploadadpic/201206041548452739.swf" quality="autohigh" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash"></object></div></div>
+      <div class="artSub"> 
+        <!-- 栏目循环列表开始 -->
+        <php>$cp=I('get.cp',1,'intval');//echo $cp;$limit='4';</php>
+        <yang:catlist typeid='$cid' type='son' flag='1' cp='$cp' length='4'>
+        <div class="indLuamn w365 <eq name="autoindex%2" value="0">mr10</eq>">
+          <div class="hd">
+            <span class="more">
+              <a class="" href="{$catlist.url}" target="_self">更多&gt;&gt;</a>
+            </span>
+            <h3 class="dot3">{$catlist.name}</h3>
+          </div>
+          <!-- 文章列表 -->
+          <div class="bd pt8 h177">
+            <ul class="ddList">
+            <php>$ccid=$catlist['id']</php>
+              <yang:list typeid="$ccid" pagesize='7' pageroll='4'>
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：13年06月08日">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+        </div>
+        </yang:catlist>
+        <!-- 栏目循环列表结束 -->
+        <div class="clear"></div>
+        <!-- 子栏目分页 -->
+        <div class="classpage">
+          <span id="pe100_page_categorylist" class="pagecss">
+            <!--{pe.begin.pagination}-->
+            <a href="{:U('', array('cid'=>$cid,'cp'=>$cpage['top']))}">首页</a>
+            <a href="{:U('', array('cid'=>$cid,'cp'=>$cpage['pre']))}">上一页</a>
+            <volist name="cpage['cps']" id="cps">
+            <eq name="cps" value="$cpage['cur']">
+            <strong>{$cpage.cur}</strong>
+            </span>
+            <else/>
+            <a href="{:U('', array('cid'=>$cid,'cp'=>$cps))}">{$cps}</a>
+            </eq>
+            </volist>
+          </span> 
+          <a href="{:U('', array('cid'=>$cid,'cp'=>$cpage['next']))}">下一页</a>
+          <a href="{:U('', array('cid'=>$cid,'cp'=>$cpage['last']))}">尾页</a>
+          页次：{$cpage['cur']}/{$cpage['total']}页
+          {$cpage['pn']}个栏目/页
+          转到第
+          <select id="Jumppage" onchange="if(this.options[this.selectedIndex].value!=''){location=this.options[this.selectedIndex].value;}">
+            <volist name="cpage['cps']" id="cps">
+            <option value="{:U('', array('cid'=>$cid,'cp'=>$cps))}" <eq name="cps" value="$cpage['cur']">selected</eq>>{$cps}</option>
+            </volist>
+          </select>
+          页
+          <!--{pe.end.pagination}-->
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="h10"></div>
 </div>
-
-<div class="content">
-	<div class="warp1 mt">
-
-<div class="left f_l">
-
-	<if condition="$flag_son">
-	<h3 class="flbt">栏目列表</h3>
-	<div class="xbox">
-	<ul class="fllb">
-		<yang:catlist typeid='$cid' type='son' flag='1'>
-		<li><a href="{$catlist.url}">{$catlist.name}</a></li>
-		</yang:catlist>
-	</ul>
-	</div>
-	<div class="mt"></div>
-	<else/>
-	<if condition = "$cate['pid'] gt 0">
-	<h3 class="flbt">栏目列表</h3>
-	<div class="xbox">
-	<ul class="fllb">
-		<yang:catlist typeid="$cate['pid']" type='son' flag='1'>
-		<li><a href="{$catlist.url}">{$catlist.name}</a></li>
-		</yang:catlist>
-	</ul>
-	</div>
-	<div class="mt"></div>
-	</if>
-	</if>
-
-	<div class="">
-	<h3 class="left_bt">联系我们</h3>
-	<div class="xbox left_contactbox">
-	  <p>联系地址：<yang:address /><br />
-	  电话：<yang:phone /></p>
-	</div>
-	</div>
-
-	<div class="mt">
-	<h3 class="left_bt">最新文章</h3>
-	<div class="xbox left_box" id="abt">
-	<ul class="sywz">
-	
-	<yang:artlist limit='6' titlelen='16'>
-	<li><a href="{$artlist.url}">{$artlist.title}</a></li>
-	</yang:artlist>
-	</ul>
-	</div>
-	</div>	
-</div>
-<div class="right f_r">
-	<h3 class="nybt"><i>您当前的位置：<yang:position /> </i><span>{$cate.name}</span></h3>
-	<div class="xbox wzzw ">
-	
-	<ul class="wzli">	
-	<yang:list typeid="$cid" pagesize='15' pageroll='4'>
-	<li><span>{$list.publishtime|date='Y-m-d',###}</span><a href="{$list.url}">{$list.title}</a></li>
-	</yang:list>
-	
-	</ul>
-	<!--分页 -->
-	<div class="scott mt">{$page}
-	<div class="clear"></div>
-	</div>
-	
-	</div>
-	</div>
-<div class=" clear"></div>
-</div>
-</div>
-
+<!-- 尾部 -->
 <include file="Public:footer" />
-</body>
-</html>

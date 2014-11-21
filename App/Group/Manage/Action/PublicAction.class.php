@@ -86,7 +86,7 @@ class PublicAction extends CommonAction {
         }else{  
             $info = $this->_uploadPicture();//获取图片信息
           
-            //p($info);exit();
+            // p($info);exit();
 
             if(isset($info) && is_array($info)){  
                 //写入数据库的自定义c方法  
@@ -386,6 +386,7 @@ class PublicAction extends CommonAction {
 		//$upload->upload('./uploads/img1/')
 		if($upload->upload()) {
 			$info = $upload->getUploadFileInfo();//获取图片信息
+			// dump($info);
 			$real_path = './uploads/img1/'.$info[0]['savename'];
 
 			//读取配置文件固定宽等比缩略
@@ -416,8 +417,8 @@ class PublicAction extends CommonAction {
 				
 			}
 			
-			//转换成网站根目录绝对路径,.Uploads 转成 /目录/Uploads
-			$info[0]['savepath'] = __ROOT__.ltrim($info[0]['savepath'],'.');//去掉第一个"."字符
+			// 转换成网站根目录绝对路径,.Uploads 转成 /目录/Uploads 还是不用这个好些 复制到别的服务器不方便 2014-11-21
+			// $info[0]['savepath'] = __ROOT__.ltrim($info[0]['savepath'],'.');//去掉第一个"."字符
 			$info[0]['haslitpic'] = 1;
 					
 			return $info;		

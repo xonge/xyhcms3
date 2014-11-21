@@ -39,6 +39,12 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
+		//栏目 我重新写一个 原作者的不知道怎么嵌套 不闭合 使用thinkphp自带的volist去显示
+		'catlistx'	=> array(
+			'attr'	=> 'typeid,type,orderby,limit,flag,modelid',//flag为是否全部显示
+			'close'	=> 0,
+		),
+
 		//栏目
 		'catlist'	=> array(
 			'attr'	=> 'typeid,type,orderby,limit,flag,modelid',//flag为是否全部显示
@@ -562,15 +568,19 @@ str;
 		$keyword = empty($attr['keyword'])? '': trim($attr['keyword']);
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
-		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
+		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%g页' : htmlspecialchars_decode($attr['pagetheme']);
+		// $pagetheme = $attr['pagetheme'];
+
 
 		$flag = flag2sum($flag);
 
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
+	// \$_pagesize = $pagesize;
+	// echo $pagesize;
 	\$_keyword = "$keyword";
+	\$_pagetheme = "$pagetheme";
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
 	if (\$_typeid>0 || substr(\$_typeid,0,1) == '$') {
 		import('Class.Category', APP_PATH);
@@ -599,7 +609,7 @@ str;
 		if ($pagesize > 0) {
 			
 			//import('ORG.Util.Page');
-			import('Class.Page', APP_PATH);
+			import('Class.Page2', APP_PATH);
 			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
 
 			\$thisPage = new Page(\$count, $pagesize);
@@ -610,15 +620,26 @@ str;
 			}
 			//设置显示的页数
 			\$thisPage->rollPage = $pageroll;
-			\$thisPage->setConfig('theme',"$pagetheme");
+			// \$thisPage->nowPage = 1;
+			// dump(\$_pagetheme);
+			// // \$thisPage->setConfig('header', '555555');//第一页
+			\$thisPage->setConfig('first', '首页');//第一页
+			\$thisPage->setConfig('upPage', '上一页');//第一页
+			\$thisPage->setConfig('downPage', '下一页');//第一页
+			\$thisPage->setConfig('last', '尾页');//第一页
+			// \$thisPage->setConfig('theme',\$_pagetheme);
 			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
 			\$page = \$thisPage->show();
+			// dump(\$page);
+			// dump(\$thisPage);
 
 		}else {
 			\$limit = "$limit";
 		}	
 
-		\$_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		// \$_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		\$_list = D2('ArcView',"\$_tablename")->nofield('pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+
 		if (empty(\$_list)) {
 			\$_list = array();
 		}
@@ -628,7 +649,7 @@ str;
 
 
 	//Load('extend');//调用msubstr()
-
+	// dump(\$_list);die;
 	foreach(\$_list as \$autoindex => \$list):
 
 	\$_jumpflag = (\$list['flag'] & B_JUMP) == B_JUMP? true : false;
@@ -777,6 +798,128 @@ str;
 
 	}
 
+	// 应该是获得指定的栏目信息
+	public function _catlistx($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'catlistx');
+		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);//只接收一个栏目ID
+		$type = empty($attr['type'])? 'son' : $attr['type'];//son表示下级栏目,self表示同级栏目,top顶级栏目(top忽略typeid)
+		$flag = empty($attr['flag']) ? 0: intval($attr['flag']);//0(不显示链接和单页),1(全部显示),2
+		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
+		$limit = empty($attr['limit'])? '10' : $attr['limit'];
+		$modelid = empty($attr['modelid']) ? 0: intval($attr['modelid']);
+		// $cp = $attr['cp'] == 0 ? 1 : intval($cp);
+		// $cp = empty($attr['cp']) ? 1: intval($attr['cp']);
+		// 用上面的语句开始怎么都得不到cp 于是改用这句 竟然可以得到 不明白
+		$cp = !isset($attr['cp']) || $attr['cp'] == '' ? -1 : trim($attr['cp']);
+		$length = empty($attr['length']) ? 0: intval($attr['length']);
+		$id = !isset($attr['id']) || $attr['id'] == '' ? -1 : trim($attr['id']);
+		$str = <<<str
+<?php
+	\$_typeid = intval($typeid);
+	\$_type = "$type";
+	\$_cp = intval($cp);
+	\$_length = intval($length);
+	// echo $limit;
+	// echo \$_cp;
+	// echo \$attr['cp'];
+	// echo \$_length;
+	\$_temp = explode(',', $limit);
+	// dump(\$_temp);
+	\$_temp[0] = \$_temp[0] > 0? \$_temp[0] : 10;
+	if (isset(\$_temp[1]) && intval(\$_temp[1]) > 0) {
+		\$_limit[0] = \$_temp[0];
+		\$_limit[1] = intval(\$_temp[1]);
+	}else {
+		\$_limit[0] = 0;
+		\$_limit[1] = \$_temp[0];
+	}
+	// dump(\$_limit);
+	
+	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
+	// \$__catlist = getCategory(1);
+	// dump(\$__catlist);
+
+	\$__catlistx = Category::getChilds(getCategory(0),\$_typeid);
+	// dump(\$__catlistx);die;
+	if (\$_length) {
+	\$i = 0;
+	// echo count(\$__catlist);
+	\$_ccount = count(\$__catlistx);
+	\$_pnum = \$_ccount/\$_length;
+	// echo \$_pnum;
+	\$_pdot = \$_ccount%\$_length;
+	// echo \$_pdot;
+	\$_carr[0] = \$_cp*\$_length - \$_length;
+	// echo \$_carr[0];
+	\$_carr[1] = \$_cp*\$_length;
+	foreach (\$__catlistx as \$k => \$v) {
+		// echo \$i;
+		// echo \$_limit[0];
+		// echo \$_limit[1];
+		if(\$i<\$_carr[0]||\$i>=\$_carr[1]){
+			// echo \$i;
+			// array_splice(\$__catlist,\$i,1);
+			unset(\$__catlistx[\$i]);
+		};
+		\$i++;
+		// echo \$i;
+	};
+	// array_splice(\$__catlist,2,2);
+	// dump(\$__catlist);
+}
+// dump(\$__catlistx);die;
+
+
+	import('Class.Category', APP_PATH);	
+	if ($modelid) {
+		\$__catlist = Category::getLevelOfModelId(\$__catlistx, $modelid);
+	}
+
+
+	if ($flag == 0) {
+		//where array('status' => 1, 'type' => 0 , 'modelid' => array('neq',2));//2是单页模型
+		\$__catlistx = Category::clearPageAndLink(\$__catlistx);
+	}
+	// dump(\$__catlistx);die;
+	//\$type为top,忽略$typeid
+	if(\$_typeid == 0 || \$_type == 'top') {
+		\$_catlist  = Category::toLayer(\$__catlistx);
+	}else {
+		//同级分类
+		if (\$_type == 'self') {
+			// \$_typeinfo  = Category::getSelf(\$__catlistx, \$_typeid );
+			\$_typeinfo  = Category::getSelf(getCategory(0), \$_typeid );
+			// dump(\$_typeinfo);
+			if (\$_typeinfo['pid'] != 0) {
+				\$_catlistx  = Category::toLayer(getCategory(0), 'child', \$_typeinfo['pid']);
+			}
+			// dump(\$_catlist);
+		}else {
+			//son，子类列表
+			\$_catlistx  = Category::toLayer(\$__catlistx, 'child', \$_typeid);
+			// dump(\$_catlist);die;
+		}
+	}
+
+	foreach (\$__catlistx as \$autoindex => \$catlistx) {
+		if (\$autoindex < \$_limit[0]) {
+			continue;
+		}
+		if (\$autoindex >= (\$_limit[1]+\$_limit[0])) {
+			break;
+		}
+		\$__catlistx[\$autoindex]['url'] = getUrl(\$catlistx);
+	}
+
+	// dump(\$__catlistx);die;
+?>
+str;
+
+	// $str .= $content;
+	return $str;
+
+	}
+
 	//导航
 	public function _catlist($attr, $content) {
 		$attr = $this->parseXmlAttr($attr, 'catlist');
@@ -786,11 +929,24 @@ str;
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$modelid = empty($attr['modelid']) ? 0: intval($attr['modelid']);
+		// $cp = $attr['cp'] == 0 ? 1 : intval($cp);
+		// $cp = empty($attr['cp']) ? 1: intval($attr['cp']);
+		// 用上面的语句开始怎么都得不到cp 于是改用这句 竟然可以得到 不明白
+		$cp = !isset($attr['cp']) || $attr['cp'] == '' ? -1 : trim($attr['cp']);
+		$length = empty($attr['length']) ? 0: intval($attr['length']);
+		$id = !isset($attr['id']) || $attr['id'] == '' ? -1 : trim($attr['id']);
 		$str = <<<str
 <?php
 	\$_typeid = intval($typeid);
 	\$_type = "$type";
-	\$_temp = explode(',', "$limit");
+	\$_cp = intval($cp);
+	\$_length = intval($length);
+	// echo $limit;
+	// echo \$_cp;
+	// echo \$attr['cp'];
+	// echo \$_length;
+	\$_temp = explode(',', $limit);
+	// dump(\$_temp);
 	\$_temp[0] = \$_temp[0] > 0? \$_temp[0] : 10;
 	if (isset(\$_temp[1]) && intval(\$_temp[1]) > 0) {
 		\$_limit[0] = \$_temp[0];
@@ -799,10 +955,39 @@ str;
 		\$_limit[0] = 0;
 		\$_limit[1] = \$_temp[0];
 	}
-	
+	// dump(\$_limit);
 	
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
-	\$__catlist = getCategory(1);
+	// \$__catlist = getCategory(1);
+	// dump(\$__catlist);
+
+	\$__catlist = Category::getChilds(getCategory(0),\$_typeid);
+	if (\$_length) {
+	\$i = 0;
+	// echo count(\$__catlist);
+	\$_ccount = count(\$__catlist);
+	\$_pnum = \$_ccount/\$_length;
+	// echo \$_pnum;
+	\$_pdot = \$_ccount%\$_length;
+	// echo \$_pdot;
+	\$_carr[0] = \$_cp*\$_length - \$_length;
+	// echo \$_carr[0];
+	\$_carr[1] = \$_cp*\$_length;
+	foreach (\$__catlist as \$k => \$v) {
+		// echo \$i;
+		// echo \$_limit[0];
+		// echo \$_limit[1];
+		if(\$i<\$_carr[0]||\$i>=\$_carr[1]){
+			// echo \$i;
+			// array_splice(\$__catlist,\$i,1);
+			unset(\$__catlist[\$i]);
+		};
+		\$i++;
+		// echo \$i;
+	};
+	// array_splice(\$__catlist,2,2);
+	// dump(\$__catlist);
+}
 
 
 	import('Class.Category', APP_PATH);	
@@ -822,15 +1007,21 @@ str;
 	}else {
 		//同级分类
 		if (\$_type == 'self') {
-			\$_typeinfo  = Category::getSelf(\$__catlist, \$_typeid );
-			//if (\$_typeinfo['pid'] != 0) {
-				\$_catlist  = Category::toLayer(\$__catlist, 'child', \$_typeinfo['pid']);
-			//}
+			// \$_typeinfo  = Category::getSelf(\$__catlist, \$_typeid );
+			\$_typeinfo  = Category::getSelf(getCategory(0), \$_typeid );
+			// dump(\$_typeinfo);
+			if (\$_typeinfo['pid'] != 0) {
+				\$_catlist  = Category::toLayer(getCategory(0), 'child', \$_typeinfo['pid']);
+			}
+			// dump(\$_catlist);
 		}else {
 			//son，子类列表
 			\$_catlist  = Category::toLayer(\$__catlist, 'child', \$_typeid);
+			// dump(\$_catlist);
 		}
 	}
+	\$countx = count(\$_catlist);
+	// dump(\$countx);die;
 
 	foreach(\$_catlist as \$autoindex => \$catlist):
 	if(\$autoindex < \$_limit[0]) continue;
@@ -848,6 +1039,7 @@ str;
 	//导航
 	public function _navlist($attr, $content) {
 		//$attr = $this->parseXmlAttr($attr, 'navlist');
+		// echo 'hh';
 		$attr = !empty($attr)? $this->parseXmlAttr($attr, 'navlist') : null;
 		$typeid = $attr['typeid'] == '' ? -1 : intval($attr['typeid']);//不能用empty,0,'','0',会认为true
 		$str = <<<str
@@ -870,6 +1062,7 @@ str;
 	$str .= $content;
 	$str .='<?php endforeach;?>';
 	return $str;
+	// return 'g';
 
 	}
 
@@ -1709,9 +1902,13 @@ str;
 			\$_jumpflag = (\$_vo['flag'] & B_JUMP) == B_JUMP? true : false;
         	\$_vo['url'] = getContentUrl(\$_vo['id'], \$_vo['cid'], \$_vo['ename'], \$_jumpflag, \$_vo['jumpurl']);
 			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);	
-			echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
+			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
+			\$prev['url']   = \$_vo['url'];
+			\$prev['title'] = \$_vo['title'];
         } else {
-        	echo '第一篇';
+        	// echo '第一篇';
+        	\$prev['url']   = '';
+			\$prev['title'] = '';
         }
 	}
 
@@ -1737,9 +1934,13 @@ str;
 			\$_jumpflag = (\$_vo['flag'] & B_JUMP) == B_JUMP? true : false;
         	\$_vo['url'] = getContentUrl(\$_vo['id'], \$_vo['cid'], \$_vo['ename'], \$_jumpflag, \$_vo['jumpurl']);				
 			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);	
-			echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
+			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
+			\$next['url']   = \$_vo['url'];
+			\$next['title'] = \$_vo['title'];
         } else {
-        	echo '最后一篇';
+        	// echo '最后一篇';
+        	\$next['url']   = '';
+        	\$next['title'] = '最后一篇';
         }
 	}
 

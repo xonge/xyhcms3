@@ -1,132 +1,782 @@
-<!doctype html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="" name="Keywords">
+<meta content="" name="Description">
 <title><yang:sitetitle/></title>
-<meta name="keywords" content="<yang:sitekeywords />" />
-<meta name="description" content="<yang:sitedescription />" />
-<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
-<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
-<yang:mobileauto />
+<link href="__PUBLIC__/css/chf.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/css/ind_con.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" charset="gb2312" language="javascript" src="__PUBLIC__/nowdate.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery.pack.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery.roll.js"></script>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/ks-switch.pack.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/5.js"></script>
+<script>
+jQuery(function($){
+$("#xwgkTab").switchTab({titCell: ".titNav li", trigger: "mouseover", delayTime: 0,titOnClassName: "on",mainCell: ".bd ul"});
+$("#gzapTab").switchTab({titCell: ".titNav li", trigger: "mouseover", delayTime: 0,titOnClassName: "on",mainCell: ".bd ul"});
+$("#bddsTab").switchTab({titCell: ".titNav2 li", trigger: "mouseover", delayTime: 0,titOnClassName: "on",mainCell: ".bd ul"});
+$("#jjzgTab").switchTab({titCell: ".titNav2 li", trigger: "mouseover", delayTime: 0,titOnClassName: "on",mainCell: ".bd ul"});
+});
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/4.js"></script>
 </head>
 <body>
-
-<!--top -->
-<div id="top">
+<!-- 头部 -->
 <include file="Public:header" />
-<div class="warp1 mt">
-	<include file="Public:announce" />
 
-	<div id="syxw" class="f_l">
-	<p><yang:type typeid='1'>{$type.description|str2sub=140, true}<a href="{$type.url}">[详情]</a></yang:type>
-	</p>
-	</div>
-	<div id="banner" class="f_r">
-
-	<div id="banBox">
-		<ul id="banContentID">
-			<li><a href="javascript:void(0)"><img border="0" src="__PUBLIC__/images/p1.jpg" width="722" height="257"/></a></li>
-			<li><a href="javascript:void(0)"><img border="0" src="__PUBLIC__/images/p2.jpg" width="722" height="257"/></a></li>
-		</ul>
-	</div>
-	<ul id="banNumID">
-		<li class="">1</li>
-		<li class="">2</li>
-		<li class="">3</li>
-	</ul>
-	</div>
-</div>
-</div>
-
-<div class="warp1 mt">
-<div class="left f_l">
-<h3 class="left_bt">搜索中心</h3>
-<div class="xbox">
-	<form id="SearchForm" name="SearchForm" method="post" action="<yang:searchurl />">
-	<ul class="searchFormDiv">
-	<li>
-	  <select name="modelid">
-	  	<yang:datatable table='model' field='id,name' where='id != 2' orderby='id' limit='30'>
-	  	<option value="{$datatable.id}">{$datatable.name|str_replace='模型','',###}</option>
-		</yang:datatable>
-	   </select>
-	</li>
-	<li>
-	  <input name="keyword" type="text" id="keyword"  value="请输入关键词" onfocus="if(this.value=='请输入关键词'){this.value='';}" onblur="if(this.value==''){this.value='请输入关键词';}" />
-	</li>
-	<li>
-	  <input type="submit" value="查询" class="btn_blue"/></li>
-	</ul>
-    </form>
-	</div>
-
-<div class="mt">
-	<h3 class="left_bt">最新文章</h3>
-	<div class="xbox left_box" id="abt">
-	<ul class="sywz">
-	
-	<yang:artlist limit='8' titlelen='16'>
-	<li><a href="{$artlist.url}">{$artlist.title}</a></li>
-	</yang:artlist>
-	</ul>
-	</div>
-</div>	
-
-</div>
-
-<div class="right f_r">
-
-<yang:catlist typeid='0'>
-<div class="rbox <if condition='$autoindex%2 eq 0'> f_l <else/> f_r </if> <if condition='$autoindex gt 1'> mt</if>">
-<h3 class="r_bt"><a href="{$catlist.url}">更多></a><span>{$catlist.name}</span></h3>
-<div class="xbox" style="height:185px; overflow:hidden;">
-	<ul class="sywz">
-		<yang:list typeid="$catlist['id']">
-		<li><span>{$list.publishtime|date='Y-m-d',###}</span><a href="{$list.url}" >[{$list.catename}]{$list.title}</a></li>
-		</yang:list>
-	</ul>
-</div>
-</div>
-</yang:catlist>
-<div class=" clear"></div>
-</div>
-<div class=" clear"></div>
-</div>
-
-<div class="warp1 mt">
-<h3 class="r_bt"><span>产品展示</span></h3>
-<div class="xbox" style="height:142px; overflow:hidden;">
-<div id="demc">
-    <div class="jdimg" id="my2Box">
-      <ul id="my2Contnet">
-		<yang:prolist limit='10'>
-		<li><a href="{$prolist.url}"><img src="{$prolist.litpic}" alt="{$prolist.title}"/><span>{$prolist.title}</span></a></li>
-		</yang:prolist>	  
-      </ul>
-      <div class="clear"></div>
-
+<div id="bp">
+  <div class="h10"></div>
+  <div>
+    <div class="b_main fl">
+      <div> 
+        <!--焦点图-->
+        <div class="focPic fl"> 
+            <script type="text/javascript">
+          var swf_width = 286;
+          var swf_height = 210 + 20;
+          var title_height = 20;
+          var focus_height = swf_height + title_height;
+          var interval_time = 4;
+          var config = '6|0xffffff|0x0099FF|20|0xffffff|0x0099FF|0x000000';//config 设置分别为: 自动播放时间(秒)|文字颜色|文字背景色|文字背景透明度|按键数字色|当前按键色|普通按键色
+          var files = '/UploadFiles/xydt/2014/11/201411120957339481_S.JPG|/UploadFiles/jxxx/2014/3/201403111144569519_S.JPG|/UploadFiles/jxxx/2014/5/201405261418516860_S.jpg|/UploadFiles/jxxx/2014/11/201411111532087158_S.jpg|/UploadFiles/xydt/2014/11/201411111432366123_S.jpg';
+          var links = '/xydt/xwkd/2014/11/12/0958243779.htm|/jxxx/xxgz/yywz/2014/03/11/1145223778.htm|/jxxx/xxgz/yywz/2014/05/26/1420143777.htm|/Item/3776.aspx|/xydt/xwkd/2014/11/11/1435203775.htm';
+          var texts = '武汉小学二年级组语文研究课|创建区级语言文字示范校  推动校园精神文…|武汉第一寄宿小学接受武昌区语言文字规范…|2014-2015学年度上学期术科协作组活动（3）|给予学生丰富的人生经历 留下一段美好的…';
+          document.write('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="' + swf_width + '" height="' + focus_height + '">');
+          document.write('<param name="movie" value="/Template/Default/Skin/swf/focus_1.swf">');
+          document.write('<param name="quality" value="high">');
+          document.write('<param name="menu" value="false">');
+          document.write('<param name="wmode" value="opaque">');
+          document.write('<param name="FlashVars" value="borderwidth=' + swf_width + '&amp;borderheight=' + swf_height + '&amp;textheight=' + title_height + '&amp;interval_time=' + interval_time + '&amp;pics=' + files + '&amp;links=' + links + '&amp;texts=' + texts + '">');
+          document.write('<embed src="/Template/Default/Skin/swf/focus_1.swf" wmode="opaque" FlashVars="borderwidth=' + swf_width + '&amp;borderheight=' + swf_height + '&amp;textheight=' + title_height + '&amp;interval_time=' + interval_time + '&amp;pics=' + files + '&amp;links=' + links + '&amp;texts=' + texts + '" menu="false" quality="high" width="' + swf_width + '" height="' + focus_height + '" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>');
+          document.write('</object>');
+        </script><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="286" height="250"><param name="movie" value="/Template/Default/Skin/swf/focus_1.swf"><param name="quality" value="high"><param name="menu" value="false"><param name="wmode" value="opaque"><param name="FlashVars" value="borderwidth=286&amp;borderheight=230&amp;textheight=20&amp;interval_time=4&amp;pics=/UploadFiles/xydt/2014/11/201411120957339481_S.JPG|/UploadFiles/jxxx/2014/3/201403111144569519_S.JPG|/UploadFiles/jxxx/2014/5/201405261418516860_S.jpg|/UploadFiles/jxxx/2014/11/201411111532087158_S.jpg|/UploadFiles/xydt/2014/11/201411111432366123_S.jpg&amp;links=/xydt/xwkd/2014/11/12/0958243779.htm|/jxxx/xxgz/yywz/2014/03/11/1145223778.htm|/jxxx/xxgz/yywz/2014/05/26/1420143777.htm|/Item/3776.aspx|/xydt/xwkd/2014/11/11/1435203775.htm&amp;texts=武汉小学二年级组语文研究课|创建区级语言文字示范校  推动校园精神文…|武汉第一寄宿小学接受武昌区语言文字规范…|2014-2015学年度上学期术科协作组活动（3）|给予学生丰富的人生经历 留下一段美好的…"><embed src="/Template/Default/Skin/swf/focus_1.swf" wmode="opaque" flashvars="borderwidth=286&amp;borderheight=230&amp;textheight=20&amp;interval_time=4&amp;pics=/UploadFiles/xydt/2014/11/201411120957339481_S.JPG|/UploadFiles/jxxx/2014/3/201403111144569519_S.JPG|/UploadFiles/jxxx/2014/5/201405261418516860_S.jpg|/UploadFiles/jxxx/2014/11/201411111532087158_S.jpg|/UploadFiles/xydt/2014/11/201411111432366123_S.jpg&amp;links=/xydt/xwkd/2014/11/12/0958243779.htm|/jxxx/xxgz/yywz/2014/03/11/1145223778.htm|/jxxx/xxgz/yywz/2014/05/26/1420143777.htm|/Item/3776.aspx|/xydt/xwkd/2014/11/11/1435203775.htm&amp;texts=武汉小学二年级组语文研究课|创建区级语言文字示范校  推动校园精神文…|武汉第一寄宿小学接受武昌区语言文字规范…|2014-2015学年度上学期术科协作组活动（3）|给予学生丰富的人生经历 留下一段美好的…" menu="false" quality="high" width="286" height="250" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></object>
+          </div>
+        <!--新闻快递-->
+        <div class="news w440 fr">
+          <div class="hd">
+            <span class="more">
+              <yang:type typeid="16">
+              <a class="" href="{$type.url}" target="_self">更多&gt;&gt;</a>
+              </yang:type>
+            </span>
+          </div>
+          <div class="bd">
+            <div class="h10"></div>
+            <ul>
+              <yang:list typeid="16" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+          <span class="blBg"></span> <span class="brBg"></span> </div>
+        <div class="clear"></div>
+      </div>
+      <div class="h10"></div>
+      <div>
+        <div class="indLuamn w365 fl">
+          <div class="hd">
+            <span class="more">
+              <yang:type typeid="16">
+              <a class="" href="{$type.url}" target="_self">更多&gt;&gt;</a>
+              </yang:type>
+            </span>
+            <h3 class="dot1">武汉小学校区</h3>
+          </div>
+          <div class="bd pt8 h177">
+            <ul class="ddList">
+              <yang:list typeid="16" pagesize="7">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：0 发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+        </div>
+        <div class="indLuamn w365 fr">
+          <div class="hd"><span class="more"><a class="" href="/jxxx/xwsd/" target="_self">更多&gt;&gt;</a></span>
+            <h3 class="dot1">武汉第一寄宿小学校区</h3>
+          </div>
+          <div class="bd pt8 h177">
+            <ul class="ddList">
+              
+            <li><span class="date">11-10</span><a href="/jxxx/xwsd/2014/11/10/1512293774.htm" target="_blank" title="标题：Happy Halloween
+点击数：72
+发表时间：14年11月10日">Happy Halloween</a></li><li><span class="date">11-10</span><a href="/jxxx/xwsd/2014/11/10/1001483770.htm" target="_blank" title="标题：武汉第一寄宿小学数学专家室活动
+点击数：46
+发表时间：14年11月10日">武汉第一寄宿小学数学专家室活动</a></li><li><span class="date">11-07</span><a href="/jxxx/xwsd/2014/11/07/0859023765.htm" target="_blank" title="标题：王桢老师荣获全国小学语文青年教师教学竞赛一等奖
+点击数：497
+发表时间：14年11月07日">王桢老师荣获全国小学语文青年教师教学竞赛一…</a></li><li><span class="date">11-06</span><a href="/jxxx/xwsd/2014/11/06/1819063764.htm" target="_blank" title="标题：武汉第一寄宿小学语文中心组活动
+点击数：72
+发表时间：14年11月06日">武汉第一寄宿小学语文中心组活动</a></li><li><span class="date">11-06</span><a href="/jxxx/xwsd/2014/11/06/1336253761.htm" target="_blank" title="标题：武汉小学、武汉第一寄宿小学英语专家室活动(四)
+点击数：54
+发表时间：14年11月06日">武汉小学、武汉第一寄宿小学英语专家室活动(四)</a></li><li><span class="date">11-06</span><a href="/jxxx/xwsd/2014/11/06/0853483759.htm" target="_blank" title="标题：武汉第一寄宿小学语文中心组活动（四）
+点击数：33
+发表时间：14年11月06日">武汉第一寄宿小学语文中心组活动（四）</a></li><li><span class="date">11-05</span><a href="/jxxx/xwsd/2014/11/05/1709153757.htm" target="_blank" title="标题：武汉第一寄宿小学一二年级少年军校活动
+点击数：49
+发表时间：14年11月05日">武汉第一寄宿小学一二年级少年军校活动</a></li>
+          
+            </ul>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="h10"></div>
+      <div class="cBanner"><script type="text/javascript" src="/IAA/201204/1.js"></script><div id="BannerZoneAD_Div1" style="visibility:visible; z-index:1; width:740px; height:110px;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" name="AD_1" id="AD_1" width="740px" height="110px"><param name="movie" value="/uploadfiles/uploadadpic/201206041548452739.swf"><param name="quality" value="autohigh"><embed name="AD_1" id="AD_1" width="740px" height="110px" src="/uploadfiles/uploadadpic/201206041548452739.swf" quality="autohigh" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash"></object></div></div>
+      <div class="h10"></div>
+      <div>
+        <div id="xwgkTab" class="indLuamn w365 fl">
+          <div class="hd">
+            <!--校务公开--> 
+            <h3 class="dot2">
+              <a class="" href="/Category_11/Index.aspx" target="_self">校务公开</a></h3>
+            <ul class="titNav">
+              <!--计划总结--> 
+              <li class="on">
+                <yang:type typeid="61">
+                <a class="" href="{$type.url}" target="_self">计划总结</a>
+                </yang:type>
+              </li>
+              <!--制度文件-->
+              <li class="">
+                <yang:type typeid="62">
+                <a class="" href="{$type.url}" target="_self">制度文件</a>
+                </yang:type>
+              </li>
+              <!--家校平台-->
+              <li class="">
+                <yang:type typeid="64">
+                <a class="" href="{$type.url}" target="_self">家校平台</a>
+                </yang:type>
+              </li>
+            </ul>
+          </div>
+          <div class="bd pt8 h177"> 
+            <!--计划总结-->
+            <ul class="ddList" style="display: block;">
+              <yang:list typeid="61" pagesize="7">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title|msubstr=###,0,25,'utf-8',true}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--制度文件-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="62" pagesize="7">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title|msubstr=###,0,25,'utf-8',true}</a>
+              </li>
+              </yang:list> 
+            </ul>
+            <!--家校平台-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="64" pagesize="7">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="/Item/2810.aspx" target="_blank" title="标题：{$list.title} 点击数：{$list.click} 发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title|msubstr=###,0,25,'utf-8',true}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+        </div>
+        <div id="gzapTab" class="indLuamn w365 fr">
+          <div class="hd"> 
+            <!--工作安排--> 
+            <h3 class="dot2"><a class="" href="/Category_28/Index.aspx" target="_self">工作安排</a></h3>
+            <ul class="titNav">
+              <!--校历安排--> 
+              <li class="on"><a class="" href="/Category_34/Index.aspx" target="_self">校周安排       </a></li> 
+              <!--校周安排--> 
+              <li class=""><a class="" href="/Category_33/Index.aspx" target="_self">校历安排</a></li> 
+              <!--电教安排--> 
+              <li class=""><a class="" href="/Category_35/Index.aspx" target="_self">电教安排</a></li>
+            </ul>
+          </div>
+          <div class="bd pt8 h177"> 
+            <!--校周安排-->
+            <ul class="ddList" style="display: block;">
+              
+            <li><span class="date">11-10</span><a href="/Item/3771.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第十一周工作安排
+点击数：1
+发表时间：14年11月10日">武汉小学2014——2015学年度第一学期第十一周…</a></li><li><span class="date">11-03</span><a href="/Item/3753.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第九周工作安排
+点击数：1
+发表时间：14年11月03日">武汉小学2014——2015学年度第一学期第九周工…</a></li><li><span class="date">11-03</span><a href="/Item/3752.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第十周工作安排
+点击数：1
+发表时间：14年11月03日">武汉小学2014——2015学年度第一学期第十周工…</a></li><li><span class="date">10-21</span><a href="/Item/3734.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第八周工作安排
+点击数：1
+发表时间：14年10月21日">武汉小学2014——2015学年度第一学期第八周工…</a></li><li><span class="date">10-14</span><a href="/Item/3723.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第七周工作安排
+点击数：1
+发表时间：14年10月14日">武汉小学2014——2015学年度第一学期第七周工…</a></li><li><span class="date">10-09</span><a href="/Item/3713.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第六周工作安排
+点击数：1
+发表时间：14年10月09日">武汉小学2014——2015学年度第一学期第六周工…</a></li><li><span class="date">09-29</span><a href="/Item/3707.aspx" target="_blank" title="标题：武汉小学2014——2015学年度第一学期第五周工作安排
+点击数：2
+发表时间：14年09月29日">武汉小学2014——2015学年度第一学期第五周工…</a></li>
+          
+            </ul>
+            <!--校历安排-->
+            <ul class="ddList" style="display: none;">
+              
+            <li><span class="date">03-05</span><a href="/Item/3469.aspx" target="_blank" title="标题：武汉小学2013——2014学年第二学期国旗下讲话的主题及人员安排
+点击数：1
+发表时间：14年03月05日">武汉小学2013——2014学年第二学期国旗下讲话…</a></li><li><span class="date">01-14</span><a href="/Item/2753.aspx" target="_blank" title="标题：武汉小学2012——2013学年度第一学期结束工作安排
+点击数：3
+发表时间：13年01月14日">武汉小学2012——2013学年度第一学期结束工作…</a></li><li><span class="date">09-24</span><a href="/Item/2300.aspx" target="_blank" title="标题：武汉小学2012——2013学年度第一学期校历表
+点击数：19
+发表时间：12年09月24日">武汉小学2012——2013学年度第一学期校历表</a></li>
+          
+            </ul>
+            <!--电教安排-->
+            <ul class="ddList" style="display: none;">
+              
+            <li><span class="date">01-02</span><a href="/Item/3400.aspx" target="_blank" title="标题：第十七周（十二月23日~ 十二月27日）电教工作安排
+点击数：0
+发表时间：14年01月02日">第十七周（十二月23日~ 十二月27日）电教工作…</a></li><li><span class="date">12-25</span><a href="/Item/3369.aspx" target="_blank" title="标题：第十六周（十二月16日~ 十二月20日）电教工作安排
+点击数：0
+发表时间：13年12月25日">第十六周（十二月16日~ 十二月20日）电教工作…</a></li><li><span class="date">12-25</span><a href="/Item/3368.aspx" target="_blank" title="标题：第十五周（十二月9日~ 十二月13日）电教工作安排
+点击数：0
+发表时间：13年12月25日">第十五周（十二月9日~ 十二月13日）电教工作…</a></li><li><span class="date">12-25</span><a href="/Item/3367.aspx" target="_blank" title="标题：第十四周（十二月2日~ 十二月6日）电教工作安排
+点击数：0
+发表时间：13年12月25日">第十四周（十二月2日~ 十二月6日）电教工作安排</a></li><li><span class="date">12-25</span><a href="/Item/3366.aspx" target="_blank" title="标题：第十三周（十一月25日~ 十一月29日）电教工作安排
+点击数：0
+发表时间：13年12月25日">第十三周（十一月25日~ 十一月29日）电教工作…</a></li><li><span class="date">12-05</span><a href="/Item/3324.aspx" target="_blank" title="标题：武汉小学第十二周十一月18日~ 十一月22日电教工作安排
+点击数：1
+发表时间：13年12月05日">武汉小学第十二周十一月18日~ 十一月22日电教…</a></li><li><span class="date">12-05</span><a href="/Item/3323.aspx" target="_blank" title="标题：武汉小学第十一周十一月11日~ 十一月15日电教工作安排
+点击数：1
+发表时间：13年12月05日">武汉小学第十一周十一月11日~ 十一月15日电教…</a></li>
+          
+            </ul>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="h10"></div>
+      <div class="schShow">
+        <div class="thd"> 
+          <!--学校风采-->
+          <h3><a><img src="__PUBLIC__/images/xxfcIcon.gif">学校风采</a></h3>
+        </div>
+        <div class="tbd">
+          <yang:catlist typeid="1" type="son" flag="1">
+          <!--{$catlist.name}-->
+          <div class="schSubDiv w355 <eq name="autoindex%2" value="0">mr10</eq>">
+            <div class="hd">
+              <span class="more">
+                <yang:type typeid="$catlist['id']">
+                <a class="" href="{$catlist.url}" target="_self">更多&gt;&gt;</a>
+                </yang:type>
+              </span> 
+              <h3 class=""><a class="" href="{$catlist.url}" target="_self">{$catlist.name}</a></h3>
+            </div>
+            <div class="bd h146">
+              <ul class="sty1">
+                <yang:list typeid="$catlist['id']" pagesize="1">
+                <li>
+                  <div class="imgPic">
+                    <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">
+                    <img src="{$list.litpic}" alt="{$list.title}" border="0">{$list.title}</a>
+                  </div>
+                  <div class="imgTxt">
+                    <p>{$list.content|strip_tags=###}<a href="{$list.url}" target="_blank">[详细]</a>
+                    </p>
+                  </div>
+                </li>
+                </yang:list>
+              </ul>
+            </div>
+          </div>
+          </yang:catlist>
+        </div>
+        <span class="ltBg"></span>
+        <span class="rtBg"></span>
+        <span class="lbBg"></span>
+        <span class="rbBg"></span>
+      </div>
+      <div class="h10"></div>
+      <div>
+        <div id="bddsTab" class="indLuamn w365 fl">
+          <ul class="titNav2">
+            <!--薄海交流--> 
+            <li class="on">
+              <yang:type typeid="18">
+              <a class="" href="{$type.url}" target="_self">薄海交流</a>
+              </yang:type>
+            </li> 
+            <!--党团先锋--> 
+            <li class="">
+              <yang:type typeid="19">
+              <a class="" href="{$type.url}" target="_self">党团先锋</a>
+              </yang:type>  
+            </li> 
+            <!--德育之窗--> 
+            <li class="">
+              <yang:type typeid="20">
+              <a class="" href="{$type.url}" target="_self">德育之窗</a>
+              </yang:type>
+            </li> 
+            <!--少先队阵地--> 
+            <li class="">
+              <yang:type typeid="21">
+              <a class="" href="{$type.url}" target="_self">少先队阵地</a>
+              </yang:type>
+            </li>
+          </ul>
+          <div class="hd"></div>
+          <div class="bd pt8 h200"> 
+            <!--薄海交流-->
+            <ul class="ddList" style="display: block;">
+              <yang:list typeid="18" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--党团先锋-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="19" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--德育之窗-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="20" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--少先队阵地-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="21" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+        </div>
+        <div id="jjzgTab" class="indLuamn w365 fr">
+          <ul class="titNav2">
+            <!--教学一线--> 
+            <li class="on">
+              <yang:type typeid="22">
+              <a class="" href="{$type.url}" target="_self">教学一线</a>
+              </yang:type>
+            </li> 
+            <!--教育科研-->
+            <li class="">
+              <yang:type typeid="23">
+              <a class="" href="{$type.url}" target="_self">教育科研</a>
+              </yang:type>
+            </li> 
+            <!--总务管理--> 
+            <li class="">
+              <yang:type typeid="24">
+              <a class="" href="{$type.url}" target="_self">总务管理</a>
+              </yang:type>
+            </li>
+            <!--工会之家--> 
+            <li class="">
+              <yang:type typeid="25">
+              <a class="" href="{$type.url}" target="_self">工会之家</a>
+              </yang:type>
+            </li>
+          </ul>
+          <div class="hd"> </div>
+          <div class="bd pt8 h200"> 
+            <!--教学一线-->
+            <ul class="ddList" style="display: block;">
+              <yang:list typeid="22" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--教育科研-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="23" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--总务管理-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="24" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+            <!--工会之家-->
+            <ul class="ddList" style="display: none;">
+              <yang:list typeid="25" pagesize="8">
+              <li>
+                <span class="date">{$list.publishtime|date='m-d',###}</span>
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+              </li>
+              </yang:list>
+            </ul>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
     </div>
+    <div class="b_side fr"> <div id="LoginFrom" class="uLogin Login_ajax" onkeypress="javascript:return DefaultButton(event, 'BtnLogOn')">
+<script type="text/javascript" language="JavaScript">
+  function RefreshValdisplayDateCodeImage(ValdisplayDateCodeImageControl){
+      ValdisplayDateCodeImageControl.src = ValdisplayDateCodeImageControl.src + '?code=' + RandomNum(10);
+  }
+
+  function RandomNum(n){
+      var rnd = '';
+      for (var i = 0; i < n; i++) 
+          rnd += Math.floor(Math.random() * 10);
+      return rnd;
+  }
+
+  function DefaultButton(event, linkOpenType){
+      if (event.keyCode == 13 && !(event.srcElement && (event.srcElement.tagName.toLowerCase() == "textarea"))) {
+          var defaultButton = $(linkOpenType);
+          if (defaultButton && typeof(defaultButton.click) != "undefined") {
+              defaultButton.click();
+              event.cancelBubble = true;
+              if (event.stopPropagation) 
+                  event.stopPropagation();
+              return false;
+          }
+      }
+      return true;
+  }
+  </script>
+  <div class="ulogDiv">
+    <span><label>账&nbsp;&nbsp;号：</label><input name="TxtUserName" id="TxtUserName" class="w120 bline" type="text"></span>
+    <span><label>密&nbsp;&nbsp;码：</label><input name="TxtPassword" id="TxtPassword" class="w120 bline" type="password"></span>
+    <span id="checkcode"><label>验证码：</label><input name="TxtValdisplayDateCode" type="text" class="bline w50" value="" id="TxtValdisplayDateCode" onfocus="this.select();"><img id="VcodeLogOn" title="看不清楚，换一个" onclick="RefreshValdisplayDateCodeImage(this);" src="/Controls/ValidateCodeImage.aspx" align="absmiddle" style="border-width: 0px; cursor: hand;"></span>
+    <span style="display:none;">Cookie：
+  <select name="DropExpiration" id="DropExpiration">
+          <option value="None">不保存</option>
+          <option value="Day">保存一天</option>
+          <option value="Month">保存一月</option>
+          <option value="Year">保存一年</option>
+    </select>
+    </span>
+    <span class="tc"><input type="image" name="BtnLogOn" id="BtnLogOn" onclick="Login();" src="__PUBLIC__/images/loginBt.gif">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/Register.aspx" target="_blank"><img src="__PUBLIC__/images/regBt.gif"></a></span>
   </div>
 </div>
-</div>
+<div id="PnlLogOnStatus" class="uLogin Login_ajax" style="display: none;"><img src="/Template/Default/Skin/Images/loading.gif" alt=""></div>
+<script language="javascript" type="text/javascript">
+CheckIsLogin();
 
-<div class="warp1 mt">
-<h3 class="r_bt"><span>友情链接</span></h3>
-<div class="xbox" id="yqlj">
-<yang:flink limit='20'>
-<a href="{$flink.url}" target="_blank">{$flink.name}</a>
-</yang:flink>
-<div class="clear"></div>
-</div>
-</div>
-<script language="javascript" src="__PUBLIC__/js/MSClass.js"></script>
-<script type="text/javascript">
-new Marquee(["my2Box","my2Contnet"],2,1,966,140,30,0,0);
-new Marquee({MSClass:["banBox","banContentID","banNumID"],Direction:0,Step: 0.3,Width:722,Height:257,Timer:20,DelayTime:2000,WaitTime:0,ScrollStep:257,SwitchType: 0,AutoStart:1});
+function Loginin(LoginString){
+    document.getElementById("LoginFrom").innerHTML = document.getElementById("LoginFrom").innerHTML + LoginString;
+}
+
+function CheckIsLogin(){
+    document.getElementById("PnlLogOnStatus").innerHTML = "<img src=\"/Template/Default/Skin/Images/loading.gif\" alt=\"\"/>";
+    var x = new AjaxRequest('XML', 'status');
+    x.para = [];
+    x.post('logincheck', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        
+        if (status == 'ok') {
+            document.getElementById("PnlLogOnStatus").style.display = "";
+            document.getElementById("LoginFrom").style.display = "none";
+            document.getElementById("PnlLogOnStatus").innerHTML = GetUserInfo(xml);
+        }
+        else {
+            document.getElementById("PnlLogOnStatus").style.display = "none";
+            document.getElementById("LoginFrom").style.display = "";
+            CheckEnableValidCode();
+        }
+    });
+}
+
+function GetUserInfo(xml){
+    var userInfo = "<div class=\"ulogDiv\">" + xml.getElementsByTagName("username")[0].firstChild.data + "，您好！您有：<br/>";
+    userInfo = userInfo + "经验积分：" + xml.getElementsByTagName("exp")[0].firstChild.data + " 分<br/>";
+    userInfo = userInfo + "待阅短信：" + xml.getElementsByTagName("msg")[0].firstChild.data + " 条<br/>";
+    userInfo = userInfo + "登录次数：" + xml.getElementsByTagName("logintimes")[0].firstChild.data + " 次<br/>";
+    userInfo = userInfo + "待签文章：" + xml.getElementsByTagName("signincontent")[0].firstChild.data + " 篇<br/>";
+    userInfo = userInfo + "<div style=\"text-align: center\"><a href=\"/User/Default.aspx\" linkOpenType=\"_top\">会员中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
+    userInfo = userInfo + "<a href=\"#\"  onclick=\"loginout()\" linkOpenType=\"_top\">退出登录</a></div>";
+    userInfo = userInfo + "</div>";
+    return userInfo;
+}
+
+function loginout(){
+    var x = new AjaxRequest('XML','');
+    x.post('userlogout', '/ajax.aspx', function(s) {
+    var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        if (status == "ok") {
+                if (xml.getElementsByTagName("API_Enable")[0].firstChild.data == "1") {
+                    var LogOutString = xml.getElementsByTagName("LogOutString")[0].firstChild.data;
+                    Loginin(LogOutString);
+                }
+         }
+        document.getElementById("TxtUserName").value = '';
+        document.getElementById("TxtPassword").value = '';
+        CheckEnableValidCode();
+        var VcodeLogOn = document.getElementById("VcodeLogOn");
+        if(VcodeLogOn  != null)
+        {
+  RefreshValdisplayDateCodeImage(VcodeLogOn);
+        }
+        document.getElementById("DropExpiration").value = 'None';
+        document.getElementById("PnlLogOnStatus").style.display = "none";
+        document.getElementById("LoginFrom").style.display = "";
+    });
+}
+
+function CheckEnableValidCode(){
+    var x = new AjaxRequest('XML', 'status');
+    x.para = [];
+    x.post('EnableValidCode', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        if (status == "yes") {
+            document.getElementById("checkcode").style.display = '';
+            document.getElementById("TxtValdisplayDateCode").value = '';
+        }
+    });
+}
+
+function Login(){
+    if (document.getElementById("TxtUserName").value == '') {
+        alert("请填写用户名！");
+        document.getElementById("TxtUserName").focus();
+        return;
+    }
+    if (document.getElementById("TxtPassword").value == '') {
+        alert("请填写密码！");
+        document.getElementById("TxtPassword").focus();
+        return;
+    }
+    
+    if(document.getElementById("checkcode").style.display=="")
+    {
+      if (document.getElementById("TxtValdisplayDateCode").value == '') {
+          alert("请填写验证码！");
+          document.getElementById("TxtValdisplayDateCode").focus();
+          return;
+      }
+    }
+    var x = new AjaxRequest('XML', 'status');
+    x.para = ['username=' + document.getElementById("TxtUserName").value, 'password=' + document.getElementById("TxtPassword").value, 'checkcode=' + document.getElementById("TxtValdisplayDateCode").value, 'expiration=' + document.getElementById("DropExpiration").value];
+    x.post('userlogin', '/ajax.aspx', function(s){
+        var xml = x.createXmlDom(s);
+        var status = xml.getElementsByTagName("status")[0].firstChild.data;
+        switch (status) {
+            case "ok":
+                if (xml.getElementsByTagName("API_Enable")[0].firstChild.data == "1") {
+                    var LoginString = xml.getElementsByTagName("LoginString")[0].firstChild.data;
+                    Loginin(LoginString);
+                }
+                CheckIsLogin();
+                break;
+            case "err":
+                var errorMessage = xml.getElementsByTagName("body")[0].firstChild.data;
+                alert(errorMessage);
+                break;
+
+        }
+        
+    });
+}
 </script>
-
-
+      <div class="h10"></div>
+      <!--通知公告-->
+      <div class="indSideDiv">
+        <div class="hd"><span class="more"><a class="" href="/Category_31/Index.aspx" target="_self">更多&gt;&gt;</a></span>
+          <h3><a><img src="__PUBLIC__/images/indsIcon1.gif">公告通知</a></h3>
+        </div>
+        <div class="bd bOrg h160 list1">
+          <ul>
+            
+            <li><a href="/Item/3754.aspx" target="_blank" title="标题：加强教师师德建设  提升学校教育形象
+点击数：21
+发表时间：14年11月04日">加强教师师德建设  提升学校教育形象</a></li><li><a href="/Item/3608.aspx" target="_blank" title="标题：“十佳青年班主任标兵”和 “百名优秀班主任”  评选活动的通知
+点击数：436
+发表时间：14年05月26日">“十佳青年班主任标兵”和 “百名…</a></li><li><a href="/Item/3607.aspx" target="_blank" title="标题：武昌区教育局关于开展首届中小学 德育带头人评选的通知(试行）
+点击数：164
+发表时间：14年05月26日">武昌区教育局关于开展首届中小学 …</a></li><li><a href="/Item/3561.aspx" target="_blank" title="标题：转发《省教育厅关于评选第九批特级教师的通知》
+点击数：237
+发表时间：14年04月25日">转发《省教育厅关于评选第九批特级…</a></li><li><a href="/Item/3463.aspx" target="_blank" title="标题：喜报
+点击数：544
+发表时间：14年02月26日"><font style="color:#e51205;">喜报</font></a></li><li><a href="/Item/3286.aspx" target="_blank" title="标题：武昌区教育局关于评选第十批区教师学科带头人和优秀青年教师的通知
+点击数：722
+发表时间：13年11月18日">武昌区教育局关于评选第十批区教师…</a></li>
+          
+          </ul>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <!--教师家园-->
+      <div class="indSideDiv">
+        <div class="hd">
+          <span class="more">
+            <yang:type typeid="8">
+            <a class="" href="{$type.url}" target="_self">更多&gt;&gt;</a>
+            </yang:type>
+          </span>
+          <h3><a><img src="__PUBLIC__/images/indsIcon2.gif">教师家园</a></h3>
+        </div>
+        <div class="bd bOrg h185 list2">
+          <ul>
+            <yang:list typeid="8" pagesize="5">
+            <eq name="autoindex" value="0">
+            <li class="fli">
+              <div class="imgPic">
+                <a href="{$list.url}" target="_blank">
+                  <img src="__PUBLIC__/images/nopic.gif" alt="{$list.title}" border="0"></a>
+              </div>
+              <div class="imgTxt">
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">
+                  <b>{$list.title}</b>
+                </a>
+                <p>{$list.content|strip_tags}<a href="{$list.url}" target="_blank">[详细]</a></p>
+              </div>
+              <div class="clear"></div>
+            </li>
+            <else/>
+            <li>
+              <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+            </li>
+            </eq>
+            </yang:list>
+          </ul>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <!--童心乐园-->
+      <div class="indSideDiv">
+        <div class="hd">
+          <span class="more">
+            <yang:type typeid="9">
+            <a class="" href="{$type.url}" target="_self">更多&gt;&gt;</a>
+            </yang:type>
+          </span>
+          <h3><a><img src="__PUBLIC__/images/indsIcon3.gif">童心乐园</a></h3>
+        </div>
+        <div class="bd bOrg h185 list2">
+          <ul>
+            <yang:list typeid="9" pagesize="5">
+            <eq name="autoindex" value="0">
+            <li class="fli">
+              <div class="imgPic">
+                <a href="{$list.url}" target="_blank">
+                  <img src="__PUBLIC__/images/nopic.gif" alt="{$list.title}" border="0"></a>
+              </div>
+              <div class="imgTxt">
+                <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">
+                  <b>{$list.title}</b>
+                </a>
+                <p>{$list.content|strip_tags}<a href="{$list.url}" target="_blank">[详细]</a></p>
+              </div>
+              <div class="clear"></div>
+            </li>
+            <else/>
+            <li>
+              <a href="{$list.url}" target="_blank" title="标题：{$list.title}&#10;点击数：{$list.click}&#10;发表时间：{$list.publishtime|date='Y年m月d日',###}">{$list.title}</a>
+            </li>
+            </eq>
+            </yang:list>
+          </ul>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <!--校园之星-->
+      <div class="indSideDiv">
+        <div class="hd"><span class="more"><a class="" href="/Category_69/Index.aspx" target="_self">更多&gt;&gt;</a></span>
+          <h3><a><img src="__PUBLIC__/images/indsIcon4.gif">校园之星</a></h3>
+        </div>
+        <div class="bd bGra h123 list3">
+          <ul>
+            
+            <li class="act"><div class="imgPic"><a href="/Item/3768.aspx" target="_blank"><img src="__PUBLIC__/images/nopic.gif" alt="2014——2015学年度上学期十月份文明礼仪之星" border="0"></a></div><div class="imgTxt"><a href="/Item/3768.aspx" target="_blank" title="标题：2014——2015学年度上学期十月份文明礼仪之星
+点击数：11
+发表时间：14年11月07日"><b>2014——20…</b></a><p>2014——2015学年度上学期十月份…<a href="/Item/3768.aspx" target="_blank">[详细]</a></p></div><div class="clear"></div></li>
+          
+          </ul>
+        </div>
+      </div>
+      <div class="h10"></div>
+      <div class="picLink">
+        <ul>
+        
+            <li><a href="http://wuhan.eduyun.cn/" target="_blank"><img src="__PUBLIC__/images/201403181352540129.gif" border="0" alt="武汉教育云平台" title="武汉教育云平台"></a></li>
+<li><a href="http://jiu.hbwhxx.com/showpage.asp?id=3" target="_blank"><img src="__PUBLIC__/images/201210261432212862.jpg" border="0" alt="做一个有道德的人" title="做一个有道德的人"></a></li>
+<li><a href="http://jiu.hbwhxx.com/txl/main.asp" target="_blank"><img src="__PUBLIC__/images/201210261431068359.gif" border="0" alt="同窗学友" title="同窗学友"></a></li>
+<li><a href="http://jiu.hbwhxx.com/sbbs/index.asp" target="_blank"><img src="__PUBLIC__/images/201211071123060762.gif" border="0" alt="武汉“NOC”活动俱乐部" title="武汉“NOC”活动俱乐部"></a></li>
+<li><a href="http://jiu.hbwhxx.com/flash/" target="_blank"><img src="__PUBLIC__/images/201210261427153751.gif" border="0" alt="武汉小学学生flash联盟" title="武汉小学学生flash联盟"></a></li>
+          
+        </ul>
+      </div>
+      <div class="h10"></div>
+      <div class="indSideDiv">
+  <div class="hd"><h3><a><img src="__PUBLIC__/images/indsIcon5.gif">网站统计</a></h3></div>
+  <div class="bd bGra webTj">
+    <ul>
+<script src="/Analytics/CounterLink.aspx?Style=all"></script><script type="text/javascript" src="http://www.hbwhxx.com/Analytics/Counter.aspx?style=all&amp;Referer=http%3A//www.hbwhxx.com/Category_9/Index.aspx&amp;Timezone=-480&amp;Width=1920&amp;Height=1080&amp;Color=24"></script><li>总访问量：185096人次</li><li>总浏览量：371135人次</li><li>今日访问：62人次</li><li>日均访问：197人次</li>
+    </ul>
+  </div>
+</div> </div>
+    <div class="clear"></div>
+  </div>
+  <div class="h10"></div>
+  <!--图片故事-->
+  <div class="PhotoStr">
+    <span class="lBg">
+      <yang:type typeid="17">
+      <a class="" href="{$type.url}" target="_self"></a>
+      </yang:type>
+    </span>
+    <span class="rBg"></span>
+    <div class="bd">
+      <div id="rollpic" class="rollpic">
+        <ul>
+          <yang:list typeid="17" pagesize='20'>
+          <li>
+            <a href="{$list.url}" target="_blank">
+              <img src="{$list.litpic}" alt="{$list.title}" border="0">{$list.title|msubstr=###,0,4,'utf-8',true}</a>
+          </li>
+          </yang:list>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="h10"></div>
+  <!--友情图片链接-->
+  <div class="fLinkPic">
+    <ul>
+    <yang:flink limit='20'>
+      <li>
+        <a href="{$flink.url}" target="_blank">
+          <img src="..{$flink.logo}" border="0" alt="{$flink.name}" title="{$flink.name}">
+        </a>
+      </li>
+    </yang:flink>
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <div class="h10"></div>
+</div>
+<!-- 尾部 -->
 <include file="Public:footer" />
-</body>
-</html>

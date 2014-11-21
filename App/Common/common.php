@@ -97,6 +97,7 @@ function getCategory($status = 0,$update = 0) {//
         //S($cate_sname, $cate_arr, 48 * 60 * 60);
         F($cate_sname, $cate_arr);
     }
+    // dump($cate_arr);
     return $cate_arr;   
 }
 
