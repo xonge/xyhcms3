@@ -1905,10 +1905,12 @@ str;
 			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
 			\$prev['url']   = \$_vo['url'];
 			\$prev['title'] = \$_vo['title'];
+			\$prev['litpic'] = \$_vo['litpic'];
         } else {
         	// echo '第一篇';
         	\$prev['url']   = '';
 			\$prev['title'] = '';
+			\$prev['litpic'] = '';
         }
 	}
 
@@ -1937,10 +1939,12 @@ str;
 			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
 			\$next['url']   = \$_vo['url'];
 			\$next['title'] = \$_vo['title'];
+			\$next['litpic'] = \$_vo['litpic'];
         } else {
         	// echo '最后一篇';
         	\$next['url']   = '';
         	\$next['title'] = '最后一篇';
+        	\$next['litpic'] = '';
         }
 	}
 

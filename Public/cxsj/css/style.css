@@ -347,8 +347,8 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
       /* Or else IE will hide it */
       background: url(../images/non-existing.jpg)9
     }
-      .ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {background: url(ad-gallery/ad_prev.png);width: 30px;height: 30px;display: none;position: absolute;top: 47%;left: 0;z-index: 101;}
-      .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {background: url(../images/ad-gallery/ad_next.png);width: 30px;height: 30px;right: 0;left: auto;}
+      .ad-gallery .ad-image-wrapper .ad-prev .ad-prev-image, .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {background: url(../images/ad_prev.png);width: 30px;height: 30px;display: none;position: absolute;top: 47%;left: 0;z-index: 101;}
+      .ad-gallery .ad-image-wrapper .ad-next .ad-next-image {background: url(../images/ad_next.png);width: 30px;height: 30px;right: 0;left: auto;}
     .ad-gallery .ad-image-wrapper .ad-image {position: absolute;overflow: hidden;top: 0;left: 0;z-index: 9;}
       .ad-gallery .ad-image-wrapper .ad-image a img {border: 0;}
       * html .ad-gallery .ad-image-wrapper .ad-image .ad-image-description {background: none;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader (enabled=true, sizingMethod=scale, src='/tpl/www/images/ad-gallery/opa75.png'); }
@@ -363,8 +363,8 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
     .ad-gallery .ad-forward, .ad-gallery .ad-back {position: absolute;top: 0;height: 100%;z-index: 10;}
     /* IE 6 doesn't like height: 100% */
     * html .ad-gallery .ad-forward, .ad-gallery .ad-back {}
-  .ad-gallery .ad-back {cursor: pointer;left: 95px; top:22px;width:45px; height:53px; font-size:0; display: block;background:url(ad-gallery/forward_back.png) no-repeat scroll 0 0 transparent; z-index:99999;}
-    .ad-gallery .ad-forward {cursor: pointer;display: block;right: 94px; top:22px;width:45px; height:53px; font-size:0; background: url(ad-gallery/forward_back.png)  right bottom no-repeat; z-index:99999}
+  .ad-gallery .ad-back {cursor: pointer;left: 95px; top:22px;width:45px; height:53px; font-size:0; display: block;background:url(../images/forward_back.png) no-repeat scroll 0 0 transparent; z-index:99999;}
+    .ad-gallery .ad-forward {cursor: pointer;display: block;right: 94px; top:22px;width:45px; height:53px; font-size:0; background: url(../images/forward_back.png)  right bottom no-repeat; z-index:99999}
     .ad-gallery .ad-nav .ad-thumbs { width:100%;overflow: hidden; position:relative; height:80px;padding-top:15px; border:#EEEEEE solid 1px; border-top:none; border-bottom:none;}
       .ad-gallery .ad-thumbs .ad-thumb-list {float:left;width: 9000px;list-style: none;position:relative; left:5px; }
         .ad-gallery .ad-thumbs li {float: left;padding-right: 6px;}
@@ -382,14 +382,14 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 /*案例详情*/
 .cases_pic{padding:9px;border:1px solid #E5E5E5;background:#fff url(../images/cases_pic.gif) right bottom no-repeat;}
 .cases_msg{height:65px;line-height:30px;}
-.name{padding-left:16px;background:url(span.gif) left -183px no-repeat;}
+.name{padding-left:16px;background:url(../images/span.gif) left -183px no-repeat;}
 .cases_msg .area,.cases_msg .name,.cases_msg .hits,.cases_msg .time{margin-left:50px;}
-.cases_content{background:url(cases_content.png) 0 0 no-repeat;position:relative;overflow:hidden;}
-.cases_content p{width:700px;float:right;padding-top:20px;text-indent:2em;background:url(start.png) 0 0 no-repeat;}
-.cases_content .over{position:absolute;width:21px;height:19px;background:url(over.png) 0 0 no-repeat;display:block;right:0;bottom:0;}
-.other_cases h5{text-indent:-1000px;background:url(hd_h2.gif) 0 -828px no-repeat;height:50px;}
+.cases_content{background:url(../images/cases_content.png) 0 0 no-repeat;position:relative;overflow:hidden;}
+.cases_content p{width:700px;float:right;padding-top:20px;text-indent:2em;background:url(../images/start.png) 0 0 no-repeat;}
+.cases_content .over{position:absolute;width:21px;height:19px;background:url(../images/over.png) 0 0 no-repeat;display:block;right:0;bottom:0;}
+.other_cases h5{text-indent:-1000px;background:url(../images/hd_h2.gif) 0 -828px no-repeat;height:50px;}
 /*表单页*/
-#ReplyStart h5{text-indent:-1000px;background:url(hd_h2.gif) 0 -878px no-repeat;height:50px;}
+#ReplyStart h5{text-indent:-1000px;background:url(../images/hd_h2.gif) 0 -878px no-repeat;height:50px;}
 .form{font-size:12px;}
 .form .table{ width:100%; margin-top:15px; overflow:hidden;}
 .form .table .left{ width:105px; float:left; text-align:right;margin-right:15px;color:#000}
@@ -402,7 +402,7 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 .form .table .button{ background:#F38001;color:#fff;font-size:16px;width:77px;height:36px;border:none;cursor:pointer;opacity:0.6;filter:alpha(opacity=60);display:block;font-weight:bold;}
 .form .table .button:hover{opacity:1;filter:alpha(opacity=100);}
 .form .table #imgcode{ height:26px; margin-left:5px;}
-.ReplyInput{background:url(ReplyInput.png) 0 0 no-repeat;padding-left:250px;}
+.ReplyInput{background:url(../images/ReplyInput.png) 0 0 no-repeat;padding-left:250px;}
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 .replylistBox li{padding:9px;border:1px solid #ddd;background:#F2F2F2;margin-bottom:10px;}
 .replylistBox li h6{font-size:12px;font-weight:lighter;}
@@ -411,10 +411,10 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 .replylistBox li p.reply{color:#F58000;padding-top:5px;border-top:1px dotted #ddd;}
 .replylistBox li p.reply span{padding:2px 5px;color:#fff;margin-right:10px;background:#F58000;}
 /*表单页*/
-.about01{background:url(about01.jpg) center 40px no-repeat;position:relative;}
-.about02{background:url(about02.jpg) center 40px no-repeat;height:910px;position:relative;}
-.about03{background:url(about03.jpg) center 40px no-repeat;height:905px;position:relative;}
-.about04{background:url(about04.jpg) center 40px no-repeat;position:relative;}
+.about01{background:url(../images/about01.jpg) center 40px no-repeat;position:relative;}
+.about02{background:url(../images/about02.jpg) center 40px no-repeat;height:910px;position:relative;}
+.about03{background:url(../images/about03.jpg) center 40px no-repeat;height:905px;position:relative;}
+.about04{background:url(../images/about04.jpg) center 40px no-repeat;position:relative;}
 .about04 p{margin-left:105px;width:600px;}
 .about05{background:url(about05.jpg) center 40px no-repeat;position:relative;}
 .about05 .cxwb{position:absolute;left:240px;top:40px;}
@@ -531,17 +531,17 @@ border-radius: 0px 0px 5px 5px;/*仅Opera，Safari,Chrome支持，实现圆角�
 	.sSidenav{width:960px; line-height:40px;margin:0 auto;padding:0 2px;border-bottom:1px solid #777;z-index:999; color:#DDDDDD;}
 	.sSidenav a{color:#DDDDDD;padding:0 5px;}
 	
-	a.sBacktop{_display:none;width:40px;height:40px;background:url(sBacktop.png) no-repeat;z-index:9999;cursor:pointer;bottom:20px;right:20px;position:fixed;
+	a.sBacktop{_display:none;width:40px;height:40px;background:url(../images/sBacktop.png) no-repeat;z-index:9999;cursor:pointer;bottom:20px;right:20px;position:fixed;
 				_position:absolute;_margin-top:400px;_top:expression(eval(document.documentElement.scrollTop));}
 	a:hover.sBacktop{background-position:left -49px;}
-			* html,* html body{background-image:url(about:blank);background-attachment:fixed;}
+			* html,* html body{background-image:url(../images/about:blank);background-attachment:fixed;}
 
 
 
 
-.cases_faq{background:url(faqbg.gif) 0 0 no-repeat;padding-left:260px;height:260px;padding-right:10px;}
+.cases_faq{background:url(../images/faqbg.gif) 0 0 no-repeat;padding-left:260px;height:260px;padding-right:10px;}
 
-.cases_faq dt{padding-left:25px; background:url(faq_icon.gif) 0 0 no-repeat;height:30px;line-height:30px; font-size:14px; font-weight:700;}
-.cases_faq dd{padding-left:25px; background:url(faq_icon.gif) 0 -30px no-repeat;line-height:24px; font-size:12px; margin-bottom:10px;}
+.cases_faq dt{padding-left:25px; background:url(../images/faq_icon.gif) 0 0 no-repeat;height:30px;line-height:30px; font-size:14px; font-weight:700;}
+.cases_faq dd{padding-left:25px; background:url(../images/faq_icon.gif) 0 -30px no-repeat;line-height:24px; font-size:12px; margin-bottom:10px;}
 
 .key_words{text-indent:-9999em;display:none;}

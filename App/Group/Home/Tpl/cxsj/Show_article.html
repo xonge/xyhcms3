@@ -1,214 +1,350 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta content="{$keywords}" name="Keywords">
-<meta content="{$description}" name="Description">
-
-<link href="__PUBLIC__/css/chf_tv.css" rel="stylesheet" type="text/css">
-<link href="__PUBLIC__/css/ind_con_tv.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" charset="gb2312" language="javascript" src="__PUBLIC__/js/nowdate.js"></script>
-<script language="javascript" type="text/javascript" src="__PUBLIC__/js/common.js"></script>
-<title>
-  {$title}-<yang:sitename />
-</title></head>
-
+<title>成象设计 - 山东样板房设计-山东售楼处设计-山东软装设计-山东酒店会所设计</title>
+<meta name="keywords" content="成象设计,山东样板房设计,山东售楼处设计,山东软装设计,山东精品酒店设计">
+<meta name="description" content="成象设计是山东地区专业从事样板房设计，软装设计，酒店会所设计，售楼中心设计，唯一服务过中海，保利，绿城，绿地等一些地产企业的山东室内设计公司，电话0531-86023878！">
+<meta name="google-site-verification" content="00lOH5uXGbsOTSmtWY3IV42emDCtLJBz9oCKcgXFFVc">
+<!-- <base href="http://www.cxsjgs.com/"> -->
+<script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
+<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script>
+<script type="text/javascript">
+var base_file = base_url= "http://www.cxsjgs.com/";
+</script>
+<link href="favicon.ico" rel="shortcut icon">
+<link href="favicon.ico" rel="bookmark">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+<!-- <script type="text/javascript" src="http://www.cxsjgs.com/minify?f=tpl/www/images/js/jquery.js,tpl/www/images/js/global.js,tpl/www/images/js/www.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/www.js"></script>
+<!--[if lte IE 6]>
+<script src="tpl/www/images/js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('div, ul, img, li, input , a, cite, em');
+    </script>
+<![endif]-->
+<script src="http://bdimg.share.baidu.com/static/js/logger.js?cdnversion=393436"></script>
+</head>
 <body>
-<!--top -->
+<!-- 头部 -->
 <include file="Public:header" />
+<!-- 轮播图 -->
+<div class="navpic">
+  <div class="column">
+    <img src="__PUBLIC__/images/a1ba05b2d7a14487.jpg" alt="样板间设计" border="0" width="960">
+  </div>
+</div>
+<!-- 身体 -->
+<div class="main page">
 
-<div id="bp">
-  <div class="h10"></div>
-  <div>
-    <div class="art_side fl">
-      <div class="subNav">
-        <div class="hd">
-          <h3>栏目导航</h3>
-        </div>
-        <div class="bd">
-          <ul>
-            <volist name="same" id="vo">
-            <li <eq name="cid" value="$vo.id">class="on"</eq>><a href="{$vo.url}">{$vo.name}</a></li>
+<include file="Public:nav" />
+
+<!-- <div class="blank10"></div> -->
+<!-- 正文部分 -->
+<script src="__PUBLIC__/js/ad-gallery.js"></script>
+<script>
+$(document).ready(function(){
+  //案例hover
+  $('.CasesBox > ul li').hover(function(){$(this).addClass('hover');},function(){$(this).removeClass('hover');});
+  //案例图滚动
+  var galleries = $('.ad-gallery').adGallery({loader_image: '__PUBLIC__/images/loader.gif',animation_speed:500,effect: 'fade',slideshow: {autostart: true,speed: 3000,start_label: '播放',stop_label: '停止'} });
+  
+  var height1 = $('.ad-image-wrapper').height();
+  var width1 = $('.ad-image-wrapper').width();
+  $("<img />").attr({
+    src: '__PUBLIC__/images/bigshow.gif'
+  }).css({
+    //border: "1px solid #f00",
+    position: "absolute",
+    zIndex: 99,
+    width: width1,
+    height: height1
+  }).appendTo('.ad-image-wrapper');
+
+
+  $('.img_cases img').each(function(i){
+    var position2 = $(this).position();
+    var height2 = $(this).attr('height');
+    var width2 = $(this).attr('width');
+    $("<img />").attr({
+      src: '__PUBLIC__/images/bigshow.gif'
+    }).css({
+      //border: "1px solid #f00",
+      //top: position2.top,
+      //left: position2.left,
+      position: "absolute",
+      zIndex: 999,
+      width: width2,
+      height: height2
+    }).prependTo( $(this).parent('li') );
+  });
+  
+$('.ad-image-wrapper img').live('contextmenu', function() {
+  return false;
+});
+$('.img_cases img').live('contextmenu', function() {
+  return false;
+});
+  
+});
+</script>
+<div class="column">
+<h1><font class="fr">时间：{$content.publishtime|date='Y/m/d',###}</font>{$content.title}</h1>
+<div class="cases_pic">
+  <div class="CasesImgShow">
+    <div class="ad-gallery">
+      <div class="ad-image-wrapper">
+        <img class="ad-loader" src="tpl/www//images/ad-gallery/loader.gif" style="display: none;">
+        <img src="__PUBLIC__/images/bigshow.gif" style="position: absolute; z-index: 99; width: 940px; height: 705px;">
+      </div>
+      <div class="ad-nav">
+        <div class="ad-thumbs">
+          <ul class="ad-thumb-list" style="width: 291px;">
+            <volist name="picArr" id="vo" offset="0">
+            <li>
+              <a href="__ROOT__{$vo.src}" title="">
+                <img src="__ROOT__{$vo.src}" width="87" height="65"></a>
+            </li>
             </volist>
           </ul>
         </div>
-        <div class="fb"></div>
-      </div>
-      <div class="h10"></div>
-      <div class="indSideDiv">
-        <div class="hd">
-          <h3><a><img src="__PUBLIC__/images/indsIcon5.gif">本月排行</a></h3>
+        <!--//ad-thumbs--> 
+        <div class="prevCases">
+          <yang:prev />
+          <eq name="prev['url']" value="">
+          <a>
+            <img src="__PUBLIC__/images/nopn.jpg" class="imga"></a>
+          <a>上一案例</a>
+          <else/>
+          <a href="{$prev.url}" title="{$prev.title}">
+            <img src="<neq name="prev['litpic']" value="">__ROOT__{$prev.litpic}<else/>__PUBLIC__/images/nopn.jpg</neq>" class="imga"></a>
+          <a href="{$prev.url}" title="{$prev.title}">上一案例</a>
+          </eq>
         </div>
-        <div class="bd bOrg list4">
-          <ul>
-            
-            <li class="fli"><div class="imgTxt"><a href="/Item/3703.aspx" target="_blank" title="标题：火的灾害
-点击数：66
-发表时间：14年09月25日"><b>火的灾害</b></a></div><div class="imgPic"><a href="/Item/3703.aspx" target="_blank"><img src="/UploadFiles/xydst/2014/9/201409251202468420.jpg" alt="火的灾害" border="0"></a><p><a href="/Item/3703.aspx" target="_blank">[详细]</a></p></div><div class="clear"></div></li><li><a href="/Item/3655.aspx" target="_blank" title="标题：2014“六一”文艺汇演之舞蹈《阿妹是月亮》
-点击数：133
-发表时间：14年06月19日">2014“六一”文艺汇演之舞蹈《…</a></li><li><a href="/Item/2627.aspx" target="_blank" title="标题：中餐文明礼仪视频
-点击数：811
-发表时间：12年11月30日">中餐文明礼仪视频</a></li><li><a href="/Item/2696.aspx" target="_blank" title="标题：武汉小学一（1）班赴御龙怡养中心进行慰问活动
-点击数：716
-发表时间：12年12月27日">武汉小学一（1）班赴御龙怡养…</a></li><li><a href="/Item/2621.aspx" target="_blank" title="标题：文明礼仪歌
-点击数：562
-发表时间：12年11月29日">文明礼仪歌</a></li><li><a href="/Item/2600.aspx" target="_blank" title="标题：2011开学第一课
-点击数：843
-发表时间：12年11月23日">2011开学第一课</a></li><li><a href="/Item/2626.aspx" target="_blank" title="标题：课间餐文明礼仪视频
-点击数：689
-发表时间：12年11月30日">课间餐文明礼仪视频</a></li><li><a href="/Item/3657.aspx" target="_blank" title="标题：2014年武汉小学“红领巾相约中国梦”庆六一文艺汇演
-点击数：273
-发表时间：14年06月19日">2014年武汉小学“红领巾相约中…</a></li><li><a href="/Item/3513.aspx" target="_blank" title="标题：武汉第一寄宿小学学雷锋爱心义卖
-点击数：326
-发表时间：14年03月25日">武汉第一寄宿小学学雷锋爱心义卖</a></li><li><a href="/Item/3127.aspx" target="_blank" title="标题：王亚平太空授课
-点击数：633
-发表时间：13年06月20日">王亚平太空授课</a></li><li><a href="/Item/3094.aspx" target="_blank" title="标题：廉政公益广告（一）
-点击数：410
-发表时间：13年06月08日">廉政公益广告（一）</a></li><li><a href="/Item/3162.aspx" target="_blank" title="标题：2013开学第一课 乘着梦想的翅膀[高清版]
-点击数：714
-发表时间：13年09月05日">2013开学第一课 乘着梦想的翅…</a></li><li><a href="/Item/2494.aspx" target="_blank" title="标题：2012届六年级二班学生原创歌曲《最美遇见你》
-点击数：858
-发表时间：12年11月15日">2012届六年级二班学生原创歌曲…</a></li><li><a href="/Item/2382.aspx" target="_blank" title="标题：英国纽卡斯尔教育代表团来校访问
-点击数：912
-发表时间：12年10月25日">英国纽卡斯尔教育代表团来校访问</a></li>
-          
-          </ul>
+        <div class="nextCases">
+          <yang:next />
+          <eq name="next['url']" value="">
+          <a>
+            <img src="__PUBLIC__/images/nopn.jpg" class="imga"></a>
+          <a>下一案例</a>
+          <else/>
+          <a href="{$next.url}" title="{$next.title}">
+          <img src="<neq name="next['litpic']" value="">__ROOT__{$next.litpic}<else/>__PUBLIC__/images/nopn.jpg</neq>" class="imga"></a>
+          <a href="{$next.url}" title="{$next.title}">下一案例</a>
+          </eq>
         </div>
       </div>
+    <!--//ad-nav--> 
     </div>
-    <div class="art_main fr">
-      <div class="tvPicList">
-        <div class="hd">
-          <span class="luamnPath fr">您现在的位置：<yang:position />
-            <!-- <a href="http://www.hbwhxx.com/">武汉小学</a>&gt;&gt;
-            <a href="/Category_9/Index.aspx" target="_self">学校风采</a>&gt;&gt;
-            <a href="/Category_20/Index.aspx" target="_self">学校概况</a> -->
-          </span>
-          <h3>学校概况</h3>
-        </div>
-        <div class="bd">
-          <div class="onlineShow">
-            <div class="c_title_text">
-              <h1>{$title}</h1>
-            </div>
-            <div class="c_title_author">
-              <span>作者：{$content.author}</span>
-              <span>来源：{$content.copyfrom}</span>
-              <span>发布时间：{$content.publishtime|date='Y年m月d日',###}</span>
-              <span>点击数：{$content.click}
-                <!-- // <script language="JavaScript" type="text/JavaScript" src="/Common/GetHits.aspx?id=3102"></script>608 -->
-              </span>
-            </div>
-          </div>
-          <div class="u_form1">
-            <center style=" text-align:center;">
-              <form name="ShowDownloadUrl" method="post" action="ShowDownloadUrl.aspx?urlid=0&amp;id=3102" onsubmit="javascript:return WebForm_OnSubmit();" id="ShowDownloadUrl">
-<div>
-<input type="hidden" name="__REFRESH_FIELD" id="__REFRESH_FIELD" value="">
-<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPBcgIZU5xZFZsMXYyakFVVmJ2MVlaT212azNheTRTeTEwSVNJTkJXWlJJRW1OREtWaFhhUHB2NEFsNGRPN0lkUHZhdjlnczNHeWlsMVVxYzVpR0pySFB1bDYrUDc5K0Q0Nk4zUWNVLzlhdWU1eDNqajRlSGIxYnZnK09QaDUvZkRtR2hqdjU4K3ZDK29KOExQdm9Ga1NvUTNIRDZnQW02b21nSnduY0tFY2N3UWhJYXpsU3A1TngxVWFUSURCYWxtRVNDU3o1V3BZakhENnR1eEprU25FbzNUbFlXWEdBdWszRlNKbXhjaXREb3l5MElTVGhyQkNmK1NWQStxWHUrVklqaDBiSnh5UkVtYk9JVTFETFI3bENTVUJJaHBjSHVvc2dwckVOMENsTWdrNmxxT0pXYTV4VG1CS3RwdzZsVjlYOUVrWlFtZy9CeTBHdWYxMXJkb053TXlzWEtXYlZaOUgxY0tiYjhvRkwwdk5DcmR1dG4zV2F6NWhSbUJPWklLbDJNcit0U3JKK0xCQWtVRnhpS2RTZzMxNWNhaUdpcS85MmJoT3BBdTRTQ2RCZExMSlZiOXZ5S1cxdDl2SnAzNnA5Nk5iOVNQdzNxcFhrOGMxNDIyMHd4NFFNbEFNVmI4MFYvTDBIeEFma05XN1NYQlZaSUtFdmJqTVNyWWpkVkhoYWxmRDZJRU1zQkQ2ZUlUYUJOcE9tUUorbGtKbjhOYzhLd1Zmb3RSQkdMd0JJcjRYR1A5K0RTOFJpRTd0RWhpUjh0QjNzc2h5Z3hOZFdVWGp2VGZLajcvWDdJemRHekswbVlDc25GVUI4WHF6UTFYQUJUVjF3U0U1UzFEMFBxSTNFUHdzcE5HOFlvcGFxclZ5QXo1MDBidEZCMEgzTEtMVDJzU1YwdTRDbkpyOVhyOWJJZlpIUDdXdGJ5K0hyU3A5VTkrQTVESXdyWXJyaHJjS2cxVSt0UEgxaWFoL2F3aitGR2NxM1NXVk83S2FXRFNBQzhoandVZXJOMmVtRnZxRDAyNC9mbWNFazcvS1hXaGhSTkxEV2hueXE3WFRSbkt1UXBlNVMxZldhdkJKaHJ3YnBIcnRGT0dQc01ENXI5bnNrdzgxZ1k0RUF0S1ZnaHpXWDB3K2EwRFlEcUsxVDNUQTZKMzNJNkROc3lHUDZaZ0hHaVlLMzJuWm5XRUdsUHYwUENpR1plV2tjSUx2S1N2c055eEpIQXozaGVCcTNQVXdrcnlYNE5zYzlua0pObmV2aTFKWjNxYTNkN0ZkbDVOSlRuNHBEcFpEWFM1S2R0Uk5ZNnNHOWM4UllTMXZnWHBUSXpNbFB3Vk83NnlxVGswa2NOWmxJdjZMM01OWGpkRWd5OHhRVUdjV2RHWUt0UzdKRHNMOXNkVXFWdHgrQTAzWm1QNnZ1d2QzcWU0M005Uzh1Vm4vL1p2M0RYay85bUFmOEQ5MytzYVE9PWQ+i0AAzFDnBTI99G3+3flXpVOGYQ==">
+  <!--//ad-gallery-->
+  </div>
+  <!--//CasesImgShow-->
+  <div class="blank10"></div>
+  <div class="cases_msg">
+    <p>
+
+
+ <span class="unit">甲方</span>：保利地产<span class="name">产品</span>：售楼处设计/售楼中心设计<span class="area">面积</span>：660㎡<span class="name">时间</span>：2013-04-15<span class="hits">人气</span>：<b class="f_8cc">2176</b></p>
+<div class="msg_fx">
+<!-- Baidu Button BEGIN -->
+<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+<span class="bds_more">分享到：</span>
+<a class="bds_qzone" title="分享到QQ空间" href="#">QQ空间</a>
+<a class="bds_tsina" title="分享到新浪微博" href="#">新浪微博</a>
+<a class="bds_tqq" title="分享到腾讯微博" href="#">腾讯微博</a>
+<a class="bds_renren" title="分享到人人网" href="#">人人网</a>
+<a class="bds_t163" title="分享到网易微博" href="#">网易微博</a>
+<a class="shareCount" href="#" title="累计分享0次">0</a>
 </div>
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=558950" src="http://bdimg.share.baidu.com/static/js/bds_s_v2.js?cdnversion=393509"></script>
 
-
-<script src="/WebResource.axd?d=zmN9nlueW4crHI0RB6n4ByCuxoPBe1CG-IJJQUaLwqh2z_UXV86NiGTmXxFeuiQ6V5jBfjDrizSYeNt4ktnUipfqitAV8tyd9BGYdzSmzuMJs5erl9FF_oFoDTyQ5TGX09td5gIdDMSlBq3yKUwbz55RCyWHFwtwCDPRHIMGgDWGmxJeS0FIb6wkWz3hSDFOhYx1qQ2&amp;t=634655032003960000" type="text/javascript"></script>
 <script type="text/javascript">
-//<![CDATA[
-function WebForm_OnSubmit() {
-refreshModule.createPageIdentifier();
-return true;
-}
-//]]>
+document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
 </script>
-
-<div>
-
-  <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E536C999">
+<!-- Baidu Button END -->
 </div>
-    <div id="content">
-        <table width="100%" border="0" cellpadding="0" cellspacing="0">
-            <tbody><tr>
-                <td>
-                    
-    <object id="MediaPlayer1" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701standby=Loading" type="application/x-oleobject" height="360" width="640" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6" viewastext="">
-          <param name="URL" value="/UploadFiles/xydst/2013/6/201306081806137857.wmv">
-          <param name="AudioStream" value="-1">
-          <param name="AutoSize" value="0">
-          <param name="AutoStart" value="-1">
-          <param name="AnimationAtStart" value="-1">
-          <param name="AllowScan" value="-1">
-          <param name="AllowChangeDisplaySize" value="-1">
-          <param name="AutoRewind" value="0">
-          <param name="Balance" value="0">
-          <param name="BaseURL" value="">
-          <param name="BufferingTime" value="5">
-          <param name="CaptioningID" value="">
-          <param name="ClickToPlay" value="-1">
-          <param name="CursorType" value="0">
-          <param name="CurrentPosition" value="-1">
-          <param name="CurrentMarker" value="0">
-          <param name="DefaultFrame" value="">
-          <param name="DisplayBackColor" value="0">
-          <param name="DisplayForeColor" value="16777215">
-          <param name="DisplayMode" value="0">
-          <param name="DisplaySize" value="4">
-          <param name="Enabled" value="-1">
-          <param name="EnableContextMenu" value="-1">
-          <param name="EnablePositionControls" value="0">
-          <param name="EnableFullScreenControls" value="0">
-          <param name="EnableTracker" value="-1">
-          <param name="InvokeURLs" value="-1">
-          <param name="Language" value="-1">
-          <param name="Mute" value="0">
-          <param name="PlayCount" value="1">
-          <param name="PreviewMode" value="0">
-          <param name="Rate" value="1">
-          <param name="SAMILang" value="">
-          <param name="SAMIStyle" value="">
-          <param name="SAMIFileName" value="">
-          <param name="SelectionStart" value="-1">
-          <param name="SelectionEnd" value="-1">
-          <param name="SendOpenStateChangeEvents" value="-1">
-          <param name="SendWarningEvents" value="-1">
-          <param name="SendErrorEvents" value="-1">
-          <param name="SendKeyboardEvents" value="0">
-          <param name="SendMouseClickEvents" value="0">
-          <param name="SendMouseMoveEvents" value="0">
-          <param name="SendPlayStateChangeEvents" value="-1">
-          <param name="ShowCaptioning" value="0">
-          <param name="ShowControls" value="-1">
-          <param name="ShowAudioControls" value="-1">
-          <param name="ShowDisplay" value="0">
-          <param name="ShowGotoBar" value="0">
-          <param name="ShowPositionControls" value="-1">
-          <param name="ShowStatusBar" value="-1">
-          <param name="ShowTracker" value="-1">
-          <param name="TransparentAtStart" value="-1">
-          <param name="VideoBorderWidth" value="0">
-          <param name="VideoBorderColor" value="0">
-          <param name="VideoBorder3D" value="0">
-          <param name="Volume" value="70">
-          <param name="WindowlessVideo" value="0">
-      </object>
+</div>
+</div>
+ <div class="blank15"></div>
+<dl class="cases_faq">
+<dt>你们公司主营的项目有哪些？</dt>
+<dd>您好：我们公司致力于地产相关项目的研究设计，样板间、售楼中心和软装设计为主，精品酒店、办公空间设计为辅。其他的领域我们暂时不参与。</dd>
+<dt>请问你们公司是怎么收费的？</dt>
+<dd>您好，我们公司是根据项目的面积来取费，不同的项目不同的取费标准，比如：样板间、售楼中心、酒店会所等，面积越大，平米单价越低，不知道您是想咨询哪种项目的取费标准，您可以致电:4000809061，或通过qq（2553168372）进行咨询。</dd>
+<dt>我有个项目在烟台，你们做吗？怎么个流程？</dt>
+<dd>您好，我们公司承接全国的样板间、售楼中心、精品酒店、会所及软装的项目，请问您所说的项目是哪种类型的？我们的服务流程是：前期接洽——概念策划——方案设计——物料分析——施工图纸——软装设计——现场服务——软装陈设布置，详情请致电:4000809061咨询。</dd>
+</dl> 
+ <div class="blank15"></div>
+  <div class="other_cases">
+<h5>浏览了此案例的人还浏览了</h5>
+<ul class="list_cases">
+ 
+<li class="first">
+<a href="/171.html" title="【成象设计作品】济南保利华庭售楼中心设计" class="imga" target="_blank"><img src="upfiles/2013/09/13/thumb_1681.jpg" alt="【成象设计作品】济南保利华庭售楼中心设计"></a>
+<h3><a href="/171.html" title="【成象设计作品】济南保利华庭售楼中心设计" target="_blank">【成象设计作品】济南保利华庭售楼中心设计</a></h3>
+<div class="">
+<p class="fl">
+<span class="unit">客户</span><br>
+ 
+<font class="f_f58">保利地产</font>
+</p>
+<p>
+<span class="area">面积</span><br>
+<font class="f_8cc">1159㎡</font>
+</p>
+<a href="/171.html" title="【成象设计作品】济南保利华庭售楼中心设计" target="_blank">+ READ MORE</a><br>
+DATE：2012-11-14<span class="hits">2588</span>
+</div>
+</li>
+ 
+<li class="">
+<a href="/176.html" title="【成象设计作品】济南保利中心售楼处设计" class="imga" target="_blank"><img src="upfiles/2013/09/13/thumb_1684.jpg" alt="【成象设计作品】济南保利中心售楼处设计"></a>
+<h3><a href="/176.html" title="【成象设计作品】济南保利中心售楼处设计" target="_blank">【成象设计作品】济南保利中心售楼处设计</a></h3>
+<div class="">
+<p class="fl">
+<span class="unit">客户</span><br>
+ 
+<font class="f_f58">保利地产</font>
+</p>
+<p>
+<span class="area">面积</span><br>
+<font class="f_8cc">800㎡</font>
+</p>
+<a href="/176.html" title="【成象设计作品】济南保利中心售楼处设计" target="_blank">+ READ MORE</a><br>
+DATE：2011-07-18<span class="hits">2258</span>
+</div>
+</li>
+ 
+<li class="">
+<a href="/302.html" title="【成象设计作品】济南蓝石大溪地二期售楼处设计" class="imga" target="_blank"><img src="upfiles/2014/02/09/thumb_2121.jpg" alt="【成象设计作品】济南蓝石大溪地二期售楼处设计"></a>
+<h3><a href="/302.html" title="【成象设计作品】济南蓝石大溪地二期售楼处设计" target="_blank">【成象设计作品】济南蓝石大溪地二期售楼处设计</a></h3>
+<div class="">
+<p class="fl">
+<span class="unit">客户</span><br>
+ 
+<font class="f_f58">济南蓝石田源置业</font>
+</p>
+<p>
+<span class="area">面积</span><br>
+<font class="f_8cc">555㎡</font>
+</p>
+<a href="/302.html" title="【成象设计作品】济南蓝石大溪地二期售楼处设计" target="_blank">+ READ MORE</a><br>
+DATE：2013-05-24<span class="hits">1611</span>
+</div>
+</li>
+</ul>
+</div>
+ <div class="blank15"></div>
+ <div class="talk_about form">
+<!--客户评论表单-->
+<script type="text/javascript">
+$(document).ready(function(){
+   //input background
+  $(".table input[type='text'],.table textarea").focus(function(){$(this).css({'border':'1px solid #BF0200','background':'#fff'})})
+                  .blur(function(){$(this).css({'border':'1px solid #ccc','background':'#fff'})});
+  
+  //getreplylist
+  $.get("?c=reply&id=286&ajax=1", function(data){
+    $(".replylistBox").html(data);
+  });
+  
+  //replysave
+  $("#_reply_submit_").click(function(){
+    if(!$("#username").val()){
+      alert("请输入您的称呼");
+      $("#username").focus();
+      return false;
+    }
+        if(!$("#content").val()){
+      alert("请输入点评内容");
+      $("#content").focus();
+      return false;
+    }
+    if(!$("#sys_check").val()){
+      alert("请输入验证码");
+      $("#sys_check").focus();
+      return false;
+    }
     
-                </td>
-            </tr>
-        </tbody></table>
+    $.post($("#ReplyForm").attr("action"), $("#ReplyForm").serialize(),function(data){
+        if(data=='success'){//success
+        $(".ajaxtips").html('<font color="#C8A048">评论发布成功！我们客服审核后才显示！</font>');
+        $("#content").val('');
+        $("#sys_check").val('')
+        $.get("?c=reply&id=286&ajax=1", function(data){
+          $(".replylistBox").html(data);
+        });
+      }else{
+        $(".ajaxtips").html('<font color="red">'+data+'</font>');
+      }
+      $("#imgcode").attr("src",get_url("login,codes")+'rand='+Math.random());
+    });
+    
+    return false;
+  });
+  
+  //pagelist
+  $(".pagelist a").live("click", function(){
+      var url=$(this).attr("href");
+    $.get(url+"&ajax=1", function(data){
+      $(".replylistBox").html(data);
+    });
+    return false;
+  })
+});
+</script>
+<div class="ReplyBox" id="ReplyStart">
+<h5>我要说两句</h5>
+  <div class="ReplyInput">
+    <form id="ReplyForm" method="post" action="?c=reply&amp;f=save&amp;id=286&amp;ajax=1">
+    <div class="table">
+        <div class="left"><span class="red">*</span> 称呼：</div>
+        <div class="right"><input name="username" id="username" type="text" class="input-text" value="" style="border: 1px solid rgb(204, 204, 204); background: rgb(255, 255, 255);"></div>
+    </div>
+      <div class="table">
+        <div class="left"><span class="red">*</span> 电话：</div>
+        <div class="right"><input name="contact" id="contact" type="text" class="input-text" value="" style="border: 1px solid rgb(204, 204, 204); background: rgb(255, 255, 255);"></div>
+    </div>
+      <div class="table">
+        <div class="left"><span class="red">*</span> 内容：</div>
+        <div class="right"><textarea id="content" name="content" style="width: 450px; height: 80px; border: 1px solid rgb(204, 204, 204); background: rgb(255, 255, 255);" class="input-text"></textarea></div>
+    </div>
+    <div class="table">
+  <div class="left"><span class="red">*</span> 验证码：</div>
+  <div class="right">
+    <input name="sys_check" id="sys_check" type="text" class="input-text" style="width:50px;"><img id="imgcode" src="?c=login&amp;f=codes" border="0" align="top" style="cursor:pointer;" onclick="check_code(this)" title="点击更换验证码">
+  </div>
+</div>
+    <div class="table">
+        <div class="left">&nbsp;</div>
+        <input type="submit" class="button circle5" id="_reply_submit_" value="确 定">
+        <span class="ajaxtips"></span>
     </div>
     </form>
-            </center>
-          </div>
-          <div class="onlineShow">
-            <div class="detailSection">
-              <h3>视频简介：</h3>
-              <div class="bds">
-                <p></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-  <div class="h10"></div>
+   <div class="blank10"></div>
+   <div class="blank10"></div>
+  <div class="ReplyList">
+    <div class="replylistBox"><!-- ajax replylist-->
+<div class="noreplylist">暂无评论，赶快来抢沙发！</div>
+</div>
+  </div>
+  
+</div>  
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
 </div>
 <!-- 尾部 -->
 <include file="Public:footer" />

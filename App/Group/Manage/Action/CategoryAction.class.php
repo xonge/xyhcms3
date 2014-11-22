@@ -1,7 +1,7 @@
 <?php
 
 class CategoryAction extends CommonAction {
-	
+
 	//分类列表
 	public function index() {
 
@@ -15,7 +15,7 @@ class CategoryAction extends CommonAction {
 
 	//添加分类
 	public function add() {
-	
+
 		if (IS_POST) {
 			$this->addPost();
 			exit();
@@ -40,9 +40,9 @@ class CategoryAction extends CommonAction {
 		$acc_groupid = I('acc_groupid', '');//会员组权限
 		$acc_roleid = I('acc_roleid', '');//管理组权限
 
-		
+
 		$data['name'] = trim($data['name']);
-		$data['ename'] = trim($data['ename']);		
+		$data['ename'] = trim($data['ename']);
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
 		$pic = $data['catpic'] = I('catpic', '', 'htmlspecialchars,trim');
 
@@ -61,8 +61,8 @@ class CategoryAction extends CommonAction {
 			if (!ctype_alnum($data['ename'])) {
 				$this->error('别名只能由字母和数字组成，不能包含特殊字符！');
 			}
-		}	
-	
+		}
+
 
 		if ($id = M('category')->add($data)) {
 			//管理员组权限
@@ -114,7 +114,7 @@ class CategoryAction extends CommonAction {
 		}else {
 			$this->error('添加栏目失败');
 		}
-		
+
 	}
 
 
@@ -134,13 +134,13 @@ class CategoryAction extends CommonAction {
 		$cate = M('category')->order('sort')->select();
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::toLevel($cate, '---',0);
-		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();			
+		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();
 		$this->groupList = M('membergroup')->order('rank')->select();
-		$this->roleList = M('role')->order('id')->select();//管理员组	
+		$this->roleList = M('role')->order('id')->select();//管理员组
 
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');
-		
+
 		$this->display();
 	}
 
@@ -150,15 +150,15 @@ class CategoryAction extends CommonAction {
 
 	public function editPost() {
 
-		$data = I('post.', '');		
+		$data = I('post.', '');
 		$id = $data['id'] = intval($data['id']);
-		$pid = $data['pid'];		
-		
+		$pid = $data['pid'];
+
 		$acc_groupid = I('acc_groupid', '');//会员组权限
 		$acc_roleid = I('acc_roleid', '');//管理组权限
-		
+
 		$data['name'] = trim($data['name']);
-		$data['ename'] = trim($data['ename']);		
+		$data['ename'] = trim($data['ename']);
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
 		$pic = $data['catpic'] = I('catpic', '', 'htmlspecialchars,trim');
 
@@ -181,7 +181,7 @@ class CategoryAction extends CommonAction {
 				$this->error('别名只能由字母和数字组成，不能包含特殊字符！');
 			}
 		}
-	
+
 
 		/*
 		if (M('category')->where(array('name' => $data['name'], 'id' => array('neq' , $id)))->find()) {
@@ -189,7 +189,7 @@ class CategoryAction extends CommonAction {
 		}
 		*/
 
-		
+
 
 		if (false !== M('category')->save($data)) {
 
@@ -255,7 +255,114 @@ class CategoryAction extends CommonAction {
 		}else {
 			$this->error('修改栏目失败');
 		}
-		
+
+	}
+
+	//字段显示控制
+	public function show_field(){
+		$typeid = (int)$_REQUEST['id'];
+		if ($typeid ==0) {
+			$this->error('错误的分类编号');exit();
+		}
+		//字段默认显示
+		$arr = array(
+			array('txt'=>'标题','show'=>1),
+			array('txt'=>'关键字','show'=>1),
+			array('txt'=>'描述','show'=>1),
+			array('txt'=>'作者','show'=>1),
+			array('txt'=>'来源','show'=>1),
+			array('txt'=>'浏览次数','show'=>1),
+			array('txt'=>'分类','show'=>1),
+			array('txt'=>'转向链接','show'=>1),
+			array('txt'=>'缩略图','show'=>1),
+			array('txt'=>'文章摘要','show'=>1),
+			array('txt'=>'附件上传','show'=>1),
+			array('txt'=>'内容','show'=>1),
+			array('txt'=>'发布时间','show'=>1),
+			array('txt'=>'附加选项','show'=>1),
+			array('txt'=>'自动分页字数','show'=>1),
+			array('txt'=>'本文显示投票','show'=>1)
+		);
+		$temp = M('type')->where('typeid='.$typeid)->find();
+
+		if ($temp) {
+    		$this->assign('field_name',$temp['typename']);
+			$myarr = explode('|',$temp['show_fields']);
+			//dump($myarr);
+			if (count($myarr) > 10) {
+				for ($i=0;$i<count($myarr);$i++) {
+					$arr[$i]['show'] = $myarr[$i];
+				}
+			}
+		}
+		$this->assign('list',$arr);
+		//加载扩展字段不想用JOIN个人认为效率不高
+		$list_extend = M('extend_fieldes')->order('orders')->select();
+		foreach ($list_extend as $k => $v) {
+			$is_show = M('extend_show')->where('typeid='.$typeid.' and field_id='.$v['field_id'])->getField('is_show') == 1?1:0;
+			$list_extend[$k]['is_show'] = $is_show;
+		}
+		// dump($list_extend);die;
+		$this->assign('list_extend',$list_extend);
+		$this->display();
+	}
+
+	//保存字段显示控制
+	public function doshow_field(){
+		$typeid = (int)$_REQUEST['typeid'];
+		$nset = (int)$_REQUEST['nset'];
+		$outids = htmlspecialchars($_REQUEST['outids']);
+		if ($typeid ==0) {
+			$this->error('错误的分类编号');exit();
+		}
+		$str = join('|',array_slice($_POST, 1,16));
+		$data = array();
+		$data['typeid'] = $typeid;
+		$data['show_fields'] = $str;
+		$dao = M('Category');
+		$temp = $dao->where('id='.$typeid)->save($data);
+
+		//保存扩展字段显示
+		$list_extend = M('extend_fieldes')->order('orders')->select();
+		foreach ($list_extend as $k => $v) {
+			//不是第一次设置
+			$dao = M('extend_show')->where('typeid='.$typeid.' and field_id='.$v['field_id'])->find();
+			if ($dao) {
+				M('extend_show')->where('typeid='.$typeid.' and field_id='.$v['field_id'])->setField('is_show',intval($_POST['field_'.$v['field_id']]));
+			} else {
+				//第一次设置
+				$arr['typeid'] = $typeid;
+				$arr['field_id'] = $v['field_id'];
+				$arr['is_show'] = intval($_POST['field_'.$v['field_id']]) ;
+				$arr['orders'] = $v['orders'];
+				M('extend_show')->add($arr);
+			}
+		}
+		//下一级保存该设置
+		if ($nset==1) {
+			$where='';
+			if ($outids!='') {
+				$where .= ('typeid not in('.str_replace('|',',',$outids).') and');
+			}
+			$where .= ('fid='.$typeid);
+			M('type')->where($where)->setField('show_fields',$str);
+			$childids = M('type')->where($where)->select();
+			foreach ($childids as $key=>$value) {
+				foreach ($list_extend as $k=>$v) {
+					$dao = M('extend_show')->where('typeid='.$value['typeid'].' and field_id='.$v['field_id'])->find();
+					if ($dao) {
+						M('extend_show')->where('typeid='.$value['typeid'].' and field_id='.$v['field_id'])->setField('is_show',intval($_POST['field_'.$v['field_id']]));
+					} else {
+						$arr['typeid'] = $value['typeid'];
+						$arr['field_id'] = $v['field_id'];
+						$arr['is_show'] = intval($_POST['field_'.$v['field_id']]) ;
+						$arr['orders'] = $v['orders'];
+						M('extend_show')->add($arr);
+					}
+				}
+			}
+		}
+		$this->success('保存字段显示成功');
 	}
 
 	//批量更新排序
@@ -266,7 +373,7 @@ class CategoryAction extends CommonAction {
 					'id' => $k,
 					'sort' => $v,
 				);
-			M('category')->save($data);		
+			M('category')->save($data);
 		}
 		$this->redirect(GROUP_NAME. '/Category/index');
 	}
@@ -297,13 +404,13 @@ class CategoryAction extends CommonAction {
 				$arcid = M($tablename)->where(array('cid' => $id))->getField('id', true);
 				if (!empty($arcid)) {
 					M('attachmentindex')->where(array('modelid' => $modelid, 'arcid' => array('IN', $arcid)))->delete();
-					
+
 					M($tablename)->where(array('cid' => $id))->delete();
-				}		
+				}
 				$msg = '!!!';
 			}
 			M('categoryAccess')->where(array('catid' => $id))->delete();
-			
+
 			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => 0, 'desc' => 'category'))->delete();
 
 			//更新栏目缓存
@@ -313,7 +420,7 @@ class CategoryAction extends CommonAction {
 			$this->success('删除栏目成功'. $msg .'<script type="text/javascript" language="javascript">window.parent.get_cate();</script>',U(GROUP_NAME. '/Category/index'));
 		}else {
 			$this->error('删除栏目失败');
-		}		
+		}
 	}
 
 

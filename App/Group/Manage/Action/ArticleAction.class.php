@@ -1,7 +1,7 @@
 <?php
 
 class ArticleAction extends CommonContentAction {
-	
+
 	public function index() {
 
 		$pid = I('pid', 0, 'intval');//类别ID
@@ -13,8 +13,8 @@ class ArticleAction extends CommonContentAction {
 		$cate = getCategory();
 		$this->subcate = Category::clearCate(Category::getChilds($cate, $pid),'type');
 		$this->poscate = Category::getParents($cate, $pid);
-		
-		
+
+
 		if ($pid) {
 			$idarr = Category::getChildsId($cate, $pid, 1);//所有子类ID
 			$where = array('article.status' => 0, 'cid' => array('in', $idarr));
@@ -25,12 +25,12 @@ class ArticleAction extends CommonContentAction {
 		if (!empty($keyword)) {
 			$where['article.title'] = array('LIKE', "%{$keyword}%");
 		}
-		
+
 		//分页
 		import('Class.Page', APP_PATH);
 		$count = D2('ArcView','article')->where($where)->count();
 
-		$page = new Page($count, 10);		
+		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
@@ -46,8 +46,8 @@ class ArticleAction extends CommonContentAction {
 	//添加文章
 	public function add() {
 
-		
-		//当前控制器名称		
+
+		//当前控制器名称
 		$actionName = strtolower($this->getActionName());
 		$this->pid = I('pid', 0, 'intval');
 
@@ -63,6 +63,23 @@ class ArticleAction extends CommonContentAction {
 		$cate = Category::toLevel($cate);
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'add');
+
+		//默认显示字段 2014-11-22 damicms
+	$str = "1|1|1|1|1|1|0|0|1|1|1|1|1|1|0|0";
+	$olist = M('type')->where("show_fields<>'' and typeid=".$typeid)->find();
+	if($olist)
+	{
+	$str = $olist['show_fields'];
+	}
+	$arr = explode('|',$str);
+	$this->assign('arr',$arr);
+		$this->addop();//文章编辑option
+		$this->jumpop();//快速跳转option
+		$this->vote(0);
+	//加载扩展字段
+	$extend_field = list_extend_field($typeid);
+	$this->assign('extend_field',$extend_field);
+
 		$this->display();
 	}
 
@@ -71,12 +88,12 @@ class ArticleAction extends CommonContentAction {
 
 		$pid = I('pid', 0, 'intval');
 		$cid = I('cid', 0, 'intval');
-		$title = I('title', '', 'htmlspecialchars,rtrim');	
+		$title = I('title', '', 'htmlspecialchars,rtrim');
 		$flags = I('flags', array(),'intval');
 		$jumpurl = I('jumpurl', '');
 		$description = I('description', '', 'htmlspecialchars');
 		$content = I('content', '', '');
-		
+
 
 		$pic = I('litpic', '', 'htmlspecialchars,trim');
 
@@ -87,7 +104,7 @@ class ArticleAction extends CommonContentAction {
 			$this->error('请选择栏目');
 		}
 		$pid = $cid;//转到自己的栏目
-		if (empty($description)) {			
+		if (empty($description)) {
 			$description = str2sub(strip_tags($content), 120);
 		}
 
@@ -101,7 +118,7 @@ class ArticleAction extends CommonContentAction {
 		}
 
 		//获取属于分类信息,得到modelid
-		import('Class.Category', APP_PATH);			
+		import('Class.Category', APP_PATH);
 		$selfCate = Category::getSelf(getCategory(0), $cid);//当前栏目信息
 		$modelid = $selfCate['modelid'];
 
@@ -126,19 +143,19 @@ class ArticleAction extends CommonContentAction {
 			'aid'	=> $_SESSION[C('USER_AUTH_KEY')]
 
 		);
-		
+
 
 		if($id = M('article')->add($data)) {
 
 			//内容中的图片
 			$img_arr = array();
 			$pic_first = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";		
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
 			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			$attid_arr = array();
-			
+
 			if (!empty($img_arr)) {
 
 				if(!empty($_SERVER['HTTP_HOST']))
@@ -146,11 +163,11 @@ class ArticleAction extends CommonContentAction {
 			    else
 			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
 			    foreach ($img_arr as $k => $v) {
-			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀
 			    }
 
 				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
-				
+
 				if ($attid) {
 
 					//只有缩略图为空时,才提取第一张图片
@@ -170,8 +187,8 @@ class ArticleAction extends CommonContentAction {
 						$attid_arr[] = $v['id'];
 					}
 				}
-				
-			}	
+
+			}
 
 			//更新上传附件表
 			if (!empty($pic)) {
@@ -188,7 +205,7 @@ class ArticleAction extends CommonContentAction {
                 $updata = array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1]));
                 if (!in_array(B_PIC, $flags)) {
 					$updata['flag'] = array('exp','flag+'.B_PIC);
-				}                
+				}
 				M('article')->save($updata);
 			}
 
@@ -201,11 +218,11 @@ class ArticleAction extends CommonContentAction {
 				}
 				M('attachmentindex')->addAll($dataAtt);
 			}
-					
+
 
 
 			//更新静态缓存
-			delCacheHtml('List/index_'.$cid, false, 'list:index');	
+			delCacheHtml('List/index_'.$cid, false, 'list:index');
 			delCacheHtml('Index_index', false, 'index:index');
 
 			//Delete blog archive
@@ -235,10 +252,10 @@ class ArticleAction extends CommonContentAction {
 		$cate = Category::toLevel($cate);
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'edit');
 
-		
+
 		$vo = M($actionName)->find($id);
 		$vo['content'] = htmlspecialchars($vo['content']);//ueditor
-		$this->vo = $vo;		
+		$this->vo = $vo;
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
 		$this->display();
 	}
@@ -265,7 +282,7 @@ class ArticleAction extends CommonContentAction {
 			'jumpurl' => I('jumpurl', ''),
 
 		);
-		$id = $data['id'];			
+		$id = $data['id'];
 		$pid = I('pid', 0, 'intval');
 		$flags = I('flags', array(),'intval');
 		$pic = $data['litpic'];
@@ -275,10 +292,10 @@ class ArticleAction extends CommonContentAction {
 		}
 		if (!$data['cid']) {
 			$this->error('请选择栏目');
-		}		
+		}
 		$pid = $data['cid'];//转到自己的栏目
 
-		if (empty($data['description'])) {			
+		if (empty($data['description'])) {
 			$data['description'] = str2sub(strip_tags($data['content']), 120);
 		}
 
@@ -296,26 +313,26 @@ class ArticleAction extends CommonContentAction {
 
 
 		//获取属于分类信息,得到modelid
-		import('Class.Category', APP_PATH);			
+		import('Class.Category', APP_PATH);
 		$selfCate = Category::getSelf(getCategory(0), $data['cid']);//当前栏目信息
 		$modelid = $selfCate['modelid'];
 
 
-	
+
 		if (false !== M('article')->save($data)) {
 			//del
 			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => $modelid))->delete();
-			
+
 
 			//内容中的图片
 			$img_arr = array();
 			$pic_first = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";		
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
 			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			$attid_arr = array();
-			
+
 			if (!empty($img_arr)) {
 
 				if(!empty($_SERVER['HTTP_HOST']))
@@ -323,11 +340,11 @@ class ArticleAction extends CommonContentAction {
 			    else
 			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
 			    foreach ($img_arr as $k => $v) {
-			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀
 			    }
 
 				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
-				
+
 				if ($attid) {
 
 					//只有缩略图为空时,才提取第一张图片
@@ -347,8 +364,8 @@ class ArticleAction extends CommonContentAction {
 						$attid_arr[] = $v['id'];
 					}
 				}
-				
-			}	
+
+			}
 
 			//更新上传附件表
 			if (!empty($pic)) {
@@ -365,7 +382,7 @@ class ArticleAction extends CommonContentAction {
                 $updata = array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1]));
                 if (!in_array(B_PIC, $flags)) {
 					$updata['flag'] = array('exp','flag+'.B_PIC);
-				}                
+				}
 				M('article')->save($updata);
 			}
 
@@ -384,8 +401,8 @@ class ArticleAction extends CommonContentAction {
 			//更新静态缓存
 			delCacheHtml('List/index_'.$data['cid'].'_', false, 'list:index');
 			delCacheHtml('List/index_'.$selfCate['ename'], false, 'list:index');//还有只有名称
-			delCacheHtml('Show/index_*_'. $id, false, 'show:index');//不太精确，会删除其他模块同id文档	
-			
+			delCacheHtml('Show/index_*_'. $id, false, 'show:index');//不太精确，会删除其他模块同id文档
+
 			//Delete blog archive
 			getDateList($modelid, 2);
 
@@ -394,7 +411,7 @@ class ArticleAction extends CommonContentAction {
 
 			$this->error('修改失败');
 		}
-		
+
 	}
 
 
@@ -420,20 +437,20 @@ class ArticleAction extends CommonContentAction {
 				$this->success('移动成功', U(GROUP_NAME. '/Article/index', array('pid' => $pid)));
 			}else {
 				$this->error('移动失败');
-			}			
+			}
 			exit();
 		}
 
 		if (empty($id)) {
 			$this->error('请选择要移动的文档');
 		}
-	
+
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'move');
 
-		
+
 		$this->id = $id;
 		$this->pid = $pid;
 		$this->type = '移动文档';
@@ -455,7 +472,7 @@ class ArticleAction extends CommonContentAction {
 
 		$this->pid = I('pid', 0, 'intval');
 		$this->page = $page->show();
-		$this->vlist = $art;		
+		$this->vlist = $art;
 		$this->type = '文章回收站';
 		$this->subcate = '';
 		$this->display('index');
@@ -475,9 +492,9 @@ class ArticleAction extends CommonContentAction {
 		$pid = I('pid',0 , 'intval');//单纯的GET没问题
 		if (false !== M('article')->where(array('id' => $id))->setField('status', 1)) {
 
-			delCacheHtml('Show/index_*_'. $id.'.', false, 'show:index');				
+			delCacheHtml('Show/index_*_'. $id.'.', false, 'show:index');
 			$this->success('删除成功', U(GROUP_NAME. '/Article/index', array('pid' => $pid)));
-			
+
 		}else {
 			$this->error('删除失败');
 		}
@@ -495,14 +512,14 @@ class ArticleAction extends CommonContentAction {
 
 
 		if (false !== M('article')->where(array('id' => array('in', $idArr)))->setField('status', 1)) {
-			
+
 			//更新静态缓存
 			foreach ($idArr as $v) {
-				delCacheHtml('Show/index_*_'. $v.'.', false, 'show:index');	
+				delCacheHtml('Show/index_*_'. $v.'.', false, 'show:index');
 			}
 			//. M('article')->getlastsql();
 			$this->success('批量删除成功', U(GROUP_NAME. '/Article/index', array('pid' => $pid)));
-			
+
 		}else {
 			$this->error('批量删除文失败');
 		}
@@ -510,7 +527,7 @@ class ArticleAction extends CommonContentAction {
 
 	//还原文章
 	public function restore() {
-		
+
 		$id = I('id',0 , 'intval');
 		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
@@ -522,9 +539,9 @@ class ArticleAction extends CommonContentAction {
 		$pid = I('get.pid', 0, 'intval');
 
 		if (false !== M('article')->where(array('id' => $id))->setField('status', 0)) {
-			
+
 			$this->success('还原成功', U(GROUP_NAME. '/Article/trach', array('pid' => $pid)));
-			
+
 		}else {
 			$this->error('还原失败');
 		}
@@ -532,17 +549,17 @@ class ArticleAction extends CommonContentAction {
 
 	//批量还原文章
 	public function restoreBatch() {
-		
+
 		$idArr = I('key',0 , 'intval');
-		$pid = I('get.pid', 0, 'intval'); 
+		$pid = I('get.pid', 0, 'intval');
 		if (!is_array($idArr)) {
 			$this->error('请选择要还原的项');
 		}
 
 		if (false !== M('article')->where(array('id' => array('in', $idArr)))->setField('status', 0)) {
-			
+
 			$this->success('还原成功', U(GROUP_NAME. '/Article/trach', array('pid' => $pid)));
-			
+
 		}else {
 			$this->error('还原失败');
 		}
@@ -577,7 +594,7 @@ class ArticleAction extends CommonContentAction {
 	//批量彻底删除文章
 	public function clearBatch() {
 
-		$idArr = I('key',0 , 'intval');		
+		$idArr = I('key',0 , 'intval');
 		$pid = I('get.pid', 0, 'intval');
 		if (!is_array($idArr)) {
 			$this->error('请选择要彻底删除的项');
@@ -596,7 +613,7 @@ class ArticleAction extends CommonContentAction {
 		}
 	}
 
-	
+
 }
 
 

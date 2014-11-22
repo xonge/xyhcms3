@@ -46,6 +46,7 @@
 
                 <a href="{:U(GROUP_NAME.'/Category/add',array('pid' => $v['id']))}">添加子栏目</a>
                 <a href="{:U(GROUP_NAME. '/'.ucfirst($v['tablename']). '/index', array('pid' => $v['id']))}">列表</a>
+                <a href="{:U(GROUP_NAME.'/Category/show_field',array('id' => $v['id']))}">字段显示</a>
                 <a href="{:U(GROUP_NAME.'/Category/edit',array('id' => $v['id']))}">修改</a>
                 <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Category/del', array('id' => $v['id']))}', '确实要删除吗？')">删除</a>
 				</td>
