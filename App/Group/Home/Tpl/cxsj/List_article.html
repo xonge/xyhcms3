@@ -47,18 +47,18 @@ var base_file = base_url= "http://www.cxsjgs.com/";
   <yang:list typeid="$cid" pagesize="60">
   <li class="<if condition="$autoindex%4 eq 0">first<elseif condition="$autoindex%4 eq 3"/>end<else/></if>">
     <a href="{$list.url}" title="{$list.title}" class="imga" target="_blank">
-      <img src="{$list.litpic}" alt="{$list.title}"></a>
+      <img src="__ROOT__{$list.litpic}" alt="{$list.title}"></a>
     <h3>
       <a href="{$list.url}" title="{$list.title}" target="_blank">{$list.title}</a>
     </h3>
     <div class="">
       <p class="fl">
         <span class="unit">甲方</span>
-        <br> <font class="f_f58">临沂正直地产</font>
+        <br> <font class="f_f58">{$list.test}</font>
       </p>
       <p>
         <span class="area">面积</span>
-        <br> <font class="f_8cc">㎡</font>
+        <br> <font class="f_8cc">{$list.test2}㎡</font>
       </p>
       <a href="{$list.url}" title="{$list.title}" target="_blank">+ READ MORE</a>
       <br>  
