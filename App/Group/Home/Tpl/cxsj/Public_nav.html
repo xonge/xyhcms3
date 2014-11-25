@@ -33,7 +33,7 @@ $(document).ready(function(){
     <yang:catlist typeid="$cid" type="self" flag="1">
     <li class="<eq name="catlist['id']" value="$cid">current</eq>">
       <a href="{$catlist.url}" title="{$catlist.name}" class="circle3">{$catlist.name}</a>
-      <p>model</p>
+      <p>{$catlist.enname}</p>
     </li>
     </yang:catlist>
   </ul>
