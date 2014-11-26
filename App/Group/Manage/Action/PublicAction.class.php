@@ -321,7 +321,7 @@ class PublicAction extends CommonAction {
 		//设置上传文件类型
 		$upload->allowExts = explode(',', C('cfg_upload_img_ext'));
 		//上传目录
-		$upload->savePath ='./uploads/img1/';
+		$upload->savePath ='/uploads/img1/';
 
 		//$upload->saveRule = 'time';
 		$upload->saveRule = 'uniqid';//设置上传文件规则
