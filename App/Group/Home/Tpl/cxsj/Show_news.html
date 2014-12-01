@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{$content.title}-<yang:sitetitle/></title>
+<meta name="keywords" content="<yang:sitekeywords />">
+<meta name="description" content="<yang:sitedescription />">
+<meta name="google-site-verification" content="00lOH5uXGbsOTSmtWY3IV42emDCtLJBz9oCKcgXFFVc">
+<!-- <base href="http://www.cxsjgs.com/"> -->
+<script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
+<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script>
+<script type="text/javascript">
+var base_file = base_url= "http://www.cxsjgs.com/";
+</script>
+<link href="favicon.ico" rel="shortcut icon">
+<link href="favicon.ico" rel="bookmark">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+<!-- <script type="text/javascript" src="http://www.cxsjgs.com/minify?f=tpl/www/images/js/jquery.js,tpl/www/images/js/global.js,tpl/www/images/js/www.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/www.js"></script>
+<!--[if lte IE 6]>
+<script src="tpl/www/images/js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        DD_belatedPNG.fix('div, ul, img, li, input , a, cite, em');
+    </script>
+<![endif]-->
+<script src="http://bdimg.share.baidu.com/static/js/logger.js?cdnversion=393436"></script>
+</head>
+<body>
+<!-- 头部 -->
+<include file="Public:header" />
+<!-- 轮播图 -->
+<div class="navpic">
+  <div class="column">
+    <img src="__PUBLIC__/images/a1ba05b2d7a14487.jpg" alt="样板间设计" border="0" width="960">
+  </div>
+</div>
+  <!-- 身体 -->
+<div class="main page">
+<include file="Public:nav" />
+  <div class="blank15"></div>
+  <div class="column f14">
+    <h1><font class="fr">访问：{$content.click}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：{$content.publishtime|date='Y/m/d',###}</font>{$content.title}</h1>
+    <div class="msg_fx">
+    <!-- Baidu Button BEGIN -->
+    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=558950" src=""></script>
+    <script type="text/javascript">
+      document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+    </script>
+    <!-- Baidu Button END -->
+    </div>
+    <div class="blank20"></div>
+    <div style="text-align:center;"><br></div>
+    {$content.content}
+    <div class="blank20"></div>
+    <div class="msg_keywords">
+      <a class="print" href="javascript:void(0)" onclick="preview(1);">打印</a>
+      <font class="yellow">TAG</font>
+      <a href="javascript:;">利万家</a>
+      <a href="javascript:;">湘潭</a>
+      <!-- <a href="/search?mid=102&amp;keywords=实景">实景</a>
+      <a href="/search?mid=102&amp;keywords=样板">样板</a>
+      <a href="/search?mid=102&amp;keywords=人鱼">人鱼</a> -->
+    </div>
+    <!--endprint1-->
+    <div class="blank20"></div>
+    <!-- 上下文 -->
+    <div class="other_news">
+      <p>
+        <yang:prev />
+        <eq name="prev['url']" value="">
+        <else/>
+        <span class="fl">
+          <font class="f_f58">上一篇：</font>
+          <a href="{$prev.url}" title="{$prev.title}" class="nextnews">{$prev.title}</a>
+        </span>
+        </eq>
+        <yang:next />
+        <eq name="next['url']" value="">
+        <else/>
+        <span class="fr">
+          <font class="f_f58">下一篇：</font>
+          <a href="{$next.url}" title="{$next.title}" class="prevnews">{$next.title}</a>
+        </span>
+        </eq>
+      </p>
+    </div>
+    <div class="blank10"></div>
+    <div class="new_news">
+      <h5>也许你还喜欢这些资讯</h5>
+      <div class="cont">
+        <div class="blank10"></div>
+        <ul>
+          <yang:randomlist typeid="$cid" pagesize="7" notin="$id">
+          <eq name="autoindex" value="0">
+          <li class="first">
+            <a href="{$randomlist.url}" title="{$randomlist.title}" target="_blank" class="imga"><img src="{$randomlist.litpic}" alt="{$randomlist.title}" border="0/"></a><h3><a href="{$randomlist.url}" title="{$randomlist.title}" target="_blank">【利万家 新闻展示】</a></h3>
+          </li>
+          <else/>
+          <li>
+            <font class="fr">{$randomlist.publishtime|date='Y-m-d',###}</font>·<a href="{$randomlist.url}" title="{$randomlist.title}">{$randomlist.title}</a></li>
+          </eq>
+          </yang:randomlist>
+        </ul>
+ <div class="blank10"></div>
+</div>
+</div>
+ </div>
+
+</div>
+<!-- 尾部 -->
+<include file="Public:footer" />
