@@ -1,30 +1,37 @@
 <?php
-//控制器：ReviewAction
+// 控制器：ReviewAction 评论
 class ReviewAction extends Action{
-	//方法：index
-	public function index(){
+	// 方法：index
+	public function index() {
 
 	}
 
-
-	public function add(){
+	// 添加评论
+	public function add() {
 		header("Content-Type:text/html; charset=utf-8");
-		if (!IS_AJAX ||  !IS_POST) {
-			//exit(json_encode( array('status' => 0, 'info' => '非法请求' ) ));
+		// echo "test";die;
+		// 不知道IS_POST是不是有用 反正提交的时候老是提示非法请求 改用$this->isPost()
+		// if ( !IS_AJAX || !IS_POST || !IS_GET ) {
+		if (!$this->isPost()) {
+			// $this->isPost()的确可用
+			// exit(json_encode( array('status' => 0, 'info' => '非法请求' ) ));
 			$this->error('非法请求');
 		}
-		//M验证
+		// M验证
 		$data['postid'] = I('post_id', 0, 'intval');
 		$data['modelid'] = I('model_id', 0, 'intval');
 		$data['pid'] = I('review_id', 0, 'intval');
 		$data['title'] = I('title', '');
+		// 手机号码 2014/12/03
+		$data['contact']  = I('contact', '');
+		// 过滤不严格 注意被攻击
 		$data['content']  = I('content', '');
 		$data['posttime'] =time();
-		$data['ip'] = get_client_ip();		
+		$data['ip'] = get_client_ip();
 		$data['agent'] = $_SERVER['HTTP_USER_AGENT'];
 
-		
 		$verify = I('vcode','','md5');
+
 		if (C('cfg_verify_review') == 1 && $_SESSION['verify'] != $verify) {
 			$this->error('验证码不正确');
 		}
@@ -32,7 +39,7 @@ class ReviewAction extends Action{
 		$uid = get_cookie('uid');//不能用empty(get_cookie('uid')),empty不能用于函数返回值
 		if (!empty($uid)) {
 			$data['userid'] = $uid;
-			$data['email'] = get_cookie('email'); 
+			$data['email'] = get_cookie('email');
 			/*
 			if(get_cookie('nickname') != '') {
 				$data['username'] = get_cookie('nickname');
@@ -41,10 +48,10 @@ class ReviewAction extends Action{
 			}
 			*/
 			$data['username'] = get_cookie('nickname');
-					
+
 		}else {
-			$data['userid'] = 0;			
-			$data['username'] = I('nickname', '游客');		
+			$data['userid'] = 0;
+			$data['username'] = I('nickname', '游客');
 			$data['email'] =I('email', '', 'htmlspecialchars,trim');
 		}
 		if ($data['userid'] == 0 &&  !C('cfg_feedback_guest')) {//允许匿名评论
@@ -58,7 +65,7 @@ class ReviewAction extends Action{
 		if(empty($data['title'])) {
 			$this->error('文章不正确，请刷新再评论');
 		}
-		
+
 		if(empty($data['content']) || mb_strlen($data['content'], 'utf-8')<3) {
 			$this->error('请填写评论内容，内容太短');
 		}
@@ -67,14 +74,14 @@ class ReviewAction extends Action{
 			$this->error('评论内容包含非法信息，请认真填写！');
 		}
 
-	
+
 
 		if($id = M('comment')->add($data)) {
 			//$this->success('添加成功',U(GROUP_NAME. '/Guestbook/index'));
 			$list= array(
 				//'status' => 1,
 				'id' => $id,
-				'user_id' => $data['userid'],				
+				'user_id' => $data['userid'],
 				'review_id' => $data['pid'],
 				'username' => $data['username'],
 				'ico' => '',
@@ -85,15 +92,14 @@ class ReviewAction extends Action{
 			$furl = $_SERVER['HTTP_REFERER'];
 			//exit(json_encode($list));
 			$this->success('添加成功', $furl, $list);
-		}else {			
+		}else {
 			$this->error('添加失败'.M('comment')->getError());
 		}
-	
+
 	}
 
 
 	public function getlist() {
-
 		header("Content-Type:text/html; charset=utf-8");//不然返回中文乱码
 		if (!IS_AJAX) {
 			//exit('非法请求');
@@ -113,6 +119,7 @@ class ReviewAction extends Action{
 		}else {
 			$pageCount =$count / $pageSize;
 		}
+		// echo $count;die;以为没有正确得到数据 原来是文章下面并没有评论
 		$page = $page > $pageCount ? $pageCount : $page;
 		$page = $page < 1 ? 1 : $page;
 
@@ -145,14 +152,14 @@ class ReviewAction extends Action{
 			$ids[] = $v['id'];
 		}
 
-		//评论回复
-		
+		// 评论回复
+
 		if (!empty($ids)) {
 			$data = D('CommentView')->where(array('pid' => array('in', $ids), 'postid' => $postid , 'modelid' => $modelid ))->order('comment.id')->select();
-	
-		
+
+
 			if (!empty($data)) {
-				foreach ($list['list'] as $k => $v) {					
+				foreach ($list['list'] as $k => $v) {
 					foreach ($data as $k2 => $v2) {
 						if ($v['id'] == $v2['pid']) {
 							$list['list'][$k]['child'][] = array(
@@ -173,7 +180,7 @@ class ReviewAction extends Action{
 			}
 		}
 
-		
+
 		unset($data);
 		exit(json_encode($list));
 

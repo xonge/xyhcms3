@@ -185,7 +185,7 @@ function getContentUrl($id, $cid, $ename, $jumpflag = false, $jumpurl = '') {
         
     }
 
-
+    // dump($id);
     return $url;
 }
 
@@ -195,6 +195,7 @@ function getPosition($typeid = 0, $sname = '', $surl = '', $ismobile = false, $d
     if ($delimiter == '' ) {
         $delimiter = '&gt;&gt;';
     }
+    // $url = $ismobile ? U(GROUP_NAME. '/Index/index/') : C('cfg_weburl');
     $url = $ismobile ? U(GROUP_NAME. '/Index/index/') : C('cfg_weburl');
     $position = '<a href="'. $url .'">首页</a>';
 
@@ -941,7 +942,8 @@ function goMobile() {
         if ($wap2web != 1) {
             if(strpos($agent,"comFront") || strpos($agent,"iPhone") || strpos($agent,"MIDP-2.0") || strpos($agent,"Opera Mini") || strpos($agent,"UCWEB") || strpos($agent,"Android") || strpos($agent,"Windows Phone") || strpos($agent,"Windows CE") || strpos($agent,"SymbianOS"))
             {
-                header('Location:'.U('Mobile/Index/index').'');
+                // header('Location:'.U('Mobile/Index/index').'');
+                // header('Location:'.U('Home/Index/index').'');
             }
         }   
     }

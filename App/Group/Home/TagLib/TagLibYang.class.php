@@ -2,7 +2,7 @@
 
 //自定义标签库
 class TagLibYang extends TagLib {
-	
+
 
 	protected $tags = array(
 		//自定义标签
@@ -24,6 +24,12 @@ class TagLibYang extends TagLib {
 		//软件列表分页
 		'soflist'	=> array(
 			'attr'	=> 'flag,typeid,arcid,titlelen,infolen,orderby,keyword,limit,pagesize,pageroll,pagetheme',
+			'close'	=> 1,
+		),
+
+		// 随机文章列表 2014/12/01
+		'randomlist'	=> array(
+			'attr'	=> 'flag,typeid,titlelen,infolen,orderby,keyword,limit,pagesize,pageroll,pagetheme,notin',
 			'close'	=> 1,
 		),
 
@@ -151,17 +157,18 @@ class TagLibYang extends TagLib {
 		'sitename'	=> array('close' => 0),
 		'sitetitle'	=> array('close' => 0),
 		'siteurl'	=> array('close' => 0),
-		'beian'	=> array('close' => 0),		
+		'beian'	=> array('close' => 0),
 		'address'	=> array('close' => 0),
 		'phone'	=> array('close' => 0),
-		'qq'	=> array('close' => 0),		
+		'fax'	=> array('close' => 0),
+		'qq'	=> array('close' => 0),
 		'email'	=> array('close' => 0),
 		'copyright'	=> array('close' => 0),
 		'swturl'	=> array('close' => 0),
 		'searchurl'	=> array('close' => 0),
 		'gbookurl'	=> array('close' => 0),
 		'gbookaddurl'	=> array('close' => 0),
-		'vcodeurl'	=> array('close' => 0),		
+		'vcodeurl'	=> array('close' => 0),
 		'mobileauto'	=> array(
 			'attr'	=> 'flag',//0自动,1是php,2是js
 			'close' => 0
@@ -171,7 +178,7 @@ class TagLibYang extends TagLib {
 			'attr'	=> 'titlelen',//attr 属性列表
 			'close' => 0
 		),
-		'next'	=> array(			
+		'next'	=> array(
 			'attr'	=> 'titlelen',//attr 属性列表
 			'close' => 0
 		),
@@ -189,7 +196,7 @@ class TagLibYang extends TagLib {
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);//-1后面自动获取
 		$arcid  = empty($attr['arcid'])? '' : $attr['arcid'];//新增加20140413
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -200,12 +207,12 @@ class TagLibYang extends TagLib {
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];//新增加20140513
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);//新增加20140513
-		
 
-		
+
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	\$_keyword = "$keyword";
 	\$_arcid = "$arcid";
 	if(\$_typeid == -1) \$_typeid = I('get.cid', 0, 'intval');
@@ -225,41 +232,90 @@ class TagLibYang extends TagLib {
 		\$where['article.id'] = array('IN', \$_arcid);
 	}
 
-	if ($flag > 0) {	
-		\$where['_string'] = 'article.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = 'article.flag & $flag = $flag ';
 	}
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D2('ArcView','article')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		\$ename = I('e', '', 'htmlspecialchars,trim');
 		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 			\$thisPage->url = ''.\$ename. '/p';
 		}
 		//设置显示的页数
-		
+
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
 
-	\$_artlist = D2('ArcView','article')->nofield('content')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+
+	// \$_artlist = D2('ArcView','article')->nofield('content')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_artlist = D2('ArcView','article')->nofield('')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+
+	// dump(\$_artlist);die;
+	// 如果只有一篇文章
+	if(count(\$_artlist)==1){
+		// 内容中的图片
+		\$img_arr = array();
+		\$pic_first = array();
+		\$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
+		preg_match_all(\$reg, \$_artlist[0]['content'], \$img_arr, PREG_PATTERN_ORDER);
+		// 匹配出来的不重复图片
+		\$img_arr = array_unique(\$img_arr[1]);
+		// 没有注意到这是数组
+		// dump(\$_artlist[0]['content']);die;
+		// dump(\$img_arr);die;
+		\$attid_arr = array();
+		if (!empty(\$img_arr)) {
+			if (!empty(\$_SERVER['HTTP_HOST'])) {
+				\$baseurl = 'http://'.\$_SERVER['HTTP_HOST'];
+			} else {
+				\$baseurl = rtrim("http://".\$_SERVER['SERVER_NAME'],'/');
+			}
+			foreach (\$img_arr as \$k => \$v) {
+				\$img_arr[\$k] = str_replace(\$baseurl, '', \$v);//清除域名前缀
+			}
+
+			\$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', \$img_arr)))->select();
+
+			if (\$attid) {
+				//只有缩略图为空时,才提取第一张图片
+				// if (empty(\$pic)) {
+				// 	//取出本站内的第一张图
+				// 	foreach (\$img_arr as $v) {
+				// 		foreach (\$attid as $v2) {
+				// 			if (\$v == \$v2['filepath']) {
+				// 				\$pic_first = \$v2;
+				// 				break 2;
+				// 			}
+				// 		}
+				// 	}
+				// }
+				//attid 数组
+				foreach (\$attid as \$v) {
+					\$attid_arr[] = \$v['id'];
+				}
+			}
+
+		}
+	}
 
 	if (empty(\$_artlist)) {
 		\$_artlist = array();
 	}
-	
 
-	foreach(\$_artlist as \$autoindex => \$artlist):	
+
+	foreach(\$_artlist as \$autoindex => \$artlist):
 
 	\$_jumpflag = (\$artlist['flag'] & B_JUMP) == B_JUMP? true : false;
 	\$artlist['url'] = getContentUrl(\$artlist['id'], \$artlist['cid'], \$artlist['ename'], \$_jumpflag, \$artlist['jumpurl']);
@@ -283,7 +339,7 @@ str;
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);
 		$arcid  = empty($attr['arcid'])? '' : $attr['arcid'];
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -291,15 +347,15 @@ str;
 
 		$flag = flag2sum($flag);
 		$arcid = string2filter($arcid, ',', true);
-		
+
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
+
 
 
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	\$_keyword = "$keyword";
 	\$_arcid = "$arcid";
 	if(\$_typeid == -1) \$_typeid = I('get.cid', 0, 'intval');
@@ -321,32 +377,32 @@ str;
 	}
 
 
-	if ($flag > 0) {	
-		\$where['_string'] = 'product.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = 'product.flag & $flag = $flag ';
 	}
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D2('ArcView','product')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		\$ename = I('e', '', 'htmlspecialchars,trim');
 		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 			\$thisPage->url = ''.\$ename. '/p';
 		}
 		//设置显示的页数
-		
+
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_prolist = D2('ArcView','product')->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
@@ -355,7 +411,7 @@ str;
 	}
 
 
-	foreach(\$_prolist as \$autoindex => \$prolist):	
+	foreach(\$_prolist as \$autoindex => \$prolist):
 	\$_jumpflag = (\$prolist['flag'] & B_JUMP) == B_JUMP? true : false;
 	\$prolist['url'] = getContentUrl(\$prolist['id'], \$prolist['cid'], \$prolist['ename'], \$_jumpflag, \$prolist['jumpurl']);
 
@@ -379,7 +435,7 @@ str;
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);
 		$arcid  = empty($attr['arcid'])? '' : $attr['arcid'];
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -390,11 +446,11 @@ str;
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
-		
+
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;		
+	\$_typeid = $typeid;
 	\$_keyword = "$keyword";
 	\$_arcid = "$arcid";
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
@@ -415,32 +471,32 @@ str;
 	}
 
 
-	if ($flag > 0) {	
-		\$where['_string'] = 'picture.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = 'picture.flag & $flag = $flag ';
 	}
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D2('ArcView','picture')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		\$ename = I('e', '', 'htmlspecialchars,trim');
 		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 			\$thisPage->url = ''.\$ename. '/p';
 		}
 		//设置显示的页数
-		
+
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_piclist = D2('ArcView','picture')->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
@@ -471,7 +527,7 @@ str;
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);
 		$arcid  = empty($attr['arcid'])? '' : $attr['arcid'];
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -482,11 +538,11 @@ str;
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
+
 
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	\$_keyword = "$keyword";
 	\$_arcid = "$arcid";
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
@@ -506,18 +562,18 @@ str;
 		\$where['soft.id'] = array('IN', \$_arcid);
 	}
 
-	if ($flag > 0) {	
-		\$where['_string'] = 'soft.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = 'soft.flag & $flag = $flag ';
 	}
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D2('ArcView','soft')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		\$ename = I('e', '', 'htmlspecialchars,trim');
 		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 			\$thisPage->url = ''.\$ename. '/p';
@@ -525,21 +581,21 @@ str;
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_soflist = D2('ArcView','soft')->nofield('content,pictureurls,updatelog,downlink')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
 	if (empty(\$_soflist)) {
 		\$_soflist = array();
 	}
-	
 
-	foreach(\$_soflist as \$autoindex => \$soflist):	
+
+	foreach(\$_soflist as \$autoindex => \$soflist):
 	\$_jumpflag = (\$soflist['flag'] & B_JUMP) == B_JUMP? true : false;
 	\$soflist['url'] = getContentUrl(\$soflist['id'], \$soflist['cid'], \$soflist['ename'], \$_jumpflag, \$soflist['jumpurl']);
 	if($titlelen) \$soflist['title'] = str2sub(\$soflist['title'], $titlelen, 0);
@@ -553,6 +609,127 @@ str;
 
 	}
 
+	//标签名前加下划线
+	//随机文章列表 完全不知道使用什么算法实现 现在考虑使用随机数 2014/12/01
+	public function _randomlist($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'randomlist');
+		$flag = empty($attr['flag'])? '': $attr['flag'];
+		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);//只接收一个栏目ID
+		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
+		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
+		$limit = empty($attr['limit'])? '10' : $attr['limit'];
+		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
+		$keyword = empty($attr['keyword'])? '': trim($attr['keyword']);
+
+		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
+		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%g页' : htmlspecialchars_decode($attr['pagetheme']);
+		// $pagetheme = $attr['pagetheme'];
+
+		$aid = !isset($attr['notin']) || $attr['notin'] == '' ? -1 : trim($attr['notin']);
+
+
+		$flag = flag2sum($flag);
+
+		$str = <<<str
+<?php
+	\$_typeid = $typeid;
+	// \$_pagesize = $pagesize;
+	// echo $pagesize;
+	\$_keyword = "$keyword";
+	\$_pagetheme = "$pagetheme";
+	\$_aid = $aid;
+	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
+	if (\$_typeid>0 || substr(\$_typeid,0,1) == '$') {
+		import('Class.Category', APP_PATH);
+		\$_selfcate = Category::getSelf(getCategory(), \$_typeid);
+		\$_tablename = strtolower(\$_selfcate['tablename']);
+		\$ids = Category::getChildsId(getCategory(), \$_typeid, true);
+		//p(\$ids);
+		\$where = array(\$_tablename.'.status' => 0, \$_tablename .'.cid'=> array('IN',\$ids));
+	}else {
+		\$_tablename = 'article';
+		\$where = array(\$_tablename.'.status' => 0);
+
+	}
+	if (\$_keyword != '') {
+		\$where[\$_tablename.'.title'] = array('like','%'.\$_keyword.'%');
+	}
+
+
+	if ($flag > 0) {
+		\$where['_string'] = \$_tablename.'.flag & $flag = $flag ';
+	}
+
+	if (!empty(\$_tablename) && \$_tablename != 'page') {
+
+		//分页
+		if ($pagesize > 0) {
+
+			//import('ORG.Util.Page');
+			import('Class.Page2', APP_PATH);
+			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
+
+			\$thisPage = new Page(\$count, $pagesize);
+
+			\$ename = I('e', '', 'htmlspecialchars,trim');
+			if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
+				\$thisPage->url = ''.\$ename. '/p';
+			}
+			//设置显示的页数
+			\$thisPage->rollPage = $pageroll;
+			// \$thisPage->nowPage = 1;
+			// dump(\$_pagetheme);
+			// // \$thisPage->setConfig('header', '555555');//第一页
+			\$thisPage->setConfig('first', '首页');//第一页
+			\$thisPage->setConfig('upPage', '上一页');//第一页
+			\$thisPage->setConfig('downPage', '下一页');//第一页
+			\$thisPage->setConfig('last', '尾页');//第一页
+			// \$thisPage->setConfig('theme',\$_pagetheme);
+			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
+			\$page = \$thisPage->show();
+			// dump(\$page);
+			// dump(\$thisPage);
+
+		}else {
+			\$limit = "$limit";
+		}
+
+		// \$_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		// 此处使用rand函数产生随机文章 对速度有影响
+		// dump(\$_aid);die;
+		// 前面必须重新定义变量 不然无法显示 不知道原因
+		// \$where['article.id'] = array('NOT IN',\$_aid);
+		// \$where = array(\$_tablename .'.id'=> array('NOT IN',\$_aid));
+		\$_aid = array('0'=>\$_aid);
+		\$where[\$_tablename.'.id'] = array('NOT IN',\$_aid);
+		// dump(\$where);die;
+		\$_randomlist = D2('ArcView',"\$_tablename")->nofield('pictureurls')->where(\$where)->order("RAND()")->limit(\$limit)->select();
+
+		if (empty(\$_randomlist)) {
+			\$_randomlist = array();
+		}
+	}else {
+		\$_randomlist = array();
+	}
+
+
+	//Load('extend');//调用msubstr()
+	// dump(\$_randomlist);die;
+	foreach(\$_randomlist as \$autoindex => \$randomlist):
+
+	\$_jumpflag = (\$randomlist['flag'] & B_JUMP) == B_JUMP? true : false;
+	\$randomlist['url'] = getContentUrl(\$randomlist['id'], \$randomlist['cid'], \$randomlist['ename'], \$_jumpflag, \$randomlist['jumpurl']);
+	if($titlelen) \$randomlist['title'] = str2sub(\$randomlist['title'], $titlelen, 0);
+	if($infolen) \$randomlist['description'] = str2sub(\$randomlist['description'], $infolen, 0);
+
+?>
+str;
+	$str .= $content;
+	$str .='<?php endforeach;?>';
+	return $str;
+
+	}
 
 	//标签名前加下划线
 	//文章列表
@@ -561,7 +738,7 @@ str;
 		$flag = empty($attr['flag'])? '': $attr['flag'];
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1 : trim($attr['typeid']);//只接收一个栏目ID
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -592,28 +769,28 @@ str;
 	}else {
 		\$_tablename = 'article';
 		\$where = array(\$_tablename.'.status' => 0);
-		
+
 	}
 	if (\$_keyword != '') {
 		\$where[\$_tablename.'.title'] = array('like','%'.\$_keyword.'%');
 	}
 
 
-	if ($flag > 0) {	
-		\$where['_string'] = \$_tablename.'.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = \$_tablename.'.flag & $flag = $flag ';
 	}
 
 	if (!empty(\$_tablename) && \$_tablename != 'page') {
-	
+
 		//分页
 		if ($pagesize > 0) {
-			
+
 			//import('ORG.Util.Page');
 			import('Class.Page2', APP_PATH);
 			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
 
 			\$thisPage = new Page(\$count, $pagesize);
-			
+
 			\$ename = I('e', '', 'htmlspecialchars,trim');
 			if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 				\$thisPage->url = ''.\$ename. '/p';
@@ -628,17 +805,67 @@ str;
 			\$thisPage->setConfig('downPage', '下一页');//第一页
 			\$thisPage->setConfig('last', '尾页');//第一页
 			// \$thisPage->setConfig('theme',\$_pagetheme);
-			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 			\$page = \$thisPage->show();
 			// dump(\$page);
 			// dump(\$thisPage);
 
 		}else {
 			\$limit = "$limit";
-		}	
+		}
 
 		// \$_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 		\$_list = D2('ArcView',"\$_tablename")->nofield('pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+
+		// dump(\$_artlist);die;
+		// 如果只有一篇文章 这里是循环每篇文章
+		foreach (\$_list as \$k => \$v) {
+			// 内容中的图片
+			\$img_arr = array();
+			\$pic_first = array();
+			\$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
+			preg_match_all(\$reg, \$v['content'], \$img_arr, PREG_PATTERN_ORDER);
+			// 匹配出来的不重复图片
+			\$img_arr = array_unique(\$img_arr[1]);
+			// 没有注意到这是数组
+			// dump(\$_artlist[0]['content']);die;
+			// dump(\$img_arr);die;
+
+			\$_list[\$k]['img_arr'] = \$img_arr;
+			\$attid_arr = array();
+			if (!empty(\$img_arr)) {
+				if (!empty(\$_SERVER['HTTP_HOST'])) {
+					\$baseurl = 'http://'.\$_SERVER['HTTP_HOST'];
+				} else {
+					\$baseurl = rtrim("http://".\$_SERVER['SERVER_NAME'],'/');
+				}
+				foreach (\$img_arr as \$k => \$v) {
+					\$img_arr[\$k] = str_replace(\$baseurl, '', \$v);//清除域名前缀
+				}
+
+				\$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', \$img_arr)))->select();
+
+				if (\$attid) {
+					//只有缩略图为空时,才提取第一张图片
+					// if (empty(\$pic)) {
+					// 	//取出本站内的第一张图
+					// 	foreach (\$img_arr as $v) {
+					// 		foreach (\$attid as $v2) {
+					// 			if (\$v == \$v2['filepath']) {
+					// 				\$pic_first = \$v2;
+					// 				break 2;
+					// 			}
+					// 		}
+					// 	}
+					// }
+					//attid 数组
+					foreach (\$attid as \$v) {
+						\$attid_arr[] = \$v['id'];
+					}
+				}
+
+			}
+		}
 
 		if (empty(\$_list)) {
 			\$_list = array();
@@ -654,7 +881,7 @@ str;
 
 	\$_jumpflag = (\$list['flag'] & B_JUMP) == B_JUMP? true : false;
 	\$list['url'] = getContentUrl(\$list['id'], \$list['cid'], \$list['ename'], \$_jumpflag, \$list['jumpurl']);
-	if($titlelen) \$list['title'] = str2sub(\$list['title'], $titlelen, 0);	
+	if($titlelen) \$list['title'] = str2sub(\$list['title'], $titlelen, 0);
 	if($infolen) \$list['description'] = str2sub(\$list['description'], $infolen, 0);
 
 ?>
@@ -673,7 +900,7 @@ str;
 		$flag = empty($attr['flag'])? '': $attr['flag'];
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? 0 : trim($attr['typeid']);//只接收一个栏目ID
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -681,13 +908,13 @@ str;
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-				
+
 
 		$flag = flag2sum($flag);
-		
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	\$_keyword = "$keyword";
 	if (\$_typeid>0) {
 		import('Class.Category', APP_PATH);
@@ -699,12 +926,12 @@ str;
 			\$where = array('special.status' => 0, 'special.cid'=> array('IN',\$ids));
 		}else {
 			\$_typeid = 0;
-		}			
-		
+		}
+
 	}
 	if (\$_typeid == 0) {
 		\$where = array('special.status' => 0);
-		
+
 	}
 
 	if (\$_keyword != '') {
@@ -712,19 +939,19 @@ str;
 	}
 
 
-	if ($flag > 0) {	
-		\$where['_string'] = 'special.flag & $flag = $flag ';	
+	if ($flag > 0) {
+		\$where['_string'] = 'special.flag & $flag = $flag ';
 	}
 
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D('SpecialView')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		\$ename = I('e', '', 'htmlspecialchars,trim');
 		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
 			\$thisPage->url = ''.\$ename. '/p';
@@ -732,12 +959,12 @@ str;
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 
 	}else {
 		\$limit = "$limit";
-	}	
+	}
 
 	\$_spelist = D('SpecialView')->nofield('content')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_spelist)) {
@@ -754,16 +981,16 @@ str;
 	    if(C('URL_ROUTER_ON') == true) {
 	        \$spelist['url'] = U('Special/'.\$spelist['id'],'');
 	    }else {
-	        \$spelist['url']  = U('Special/shows', array('id'=> \$spelist['id']));     
-	        
+	        \$spelist['url']  = U('Special/shows', array('id'=> \$spelist['id']));
+
 	    }
 
 	    //\$spelist['url'] = getContentUrl(\$spelist['id'], \$spelist['cid'], \$spelist['ename'], \$_jumpflag, \$spelist['jumpurl']);
     }
 
-	
 
-	if($titlelen) \$spelist['title'] = str2sub(\$spelist['title'], $titlelen, 0);	
+
+	if($titlelen) \$spelist['title'] = str2sub(\$spelist['title'], $titlelen, 0);
 	if($infolen) \$spelist['description'] = str2sub(\$spelist['description'], $infolen, 0);
 
 ?>
@@ -786,10 +1013,10 @@ str;
 		$str = <<<str
 <?php
 
-	import('Class.Category', APP_PATH);	
-	\$type = Category::getSelf(getCategory(0), $typeid);		
+	import('Class.Category', APP_PATH);
+	\$type = Category::getSelf(getCategory(0), $typeid);
 	\$type['url'] = getUrl(\$type);
-	
+
 
 ?>
 str;
@@ -834,7 +1061,7 @@ str;
 		\$_limit[1] = \$_temp[0];
 	}
 	// dump(\$_limit);
-	
+
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
 	// \$__catlist = getCategory(1);
 	// dump(\$__catlist);
@@ -870,7 +1097,7 @@ str;
 // dump(\$__catlistx);die;
 
 
-	import('Class.Category', APP_PATH);	
+	import('Class.Category', APP_PATH);
 	if ($modelid) {
 		\$__catlist = Category::getLevelOfModelId(\$__catlistx, $modelid);
 	}
@@ -956,7 +1183,7 @@ str;
 		\$_limit[1] = \$_temp[0];
 	}
 	// dump(\$_limit);
-	
+
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
 	// \$__catlist = getCategory(1);
 	// dump(\$__catlist);
@@ -990,7 +1217,7 @@ str;
 }
 
 
-	import('Class.Category', APP_PATH);	
+	import('Class.Category', APP_PATH);
 	if ($modelid) {
 		\$__catlist = Category::getLevelOfModelId(\$__catlist, $modelid);
 	}
@@ -1000,7 +1227,7 @@ str;
 		//where array('status' => 1, 'type' => 0 , 'modelid' => array('neq',2));//2是单页模型
 		\$__catlist = Category::clearPageAndLink(\$__catlist);
 	}
-	
+
 	//\$type为top,忽略$typeid
 	if(\$_typeid == 0 || \$_type == 'top') {
 		\$_catlist  = Category::toLayer(\$__catlist);
@@ -1047,15 +1274,15 @@ str;
 	\$_typeid = $typeid;
 	if(\$_typeid == -1) \$_typeid = I('cid', 0, 'intval');
 	\$_navlist = getCategory(1);
-	import('Class.Category', APP_PATH);	
+	import('Class.Category', APP_PATH);
 	if(\$_typeid == 0) {
 		\$_navlist  = Category::toLayer(\$_navlist);
 	}else {
 		\$_navlist  = Category::toLayer(\$_navlist, 'child', \$_typeid);
 	}
-
+// dump(\$_navlist);
 	foreach(\$_navlist as \$autoindex => \$navlist):
-		\$navlist['url'] = getUrl(\$navlist);	
+		\$navlist['url'] = getUrl(\$navlist);
 ?>
 str;
 
@@ -1073,20 +1300,20 @@ str;
 		$typeid = isset($attr['typeid']) ? trim($attr['typeid']) : 0;
 		$typeid = trim($typeid) == '' ? 0 : $typeid;
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
-		
+
 
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
-		
+
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	if (\$_typeid>0 || substr(\$_typeid,0,1) == '$') {
 		\$where = array('member.islock' => 0, 'member.groupid'=> \$_typeid);
 	}else {
@@ -1095,21 +1322,21 @@ str;
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D('MemberView')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_userlist = D('MemberView')->nofield('password,encrypt')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_userlist)) {
@@ -1137,7 +1364,7 @@ str;
 	public function _announcelist($attr, $content) {
 		$attr = $this->parseXmlAttr($attr, 'announcelist');
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'starttime DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
@@ -1145,9 +1372,9 @@ str;
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
 
-		
+
+
 		$str = <<<str
 <?php
 
@@ -1156,22 +1383,22 @@ str;
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = M('announce')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_announcelist = M('announce')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_announcelist)) {
@@ -1198,20 +1425,20 @@ str;
 		$typeid = isset($attr['typeid']) ? trim($attr['typeid']) : 0;
 		$typeid = trim($typeid) == '' ? 0 : $typeid;
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'sort ASC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
-		
+
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
 
-		
+
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	if (\$_typeid>0 || substr(\$_typeid,0,1) == '$') {
 		\$where = array('ischeck'=> \$_typeid);
 	}else {
@@ -1220,22 +1447,22 @@ str;
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = M('link')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_flink = M('link')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_flink)) {
@@ -1259,39 +1486,39 @@ str;
 	public function _gbooklist($attr, $content) {
 		$attr = $this->parseXmlAttr($attr, 'gbooklist');
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
-		
+
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
 
-		
+
+
 		$str = <<<str
 <?php
-	\$where = array('id' => array('gt',0));	
+	\$where = array('id' => array('gt',0));
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = M('guestbook')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 
 	\$_gbooklist = M('guestbook')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_gbooklist)) {
@@ -1315,21 +1542,21 @@ str;
 	public function _reviewlist($attr, $content) {
 		$attr = !empty($attr)? $this->parseXmlAttr($attr, 'reviewlist') : null;
 		$modelid = !isset($attr['modelid']) || $attr['modelid'] == '' ? 0 : trim($attr['modelid']);
-		$arcid = !isset($attr['arcid']) || $attr['arcid'] == '' ? 0 : trim($attr['arcid']);		
+		$arcid = !isset($attr['arcid']) || $attr['arcid'] == '' ? 0 : trim($attr['arcid']);
 		$type = empty($attr['type'])? 0 : intval($attr['type']);//显示形式
-		$userid = !isset($attr['userid']) || $attr['userid'] == '' ? 0 : trim($attr['userid']);		
+		$userid = !isset($attr['userid']) || $attr['userid'] == '' ? 0 : trim($attr['userid']);
 		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
 
-		
+
+
 		$str = <<<str
 <?php
-	\$_modelid = intval($modelid);	
+	\$_modelid = intval($modelid);
 	\$_arcid = intval($arcid);
 	\$_userid = intval($userid);
 
@@ -1346,33 +1573,33 @@ str;
 		\$where['userid'] = \$_userid ;
 	}
 
-	
+
 	//树形风格，多维数组
 	if ($type == 1) {
 		\$where['pid'] = 0;
 	}
-	
-		
-	
+
+
+
 
 	//分页
 	if ($pagesize > 0) {
-		
+
 		import('Class.Page', APP_PATH);
 		\$count = D('CommentView')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
-		
+
 
 		//设置显示的页数
 		\$thisPage->rollPage = $pageroll;
 		\$thisPage->setConfig('theme',"$pagetheme");
-		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 		\$page = \$thisPage->show();
 	}else {
 		\$limit = "$limit";
 	}
-	
+
 	\$_reviewlist = D('CommentView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (!\$_reviewlist) {
 		\$_reviewlist = array();
@@ -1389,7 +1616,7 @@ str;
 		\$_review_child = D('CommentView')->where(\$where)->select();
 		if (\$_review_child) {
 			foreach (\$_reviewlist as \$k => \$v) {
-				
+
 				foreach (\$_review_child as \$k2 => \$v2) {
 					if (\$v['id'] == \$v2['pid']) {
 						\$_reviewlist[\$k]['child'][] = \$v2;
@@ -1420,11 +1647,11 @@ str;
 		$attr = $this->parseXmlAttr($attr, 'abc');
 		$id = !isset($attr['id']) || $attr['id'] == '' ? 0 : trim($attr['id']);
 		$limit = empty($attr['limit'])? '0' : $attr['limit'];
-		
+
 		$str = <<<str
 <?php
 	\$_id = intval($id);
-	
+
 	\$where = array('aid'=> \$_id, 'status' => 1);
 	\$limit = "$limit";
 
@@ -1437,10 +1664,10 @@ str;
 	}else {
 		\$_abc = array();
 	}
-	
-	
 
-	
+
+
+
 	if (empty(\$_abc)) {
 		\$_abc = array();
 	}
@@ -1464,20 +1691,20 @@ str;
 		$attr = $this->parseXmlAttr($attr, 'ad');
 		$id = !isset($attr['id']) || $attr['id'] == '' ? 0 : trim($attr['id']);
 		$flag = empty($attr['flag'])? '0' : $attr['flag'];
-		
+
 		$str = <<<str
 <?php
 	\$_id = intval($id);
 
 	if (!empty(\$_id)) {
-	
+
 		//js输出
 		if ($flag) {
 			echo '<script type="text/javascript" src="'.U(GROUP_NAME. '/Abc/shows', array('id' => \$_id, 'flag' => $flag)).'"></script>';
 		}else {
 			echo getAbc(\$_id, $flag);
 		}
-		
+
 	}
 
 
@@ -1495,10 +1722,10 @@ str;
 		$name = isset($attr['name']) ? trim($attr['name']) : '';
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
-		
+
 		$str = <<<str
 <?php
-	
+
 	if ("$name" == '') {
 		\$_iteminfo= array();
 	}else {
@@ -1538,7 +1765,7 @@ str;
 			}else {
 				\$block_content = \$block['content'];
 			}
-			
+
 		}else {
 			if($infolen) {
 				\$block_content = str2sub(strip_tags(\$block['content']), $infolen, 0);//清除html再截取
@@ -1561,7 +1788,7 @@ str;
 		$attr = !empty($attr)? $this->parseXmlAttr($attr, 'datelist') : null;
 		$modelid = empty($attr['modelid']) ? 1 : $attr['modelid'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
-		
+
 		$str =<<<str
 <?php
 	\$_modelid = intval($modelid);
@@ -1595,17 +1822,17 @@ str;
 	public function _archivelist($attr, $content) {
 		$attr = $this->parseXmlAttr($attr, 'archivelist');
 		$modelid = empty($attr['modelid'])? 1 : $attr['modelid'];//1 == artlist
-		$year = empty($attr['year'])? 0 : $attr['year'];		
+		$year = empty($attr['year'])? 0 : $attr['year'];
 		$month = empty($attr['month'])? 0 : $attr['month'];
 		$titlelen = empty($attr['titlelen'])? 0 : intval($attr['titlelen']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);		
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$orderby = empty($attr['orderby'])? 'publishtime DESC' : $attr['orderby'];
 		$limit = empty($attr['limit'])? '10' : $attr['limit'];
 		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
 
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
-		
+
 
 		$str = <<<str
 <?php
@@ -1617,32 +1844,32 @@ str;
 
 
 	if (!empty(\$_tablename) && \$_tablename != 'page') {
-	
+
 		\$where = array(\$_tablename.'.status' => 0);
 		if ($year > 0 && \$_month > 0) {
 			//\$firstday = date('Y-m-01', strtotime(now()));
 			\$_firstday = "\$_year-\$_month-1 00:00:00";
 			\$_lastday = date('Y-m-d 23:59:59', strtotime("\$_firstday +1 month -1 day"));
 			\$where['publishtime'] = array('between',array(strtotime(\$_firstday),strtotime(\$_lastday)));
-		
+
 		}
 		//分页
 		if ($pagesize > 0) {
-			
+
 			import('Class.Page', APP_PATH);
 			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
-			\$thisPage = new Page(\$count, $pagesize);			
+			\$thisPage = new Page(\$count, $pagesize);
 			\$ename = I('e', '', 'htmlspecialchars,trim');
-		
+
 			//设置显示的页数
 			\$thisPage->rollPage = $pageroll;
 			\$thisPage->setConfig('theme',"$pagetheme");
-			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 			\$page = \$thisPage->show();
 
 		}else {
 			\$limit = "$limit";
-		}	
+		}
 
 		\$_archivelist = D2('ArcView',"\$_tablename")->where(\$where)->order("$orderby")->limit(\$limit)->select();
 		if (empty(\$_archivelist)) {
@@ -1656,13 +1883,13 @@ str;
 
 	\$_jumpflag = (\$archivelist['flag'] & B_JUMP) == B_JUMP? true : false;
 	\$archivelist['url'] = getContentUrl(\$archivelist['id'], \$archivelist['cid'], \$archivelist['ename'], \$_jumpflag, \$archivelist['jumpurl']);
-	if($titlelen) \$archivelist['title'] = str2sub(\$archivelist['title'], $titlelen, 0);	
+	if($titlelen) \$archivelist['title'] = str2sub(\$archivelist['title'], $titlelen, 0);
 	if($infolen) \$archivelist['description'] = str2sub(\$archivelist['description'], $infolen, 0);
-	\$_tmp_year = date('Y', \$archivelist['publishtime']);		
+	\$_tmp_year = date('Y', \$archivelist['publishtime']);
 	\$_tmp_month = date('m', \$archivelist['publishtime']);
 
 	if (isset(\$archivelist_time['year']) && \$_tmp_year == \$archivelist_time['year'] && \$_tmp_month == \$archivelist_time['month']) {
-		\$archivelist_time['flag'] = 0;	
+		\$archivelist_time['flag'] = 0;
 	}else{
 
 		\$archivelist_time = array('year' => \$_tmp_year,
@@ -1693,16 +1920,16 @@ str;
 		$table = string2filter($table, '|');
 		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
 		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);//新增加20140513
-		
+
 		$str = <<<str
 <?php
 	\$_table = explode('|', "$table");
 	\$_field = explode('|', "$field");
 	\$_joinwhere = array_filter(explode('|', "$joinwhere"));//表个数-1//清除空数组
-	sort(\$_joinwhere); //sort()重建索引  
+	sort(\$_joinwhere); //sort()重建索引
 	\$_jointype = 'INNER';//连接方式[INNER|LEFT|RIGHT]，默认是INNER
 	\$where = "$where";
-	
+
 	if (empty(\$where)) {
 		\$where = ' 1 = 1';
 	}
@@ -1717,7 +1944,7 @@ str;
 		\$_field_temp = empty(\$_field[\$k])? array('*') : explode(',', \$_field[\$k]);
 		foreach (\$_field_temp as \$k2 => \$v2) {
 			\$v2 = trim(\$v2);
-			//strpos是否包含count(),sum()等函数，标志为:(			
+			//strpos是否包含count(),sum()等函数，标志为:(
 			\$_field_temp[\$k2] = strpos(\$v2, '(')? \$v2 : \$v. '.'. \$v2;
 		}
 		\$_field_array = array_merge(\$_field_array, \$_field_temp);
@@ -1726,7 +1953,7 @@ str;
 	}
 
 	if (!empty(\$_table)) {
-		
+
 		\$_field_str = implode(',', \$_field_array);
 		if (!empty(\$_joinwhere)) {
 			foreach (\$_joinwhere as \$k => \$v) {
@@ -1734,40 +1961,40 @@ str;
 				if (isset(\$_temp[1]) && in_array(strtoupper(\$_temp[1]), array('INNER','LEFT','RIGHT'))) {
 					\$_jointype = strtoupper(\$_temp[1]);
 				}
-				\$_jointype .= ' JOIN';			
+				\$_jointype .= ' JOIN';
 				\$_joinwhere[\$k] = \$_jointype.' '.\$_table[\$k+1].' ON '.\$_temp[0];
 			}
 		}
-		
-		
+
+
 
 		//分页
 		if ($pagesize > 0) {
-			
+
 			import('Class.Page', APP_PATH);
-			if (count(\$_table) == 1) {	
+			if (count(\$_table) == 1) {
 				\$count = M()->table(\$_table[0])->where(\$where)->count();
 			}else {
-				\$count = M()->table(\$_table[0])->join(\$_joinwhere)->where(\$where)->count();	
+				\$count = M()->table(\$_table[0])->join(\$_joinwhere)->where(\$where)->count();
 			}
 			\$thisPage = new Page(\$count, $pagesize);
-			
-		
+
+
 			//设置显示的页数
-			
+
 			\$thisPage->rollPage = $pageroll;
 			\$thisPage->setConfig('theme',"$pagetheme");
-			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+			\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;
 			\$page = \$thisPage->show();
 		}else {
 			\$limit = "$limit";
 		}
-		
-		if (count(\$_table) == 1) {	
+
+		if (count(\$_table) == 1) {
 			\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->where(\$where)->order("$orderby")->limit(\$limit)->select();
 		}else {
 			\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->join(\$_joinwhere)->
-			where(\$where)->order("$orderby")->limit(\$limit)->select();	
+			where(\$where)->order("$orderby")->limit(\$limit)->select();
 		}
 
 	}
@@ -1775,9 +2002,9 @@ str;
 	if (empty(\$_datatable)) {
 		\$_datatable = array();
 	}
-	
 
-	foreach(\$_datatable as \$autoindex => \$datatable):	
+
+	foreach(\$_datatable as \$autoindex => \$datatable):
 
 ?>
 str;
@@ -1794,17 +2021,17 @@ str;
 		$attr = $this->parseXmlAttr($attr, 'field');
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? 0 : trim($attr['typeid']);//只接收一个栏目ID
 		$artid = empty($attr['artid'])? 0 : intval($attr['artid']);
-		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);	
+		$infolen = empty($attr['infolen'])? 0 : intval($attr['infolen']);
 		$name = empty($attr['name'])? '': trim($attr['name']);
-		$imgindex = empty($attr['imgindex'])? 0 : intval($attr['imgindex']);	
-		$imgwidth = empty($attr['imgwidth'])? 0 : intval($attr['imgwidth']);	
-		$imgheight = empty($attr['imgheight'])? 0 : intval($attr['imgheight']);	
-		
+		$imgindex = empty($attr['imgindex'])? 0 : intval($attr['imgindex']);
+		$imgwidth = empty($attr['imgwidth'])? 0 : intval($attr['imgwidth']);
+		$imgheight = empty($attr['imgheight'])? 0 : intval($attr['imgheight']);
 
-		
+
+
 		$str = <<<str
 <?php
-	\$_typeid = $typeid;	
+	\$_typeid = $typeid;
 	\$_fieldname = "$name";
 	\$_tempstr = '';
 	if (\$_typeid>0 && !empty(\$_fieldname)) {
@@ -1822,7 +2049,7 @@ str;
 				}elseif (\$_fieldname == 'litpic') {
 					\$_tempstr = get_picture(\$_tempstr, $imgwidth, $imgheight);
 				}elseif (\$_fieldname == 'pictureurls') {
-						\$_pictureurls_arr = explode('|||', \$_tempstr);			
+						\$_pictureurls_arr = explode('|||', \$_tempstr);
 						\$_pictureurls  = array();
 						foreach (\$_pictureurls_arr as \$v) {
 							\$temp_arr = explode('$$$', \$v);
@@ -1831,18 +2058,18 @@ str;
 									'url' => \$temp_arr[0],
 									'alt' => \$temp_arr[1]
 								);
-							}				
+							}
 						}
 					if(!isset(\$_pictureurls[$imgindex]['url'])) \$_pictureurls[$imgindex]['url'] = '';
 					\$_tempstr = get_picture(\$_pictureurls[$imgindex]['url'],$imgwidth, $imgheight);
 				}
 			}
-			 
+
 		}
 		if ($infolen >0 && !empty(\$_tempstr)) {
 			\$_tempstr = str2sub(strip_tags(\$_tempstr), $infolen, 0);//清除html再截取
-		}	
-		
+		}
+
 	}
 
 	echo \$_tempstr;
@@ -1861,8 +2088,8 @@ str;
 		$attr = !empty($attr)?$this->parseXmlAttr($attr, 'position') : null;
 		$typeid = !isset($attr['typeid']) || $attr['typeid'] == '' ? -1: trim($attr['typeid']);//只接收一个栏目ID
 		$ismobile = empty($attr['ismobile'])? 0 : 1;
-		$sname = isset($attr['sname'])? trim($attr['sname']) : '';	
-		$surl = isset($attr['surl'])? trim($attr['surl']) : '';	
+		$sname = isset($attr['sname'])? trim($attr['sname']) : '';
+		$surl = isset($attr['surl'])? trim($attr['surl']) : '';
 		$delimiter = isset($attr['delimiter'])? trim($attr['delimiter']) : '';
 
 		$str =<<<str
@@ -1901,7 +2128,7 @@ str;
 
 			\$_jumpflag = (\$_vo['flag'] & B_JUMP) == B_JUMP? true : false;
         	\$_vo['url'] = getContentUrl(\$_vo['id'], \$_vo['cid'], \$_vo['ename'], \$_jumpflag, \$_vo['jumpurl']);
-			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);	
+			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);
 			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
 			\$prev['url']   = \$_vo['url'];
 			\$prev['title'] = \$_vo['title'];
@@ -1931,11 +2158,11 @@ str;
 		//下一条记录
         \$_vo= D2('ArcView',\$cate['tablename'])->where(array(\$cate['tablename'].'.status' => 0, 'cid' => \$content['cid'], 'id' => array('gt',\$content['id'])))->order('id ASC')->find();
 
-        if (\$_vo) {	
+        if (\$_vo) {
 
 			\$_jumpflag = (\$_vo['flag'] & B_JUMP) == B_JUMP? true : false;
-        	\$_vo['url'] = getContentUrl(\$_vo['id'], \$_vo['cid'], \$_vo['ename'], \$_jumpflag, \$_vo['jumpurl']);				
-			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);	
+        	\$_vo['url'] = getContentUrl(\$_vo['id'], \$_vo['cid'], \$_vo['ename'], \$_jumpflag, \$_vo['jumpurl']);
+			if($titlelen) \$_vo['title'] = str2sub(\$_vo['title'], $titlelen, 0);
 			// echo '<a href="'. \$_vo['url'] .'">'. \$_vo['title'] .'</a>';
 			\$next['url']   = \$_vo['url'];
 			\$next['title'] = \$_vo['title'];
@@ -1970,15 +2197,15 @@ str;
 		else {
 			echo getClick(\$id, \$tablename);
 		}
-		
-		
+
+
 	}
 
 ?>
 str;
 		return $str;
 	}
-	
+
 	//Online[QQ]
 	public function _online($attr, $content) {
 
@@ -2017,7 +2244,7 @@ str;
 	}
 	public function _beian($attr, $content) {
 		return C('cfg_beian');
-	}	
+	}
 	public function _address($attr, $content) {
 		return C('cfg_address');
 	}
@@ -2025,12 +2252,15 @@ str;
 	public function _phone($attr, $content) {
 		return C('cfg_phone');
 	}
+	public function _fax($attr, $content) {
+		return C('cfg_fax');
+	}
 	public function _qq($attr, $content) {
 		return C('cfg_qq');
 	}
 	public function _email($attr, $content) {
 		return C('cfg_email');
-	}	
+	}
 	public function _copyright($attr, $content) {
 		return C('cfg_powerby');
 	}
@@ -2050,7 +2280,7 @@ str;
 	public function _gbookaddurl($attr, $content) {
 		return U('Guestbook/add');
 	}
-	public function _vcodeurl($attr, $content) {	
+	public function _vcodeurl($attr, $content) {
 
 		return U(GROUP_NAME.'/Public/verify', '');//解决IIS伪，问题
 		return U('Public/verify', '');
@@ -2080,14 +2310,14 @@ str;
 				break;
 			case 2:
 				if (C('cfg_mobile_auto') == 1) {
-					echo '<script type="text/javascript" src="__DATA__/static/js/mobile_auto.js"></script>';					
+					echo '<script type="text/javascript" src="__DATA__/static/js/mobile_auto.js"></script>';
 				}
 				break;
-			
+
 			default:
 				break;
 		}
-	
+
 
 ?>
 str;

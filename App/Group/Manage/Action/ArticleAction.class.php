@@ -50,6 +50,7 @@ class ArticleAction extends CommonContentAction {
 		//当前控制器名称
 		$actionName = strtolower($this->getActionName());
 		$this->pid = I('pid', 0, 'intval');
+		$pid = $this->pid;
 
 		if (IS_POST) {
 			$this->addPost();
@@ -58,27 +59,31 @@ class ArticleAction extends CommonContentAction {
 
 
 		//'type' => 0
-		$cate = getCategory(2);
+		// $cate = getCategory(2);
+		// 选择栏目的时候得不到当前栏目 2014/11/27
+		$cate = getCategory(0);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'add');
 
+		// dump($this->cate);die;
 		//默认显示字段 2014-11-22 damicms
-	$str = "1|1|1|1|1|1|0|0|1|1|1|1|1|1|0|0";
-	$olist = M('type')->where("show_fields<>'' and typeid=".$typeid)->find();
-	if($olist)
-	{
-	$str = $olist['show_fields'];
-	}
-	$arr = explode('|',$str);
-	$this->assign('arr',$arr);
-		$this->addop();//文章编辑option
-		$this->jumpop();//快速跳转option
-		$this->vote(0);
-	//加载扩展字段
-	$extend_field = list_extend_field($typeid);
-	$this->assign('extend_field',$extend_field);
+		$str = "1|1|1|1|1|1|0|0|1|1|1|1|1|1|0|0";
+		$olist = M('category')->where("show_fields<>'' and id=".$pid)->find();
+		if ($olist) {
+			$str = $olist['show_fields'];
+		}
+		$arr = explode('|',$str);
+		$this->assign('arr',$arr);
+		// $this->addop();//文章编辑option 不知道用来干嘛
+		// $this->jumpop();//快速跳转option 同样不知道用来干嘛
+		// $this->vote(0); // 估计是投票用的
+		// 加载扩展字段
+		// dump($pid);
+		$extend_field = list_extend_field($this->pid);
+		// dump($extend_field);
+		$this->assign('extend_field',$extend_field);
 
 		$this->display();
 	}
@@ -144,6 +149,17 @@ class ArticleAction extends CommonContentAction {
 
 		);
 
+		// 扩展字段数据 damicms的函数 2014/11/24
+		$list_extend = list_extend_field(intval($_POST['pid']));
+		foreach ($list_extend as $k=>$v) {
+			if (isset($_POST[$v['field_name']])) {
+				if (is_array($_POST[$v['field_name']])) {
+					$data[$v['field_name']] = trim(join(',',$_POST[$v['field_name']]));
+				} else {
+					$data[$v['field_name']] = trim($_POST[$v['field_name']]);
+				}
+			}
+		}
 
 		if($id = M('article')->add($data)) {
 
@@ -247,7 +263,9 @@ class ArticleAction extends CommonContentAction {
 		}
 
 		//'type' => 0
-		$cate = getCategory(2);
+		// 实在猜不到为什么是2 明明0才能得到所有的栏目
+		// $cate = getCategory(2);
+		$cate = getCategory(0);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'edit');
@@ -257,6 +275,14 @@ class ArticleAction extends CommonContentAction {
 		$vo['content'] = htmlspecialchars($vo['content']);//ueditor
 		$this->vo = $vo;
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
+
+		//加载扩展字段 damicms 2014/11/24
+		$extend_field = list_extend_field($this->pid);
+		$this->assign('extend_field',$extend_field);
+
+		// dump($vo);
+		// dump($extend_field);
+
 		$this->display();
 	}
 
@@ -270,6 +296,7 @@ class ArticleAction extends CommonContentAction {
 			'shorttitle' => I('shorttitle', '', 'htmlspecialchars,rtrim'),
 			'color' => I('color'),
 			'cid'	=> I('cid', 0, 'intval'),
+			'guanlian'	=> I('guanlian', 0, 'htmlspecialchars,rtrim'),
 			'litpic'	=> I('litpic', ''),
 			'keywords' => I('keywords', '', 'htmlspecialchars,trim'),
 			'description' =>  I('description', ''),
@@ -312,12 +339,22 @@ class ArticleAction extends CommonContentAction {
 
 
 
-		//获取属于分类信息,得到modelid
+		// 获取属于分类信息,得到modelid
 		import('Class.Category', APP_PATH);
 		$selfCate = Category::getSelf(getCategory(0), $data['cid']);//当前栏目信息
 		$modelid = $selfCate['modelid'];
 
-
+		// 扩展字段数据 damicms 2014/11/24
+		$list_extend = list_extend_field(intval($_POST['pid']));
+		foreach ($list_extend as $k => $v) {
+			if (isset($_POST[$v['field_name']])) {
+				if (is_array($_POST[$v['field_name']])) {
+					$data[$v['field_name']] = trim(join(',',$_POST[$v['field_name']]));
+				} else {
+					$data[$v['field_name']] = trim($_POST[$v['field_name']]);
+				}
+			}
+		}
 
 		if (false !== M('article')->save($data)) {
 			//del
@@ -445,7 +482,8 @@ class ArticleAction extends CommonContentAction {
 			$this->error('请选择要移动的文档');
 		}
 
-		$cate = getCategory(2);
+		// $cate = getCategory(2);
+		$cate = getCategory(0);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
 		$this->cate = get_category_access(Category::getLevelOfModel($cate, $actionName),'move');

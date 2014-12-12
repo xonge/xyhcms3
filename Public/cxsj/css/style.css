@@ -211,19 +211,47 @@ li.hover .hits{background:url(../images/span.gif) left -90px no-repeat;}
 .subnav li a{width:108px;height:28px;line-height:28px;display:block;color:#fff;font-size:14px;text-align:center;font-weight:bold;margin-top:10px;background:#7F7F7F;border:1px solid #7F7F7F;}
 .subnav li.current a,.subnav li a:hover{color:#fff;background:#F58000;border:1px solid #fff;text-decoration:none;}
 .subnav li p{font-family:Arial;text-align:center;}
+
+/*首页案例列表*/
+/*.list_cases li{width:238px;height:260px;float:left;border:1px solid #ddd;overflow:hidden;border-left:none;border-bottom:3px solid #ddd;text-align:center;padding-top:10px;background:#fff;line-height:25px;margin-bottom:20px;}*/
+.list_casesx li{width:238px;height:286px;float:left;border:1px solid #ddd;overflow:hidden;border-left:none;border-bottom:3px solid #ddd;text-align:center;padding-top:10px;background:#fff;line-height:25px;margin-bottom:20px;}
+
+.list_casesx li.first{border-left:1px solid #ddd;}
+.list_casesx li.end{border-right:3px solid #ddd;}
+.list_casesx li .f_8cc{font-weight:bold;font-size:14px;}
+.list_casesx li.hover{background:#F58000;color:#fff;}
+.list_casesx li.hover a{color:#fff;}
+/*.list_cases li p{width:118px;height:50px;padding:5px 0;float:left;text-align:center;}*/
+.list_casesx li p{width:79px;height:50px;padding:5px 0;float:left;text-align:center;}
+.list_casesx li.hover p{display:none;}
+.list_casesx li.hover div{height:50px;padding:5px 0 5px 15px;text-align:left;font-size:14px;}
+.list_casesx li.hover div a{font-size:11px;font-family:Tahoma;}
+.list_casesx li.hover .hits{margin-left:40px;}
+/*.list_cases li p.fl{width:119px;border-right:1px solid #ddd;}*/
+.list_casesx li p.fl{width:78px;border-right:1px solid #ddd;}
+.list_casesx img{width:220px;height:165px;margin:0 auto;}
+.list_casesx li h3{height:35px;line-height:35px;padding:0 10px;overflow:hidden;text-align:center;font-family:"宋体","Arial Narrow";}
+.list_casesx li div{border-top:1px solid #ddd;}
+.unitx{padding-left:16px;background:url(../images/span.gif) left -123px no-repeat;}
+.areax{padding-left:16px;background:url(../images/span.gif) left -156px no-repeat;}
+
 /*案例列表*/
 .list_cases li{width:238px;height:260px;float:left;border:1px solid #ddd;overflow:hidden;border-left:none;border-bottom:3px solid #ddd;text-align:center;padding-top:10px;background:#fff;line-height:25px;margin-bottom:20px;}
+/*.list_cases li{width:238px;height:286px;float:left;border:1px solid #ddd;overflow:hidden;border-left:none;border-bottom:3px solid #ddd;text-align:center;padding-top:10px;background:#fff;line-height:25px;margin-bottom:20px;}*/
+
 .list_cases li.first{border-left:1px solid #ddd;}
 .list_cases li.end{border-right:3px solid #ddd;}
 .list_cases li .f_8cc{font-weight:bold;font-size:14px;}
 .list_cases li.hover{background:#F58000;color:#fff;}
 .list_cases li.hover a{color:#fff;}
 .list_cases li p{width:118px;height:50px;padding:5px 0;float:left;text-align:center;}
+/*.list_cases li p{width:79px;height:50px;padding:5px 0;float:left;text-align:center;}*/
 .list_cases li.hover p{display:none;}
 .list_cases li.hover div{height:50px;padding:5px 0 5px 15px;text-align:left;font-size:14px;}
 .list_cases li.hover div a{font-size:11px;font-family:Tahoma;}
 .list_cases li.hover .hits{margin-left:40px;}
-.list_cases li p.fl{width:119px;border-right:1px solid #ddd;} 
+.list_cases li p.fl{width:119px;border-right:1px solid #ddd;}
+/*.list_cases li p.fl{width:78px;border-right:1px solid #ddd;}*/
 .list_cases img{width:220px;height:165px;margin:0 auto;}
 .list_cases li h3{height:35px;line-height:35px;padding:0 10px;overflow:hidden;text-align:center;font-family:"宋体","Arial Narrow";}
 .list_cases li div{border-top:1px solid #ddd;}
@@ -381,7 +409,8 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /*案例详情*/
 .cases_pic{padding:9px;border:1px solid #E5E5E5;background:#fff url(../images/cases_pic.gif) right bottom no-repeat;}
-.cases_msg{height:65px;line-height:30px;}
+/*.cases_msg{height:65px;line-height:30px;}*/
+.cases_msg{height:120px;line-height:30px;}
 .name{padding-left:16px;background:url(../images/span.gif) left -183px no-repeat;}
 .cases_msg .area,.cases_msg .name,.cases_msg .hits,.cases_msg .time{margin-left:50px;}
 .cases_content{background:url(../images/cases_content.png) 0 0 no-repeat;position:relative;overflow:hidden;}
@@ -416,7 +445,7 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 .about03{background:url(../images/about03.jpg) center 40px no-repeat;height:905px;position:relative;}
 .about04{background:url(../images/about04.jpg) center 40px no-repeat;position:relative;}
 .about04 p{margin-left:105px;width:600px;}
-.about05{background:url(about05.jpg) center 40px no-repeat;position:relative;}
+.about05{background:url(../images/about05.jpg) center 40px no-repeat;position:relative;}
 .about05 .cxwb{position:absolute;left:240px;top:40px;}
 .about05 div.top{width:676px;float:left;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed #bbb;}
 
@@ -428,13 +457,13 @@ h1 font.fr{font-size:12px;font-weight:lighter;}
 .column-960{width:960px;height:auto;margin:0 auto;overflow:hidden;}
 .En_page{background:#EEE;font-family:Arial, Helvetica, sans-serif;line-height:24px;}
 
-.En_header{width:100%;height:145px;border-top:7px solid #F58000;background:url(navpic.gif) center top repeat;overflow:hidden;}
+.En_header{width:100%;height:145px;border-top:7px solid #F58000;background:url(../images/navpic.gif) center top repeat;overflow:hidden;}
 	.En_top{position:relative;height:150px;}
 	.En_email{position:absolute;right:10px;top:0;display:block;width:auto;padding:0px 20px 5px;background:#F58000;border-radius: 0px 0px 5px 5px; -moz-border-radius: 0px 0px 5px 5px;/*仅Firefox支持，实现圆角效果*/
 -webkit-border-radius: 0px 0px 5px 5px;/*仅Safari,Chrome支持，实现圆角效果*/
 -khtml-border-radius: 0px 0px 5px 5px;/*仅Safari,Chrome支持，实现圆角效果*/
 border-radius: 0px 0px 5px 5px;/*仅Opera，Safari,Chrome支持，实现圆角效果*/}
-	.En_email a{padding-left:30px;color:#FFF;font-size:14px;background:url(en_page.png) -5px -5px no-repeat;}
+	.En_email a{padding-left:30px;color:#FFF;font-size:14px;background:url(../images/en_page.png) -5px -5px no-repeat;}
 
 	.En_logo{position:absolute;left:0;bottom:20px;width:340px;height:100px;}
 
@@ -545,3 +574,15 @@ border-radius: 0px 0px 5px 5px;/*仅Opera，Safari,Chrome支持，实现圆角�
 .cases_faq dd{padding-left:25px; background:url(../images/faq_icon.gif) 0 -30px no-repeat;line-height:24px; font-size:12px; margin-bottom:10px;}
 
 .key_words{text-indent:-9999em;display:none;}
+
+/*2014/11/28*/
+#webqrcode{background: url(../images/hd_h2.gif) 0 -924px no-repeat;}
+
+#mrth{height: 40px;background: url(../images/hd.gif) 0 0 repeat-x;}
+#mrth h2 {
+background: url(../images/hd_h2.gif) 0 -960px no-repeat;
+height: 40px;
+text-indent: -1000px;
+}
+/*2014/12/05*/
+.caizhi {padding-left: 16px;background: url(../images/span.gif) left -30px no-repeat;}

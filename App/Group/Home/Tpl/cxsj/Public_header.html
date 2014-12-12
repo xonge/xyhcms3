@@ -3,31 +3,32 @@
 
 <eq name="$cid" value="">
 <div class="logo">
-  <a href="http://www.cxsjgs.com/" title="成象设计">
-  <img src="__PUBLIC__/images/1e143c15bd8e0b2e.gif" alt="成象设计"></a>
+  <a href="/" title="<yang:sitetitle/>">
+  <!-- <img src="__PUBLIC__/images/1e143c15bd8e0b2e.gif" alt="<yang:sitetitle/>"></a> -->
+  <img src="/uploads/img1/20141128/54781de3e1d5f.png" alt="<yang:sitetitle/>"></a>
 </div>
 <div class="menubox">
   <div class="menubox-T">
     <img src="__PUBLIC__/images/d22593062cef89bc.gif" alt="联系电话：400-0809-061" class="tel">
     <ul class="top_menu">
       <li>
-        <a href="http://weibo.com/imagingdesignyuemeng" title="成象微博" target="_blank" class="ico_1">成象微博</a>
+        <a href="javascript:;" title="利万家微博" target="_blank" class="ico_1">利万家微博</a>
       </li>
       <li>
-        <a href="/service02.html" title="服务优势" target="_blank" class="ico_2">服务优势</a>
+        <a href="/index.php/fuwuyoushi" title="服务优势" target="_blank" class="ico_2">服务优势</a>
       </li>
       <li>
-        <a href="/faq" title="常见问题" target="_blank" class="ico_3">常见问题</a>
+        <a href="javascript:;" title="常见问题" target="_blank" class="ico_3">常见问题</a>
       </li>
       <li>
-        <a href="/about05.html" title="联系我们" target="_blank" class="ico_4">联系我们</a>
+        <a href="/index.php/lianxiwomen" title="联系我们" target="_blank" class="ico_4">联系我们</a>
       </li>
-      <li>
+      <!-- <li>
         <a href="/aboutus.html" title="About US" target="_blank" class="ico_5">About US</a>
-      </li>
+      </li> -->
     </ul>
     <div class="search_box">
-      <form method="get" action="/search">
+      <form method="get" action="">
         <input type="hidden" name="mid" value="102">
         <input type="submit" value="" class="submit_box" id="submit_box">
         <input type="text" class="input_box" id="so_keyword" name="keywords" value="" x-webkit-speech="true">
@@ -36,17 +37,24 @@
   </div>
   <!--菜单开始-->
   <ul class="nav">
-    <li class="menu-effect current" -data-highlight="current">
-      <a href="__ROOT__" title="网站首页">网站首页</a>
+    <li class="menu-effect <eq name="cid" value="">current</eq>" -data-highlight="<eq name="cid" value="">current</eq>">
+      <a href="/" title="网站首页">网站首页</a>
     </li>
+    <yang:type typeid="$cid">
+    </yang:type>
+    <php>if($type['pid']==0)$type['pid']=$cid</php>
     <yang:navlist typeid='0'>
-    <li class="menu-effect" -data-highlight="">
+    <php>$cur=$navlist['id'];</php>
+    <li class="menu-effect <eq name="cur" value="$type['pid']">current</eq>" -data-highlight="<eq name="cur" value="$type['pid']">current</eq>">
       <a href="{$navlist.url}" title="{$navlist.name}">{$navlist.name}</a>
       <ul class="submenu">
         <yang:catlist typeid="$navlist['id']" type="son" flag="1">
+        <eq name="catlist['status']" value="0">
+        <else/>
         <li class="<eq name="autoindex" value="$countx-1">last</eq>">
           <a href="{$catlist.url}" title="{$catlist.name}">{$catlist.name}</a>
         </li>
+        </eq>
         </yang:catlist>
       </ul>
     </li>

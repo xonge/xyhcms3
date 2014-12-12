@@ -1,11 +1,13 @@
 #############
-/App/Conf/*
-/App/Runtime/*
-/App/Html/*
-/uploads/abc1/*
-/uploads/file1/*
-/uploads/img1/*
 /Data/resource/backupdata/*
+/uploads/file1/*
 /Install/install.lock
-!README.md
 !/uploads/file1/201403/
+/App/Html/*
+/App/Conf/*
+!README.md
+/uploads/abc1/*
+/App/Runtime/*
+cxsjcopy (2).zip
+cxsjcopy.zip
+/uploads/img1/*

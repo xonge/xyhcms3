@@ -38,6 +38,55 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true) {
     return $suffix ? $slice.'...' : $slice;
 }
 
+/*get url */
+//jumpflag针对文档跳转属性 测试用 到时候删除即可
+function getContentUrlx($id, $cid, $ename, $jumpflag = false, $jumpurl = '') {
+    echo "hhhhhhhh";
+    $url = '';
+    //如果是跳转，直接就返回跳转网址
+    if ($jumpflag && !empty($jumpurl)) {
+        return $jumpurl;
+    }
+    if (empty($id) || empty($cid) || empty($ename)) {
+        return $url;
+    }
+    
+
+    //开启路由
+    if(C('URL_ROUTER_ON') == true) {
+        $url = $id > 0 ? U(''.$ename.'/'.$id,'') : U('/'.$ename,'', '');
+    }else {
+        $url  = U('Show/index', array('cid' => $cid, 'id'=> $id));
+     
+        
+    }
+
+    dump($id);
+    echo "gggggggg";
+    return $url;
+}
+
+// 获得指定自定义字段的文章列表 2014/11/24 部分代码来自damicms
+function listx($str) {
+    $list = M('article');
+    // $lista = $list->where(array('guanlian'=>$str))->select();
+    $_list = D2('ArcView',"article")->nofield('pictureurls')->where(array('guanlian'=>$str))->order()->limit()->select();
+    // dump($_list);
+    foreach ($_list as $k => $v) {
+        // $_jumpflag = ($v['flag'] & B_JUMP) == B_JUMP? true : false;
+        // echo $_jumpflag;
+        // echo "gggggggg";
+        // $lista[$k]['url']
+        // echo $v['id'];
+        // echo $v['cid'];
+        $test = getContentUrl($v['id'], $v['cid'], $v['ename'], false, '');
+        // echo $test;
+        $_list[$k]['url'] = $test;
+    }
+    // dump($lista);die;
+    return $_list;
+}
+
 
 
 ?>

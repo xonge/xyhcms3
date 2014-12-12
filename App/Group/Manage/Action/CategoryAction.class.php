@@ -159,6 +159,8 @@ class CategoryAction extends CommonAction {
 
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);
+		// 英文别名 2014/11/25
+		$data['enname'] = trim($data['enname']);
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
 		$pic = $data['catpic'] = I('catpic', '', 'htmlspecialchars,trim');
 

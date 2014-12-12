@@ -3,38 +3,26 @@
   <php>$cid=I('cid',0,'intval');</php>
   <lt name="cid" value="1">
   <div id="h_top">
-    <div class="login_form fl">武汉小学欢迎您！</div>
-    <div class="top_link fr"><span class="topTool"><a title="设为首页" style="cursor:pointer" id="setForIndex" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.hbwhxx.com/')"><img src="__PUBLIC__/images/homelink.gif">设为首页</a><a href="javascript:if(document.all){window.external.addFavorite('http://www.hbwhxx.com/','武汉小学');}else if(window.sidebar){window.sidebar.addPanel('武汉小学', 'http://www.hbwhxx.com/','');}" title="加入收藏"><img src="__PUBLIC__/images/fav.gif">收藏本站</a><a href="mailto:"><img src="__PUBLIC__/images/mail.gif">联系我们</a></span> </div>
+    <div class="login_form fl">湘锰小学欢迎您！</div>
+    <div class="top_link fr"><span class="topTool"><a title="设为首页" style="cursor:pointer" id="setForIndex" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.hbwhxx.com/')"><img src="__PUBLIC__/images/homelink.gif">设为首页</a><a href="javascript:if(document.all){window.external.addFavorite('http://www.hbwhxx.com/','湘锰小学');}else if(window.sidebar){window.sidebar.addPanel('湘锰小学', 'http://www.hbwhxx.com/','');}" title="加入收藏"><img src="__PUBLIC__/images/fav.gif">收藏本站</a><a href="mailto:"><img src="__PUBLIC__/images/mail.gif">联系我们</a></span> </div>
     <div class="clear"></div>
   </div>
   </lt>
   <div id="h_banner">
-    <object id="FlashID" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="1000" height="221">
-      <param name="movie" value="__PUBLIC__/flash_banner.swf">
-      <param name="quality" value="high">
-      <param name="wmode" value="opaque">
-      <param name="swfversion" value="9.0.45.0">
-      <!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 -->
-      <param name="expressinstall" value="__PUBLIC__/Scripts/expressInstall.swf">
-      <!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 -->
-      <!--[if !IE]>-->
-      <object type="application/x-shockwave-flash" data="__PUBLIC__/flash_banner.swf" width="1000" height="221">
-      <!--<![endif]-->
-      <param name="quality" value="high">
-      <param name="wmode" value="opaque">
-      <param name="swfversion" value="9.0.45.0">
-      <param name="expressinstall" value="__PUBLIC__/Scripts/expressInstall.swf">
-      <!-- 浏览器将以下替代内容显示给使用 Flash Player 6.0 和更低版本的用户。 -->
-      <div>
-        <h4>此页面上的内容需要较新版本的 Adobe Flash Player。</h4>
-        <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="获取 Adobe Flash Player" width="112" height="33"></a></p>
-      </div>
-      <!--[if !IE]>-->
-    </object>
-    <!--<![endif]-->
-  </object>
-<script type="text/javascript">
-swfobject.registerObject("FlashID");
+<!-- 幻灯片 -->
+
+  <div id="slider">
+  <img src="__PUBLIC__/images/1.jpg" alt="{$vo.title}">
+    <img src="__PUBLIC__/images/2.jpg" alt="{$vo.title}">
+    <img src="__PUBLIC__/images/3.jpg" alt="{$vo.title}">
+  <volist name="flash" id="vo">
+    <a href="#" target="_blank">
+      <img src="__PUBLIC__/images/1.jpg" alt="{$vo.title}">
+    </a>
+  </volist>
+  </div>
+  <script>
+  $('#slider').coinslider();
 </script>
 </div>
   <!-- 导航栏 -->
@@ -54,7 +42,7 @@ swfobject.registerObject("FlashID");
         <div class="dis_date">
           <span id="dd">今天是 <script>document.write(year,month,day," ",week);</script>2014年11月14日 星期五</span>
         </div>
-        <iframe name="weather_inc" src="http://cache.xixik.com.cn/1/wuhan/" allowtransparency="true" width="330" height="33" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+        <iframe name="weather_inc" src="http://cache.xixik.com.cn/1/xiangtan/" allowtransparency="true" width="330" height="33" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
       </div>
       <!-- 搜索框 -->
       <div class="searchDiv fr">

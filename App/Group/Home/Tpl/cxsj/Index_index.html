@@ -150,6 +150,44 @@ $(document).ready(function(){
 
 <!-- 主体部分 -->
 <div class="main index">
+  <div class="column">
+  <div id="mrth">
+<h2>每日特惠</h2>
+</div>
+<div class="blank10"></div>
+<ul class="list_casesx">
+  <yang:list typeid="12" pagesize="8">
+  <li class="<if condition="autoindex%4 eq 0">first<elseif condition="autoindex%4 eq 3"/>end<else /></if>">
+    特价商品
+    <a href="{$list.url}" title="{$list.title}" class="imga" target="_blank">
+      <img src="{$list.img_arr.0}" alt="{$list.title}"></a>
+    <h3>
+      <a href="{$list.url}" title="{$list.title}" target="_blank">{$list.title}</a>
+    </h3>
+    <div class="">
+      <p class="fl">
+        <span class="unitx">品牌</span>
+        <br> <font class="f_f58">{$list.pinpai}</font>
+      </p>
+      <p class="fl">
+        <span class="areax">规格</span>
+        <br> <font class="f_8cc"><!-- ㎡ -->{$list.guige}</font>
+      </p>
+      <p>
+        <span class="areax">特价</span>
+        <br> <font class="f_8cc"><!-- ㎡ -->{$list.tejia}</font>
+      </p>
+      <a href="{$list.url}" title="{$list.title}" target="_blank">+ READ MORE</a>
+      <br>  
+      <span class="hits">1689</span>
+    </div>
+  </li>
+  </yang:list>
+  </ul>
+<div class="blank10"></div>
+</div>
+
+
   <div class="blank5"></div>
   <div class="column">
     <div class="mod" id="ryzz">
@@ -328,22 +366,36 @@ $(document).ready(function(){
 </script>
 <div id="IndexPlay">
   <div id="ImgBox">
-    <a href="/team" target="_blank" title="设计团队-幻灯片" style="display: none;"><img src="upfiles/2013/02/25/80672363a038a921.gif" alt="设计团队-幻灯片"></a>
-    <a href="/team" target="_blank" title="工作环境" style="display: block;"><img src="upfiles/2013/03/15/0af694c6df85c3d6.jpg" alt="工作环境"></a>
-    </div>
+    <yang:artlist arcid="68">
+    <volist name="img_arr" id="vo">
+      <yang:type typeid="5">
+      <a href="{$type.url}" target="_blank" title="{$artlist.title}" style="display: none;"><img src="{$vo}" alt="{$artlist.title}"></a>
+      </yang:type>
+    </volist>
+    </yang:artlist>
+  </div>
   <div id="ImgLenBox" style="">
     <a href="javascript:void(0)" class="circle5">1</a><a href="javascript:void(0)" class="circle5 hover">2</a>  </div>
   <a id="prev" href="javascript:void(0)"></a>
   <a id="next" href="javascript:void(0)"></a>
 </div>
 </div>
+<!-- 领导照片 -->
 <div class="team_first">
-<a href="/team" target="_blank"><img src="upfiles/2013/02/23/3a6dbf3b083e6eef.gif" title="岳蒙 [成象空间策划创始人]"></a>
-  
+  <yang:artlist arcid="68">
+  <yang:type typeid="5">
+  <a href="{$type.url}" target="_blank">
+    <img src="{$artlist.litpic}" title="{$artlist.title}"></a>
+  </yang:type>
+  </yang:artlist>
 </div>
 <div class="team_pic">
-<a href="/team" title="成象设计团队照片" target="_blank" class="imga"><img src="upfiles/2013/02/23/a516e03539e23b98.jpg" alt="成象设计团队照片" border="0/"></a>
-  
+  <yang:artlist arcid="69">
+  <yang:type typeid="5">
+  <a href="{$type.url}" title="{$artlist.title}" target="_blank" class="imga">
+    <img src="{$img_arr[0]}" alt="{$artlist.title}" border="0/"></a>
+  </yang:type>
+  </yang:artlist>
 </div>
 </div>
 <div class="blank20"></div>
@@ -356,7 +408,7 @@ $(document).ready(function(){
 
 <div class="mod" style="height:230px;">
 <div class="hd1">
-<h2>网站二维码</h2>
+<h2 id="webqrcode">网站二维码</h2>
 </div>
   <img src="__PUBLIC__/images/1648535224.png" alt="网站二维码" width="190" />
 </div>
@@ -392,7 +444,7 @@ $(document).ready(function(){
   </div>
   <div class="blank10"></div>
   <ul>
-    <yang:list typeid="9" pagesize="5">
+    <yang:list typeid="21" pagesize="5">
     <php>$l=strlen($autoindex);if($l==1)$autoindex = '0' . ($autoindex + 1);</php>
     <li> <em>{$autoindex}</em>
       <p>

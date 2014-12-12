@@ -170,7 +170,7 @@
 //                }
 //            }
 //        }()
-        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+        // ,allHtmlEnabled:true //提交到后台的数据是否包含整个html字符串
         //iframeUrlMap
         //dialog内容的路径 ～会被替换成URL,垓属性一旦打开，将覆盖所有的dialog的默认路径
         //,iframeUrlMap:{
@@ -371,6 +371,7 @@
         //,filterRules : {}
         //,autoTransWordToList:false  //禁止word中粘贴进来的列表自动变成列表标签
         //,disabledTableInTable:true  //禁止表格嵌套
+        ,allowDivTransToP: false
     };
 
     function getUEBasePath ( docUrl, confUrl ) {

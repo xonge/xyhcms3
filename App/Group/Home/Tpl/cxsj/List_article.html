@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>成象设计 - 山东样板房设计-山东售楼处设计-山东软装设计-山东酒店会所设计</title>
-<meta name="keywords" content="成象设计,山东样板房设计,山东售楼处设计,山东软装设计,山东精品酒店设计">
-<meta name="description" content="成象设计是山东地区专业从事样板房设计，软装设计，酒店会所设计，售楼中心设计，唯一服务过中海，保利，绿城，绿地等一些地产企业的山东室内设计公司，电话0531-86023878！">
+<title>{$cate.name}-<yang:sitetitle/></title>
+<meta name="keywords" content="<yang:sitekeywords />">
+<meta name="description" content="<yang:sitedescription />">
 <meta name="google-site-verification" content="00lOH5uXGbsOTSmtWY3IV42emDCtLJBz9oCKcgXFFVc">
 <!-- <base href="http://www.cxsjgs.com/"> -->
-<script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
-<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script>
+<!-- <script charset="utf-8" src="http://qiao.baidu.com/site/300/043e0b14ff8cb4c9560acf280c3ea34a/b.js"></script>
+<script charset="utf-8" src="http://trust.baidu.com/vcard/v.js?siteid=2345388&amp;url=http%3A%2F%2Fwww.cxsjgs.com%2F&amp;source=&amp;rnd=1417042920"></script> -->
 <script type="text/javascript">
 var base_file = base_url= "http://www.cxsjgs.com/";
 </script>
@@ -42,23 +42,31 @@ var base_file = base_url= "http://www.cxsjgs.com/";
 <include file="Public:nav" />
 
 <div class="blank15"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('html,body').animate({
+    scrollTop: $('.subnav').offset().top
+  },300);
+});
+</script>
 <div class="column">
 <ul class="list_cases">
-  <yang:list typeid="$cid" pagesize="60">
+  <!-- 原先pagesize是60 现在改成200 2014/12/10 -->
+  <yang:list typeid="$cid" pagesize="200">
   <li class="<if condition="$autoindex%4 eq 0">first<elseif condition="$autoindex%4 eq 3"/>end<else/></if>">
     <a href="{$list.url}" title="{$list.title}" class="imga" target="_blank">
-      <img src="__ROOT__{$list.litpic}" alt="{$list.title}"></a>
+      <img src="__ROOT__/{$list.img_arr.0}" alt="{$list.title}"></a>
     <h3>
       <a href="{$list.url}" title="{$list.title}" target="_blank">{$list.title}</a>
     </h3>
     <div class="">
       <p class="fl">
-        <span class="unit">甲方</span>
-        <br> <font class="f_f58">{$list.test}</font>
+        <span class="unit">品牌</span>
+        <br> <font class="f_f58">{$list.pinpai}</font>
       </p>
       <p>
-        <span class="area">面积</span>
-        <br> <font class="f_8cc">{$list.test2}㎡</font>
+        <span class="area">规格</span>
+        <br> <font class="f_8cc">{$list.guige}<!-- ㎡ --></font>
       </p>
       <a href="{$list.url}" title="{$list.title}" target="_blank">+ READ MORE</a>
       <br>  
@@ -74,5 +82,10 @@ var base_file = base_url= "http://www.cxsjgs.com/";
 
 
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.mainnav').attr('id','nav2');
+});
+</script>
 <!-- 尾部 -->
 <include file="Public:footer" />

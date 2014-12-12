@@ -1,5 +1,5 @@
 <!-- 中间导航部分 -->
-<div class="column mainnav" id="nav2">
+<div class="column mainnav" id="">
   <!--当前位置导航-->
   <div class="leader">
     <p>
@@ -22,18 +22,21 @@
 <eq name="countx" value="">
 <else/>
 <script type="text/javascript">
-$(document).ready(function(){
-  $('html,body').animate({
-    scrollTop: $('.subnav').offset().top
-  },300);
-});
+// $(document).ready(function(){
+//   $('html,body').animate({
+//     scrollTop: $('.subnav').offset().top
+//   },300);
+// });
 </script>
 <div class="subnav column">
   <ul>
     <yang:catlist typeid="$cid" type="self" flag="1">
     <li class="<eq name="catlist['id']" value="$cid">current</eq>">
+      <eq name="catlist['status']" value="0">
+      <else/>
       <a href="{$catlist.url}" title="{$catlist.name}" class="circle3">{$catlist.name}</a>
       <p>{$catlist.enname}</p>
+      </eq>
     </li>
     </yang:catlist>
   </ul>
