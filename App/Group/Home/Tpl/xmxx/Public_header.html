@@ -1,0 +1,62 @@
+<!--头部背景图 有轮播图 宽度自适应-->
+<!-- <div class="body3"> --> <!-- 此处body3是为了框住960px大div而写的 没什么意义 后面考虑删除 -->
+<div class="header">
+  <div class="carouselx"> <!-- 本来是轮播图 现在改成静态的 -->
+    <ul>
+<!--    <li><img src="/Public/xmxx/top-bg-1.jpg" alt=""></li>-->
+      <li><img src="/Public/xmxx/top-bg-2.jpg" alt=""></li>
+    </ul>
+  </div>
+</div>
+<!-- </div> -->
+<!-- 头部背景图结束 -->
+<!--包括导航 宽度960px 高度1537px-->
+<div class="login1"> <!-- 此处代码多余 考虑删除 -->
+  <php>$nick = get_cookie('nickname')</php>
+  <div class="login2" <gt name="nick" value="">style="display:none;"</gt>>
+    <!-- 首页登陆框 -->
+    <div class="inputs">
+      <input type="text" class="iuser" placeholder="" id="iuser" name="iuser" value="test@xonge.com">
+      <input type="password" class="ipwd" id="ipwd" name="ipwd" value="123456asd">
+    </div>
+  </div>
+  <div class="information" <gt name="nick" value="">style="display:block;"</gt>>
+    <p class="">
+      <span class="avatar"><img src="/Public/xmxx/iuser.png" alt=""></span>
+      <span style="color:#ffb922" id="nickname">{:get_cookie('nickname')}</span>
+      <span>欢迎您！</span>
+      <a href="{:U('Member/index')}">个人中心</a>
+      <a href="javascript:;" style="color: red;" id="signoutbtn">退出</a>
+    </p>
+  </div>
+</div>
+
+<!--包括导航 宽度960px 高度1537px-->
+<!-- <div class="login1">
+  <div class="information">
+    <p class="">
+      <span class="avatar"><img src="/Public/xmxx/iuser.png" alt=""></span>
+      <span style="color:#ffb922">刘老师</span>
+      <span>欢迎您！</span>
+      <a href="">个人中心</a>
+    </p>
+  </div>
+</div> -->
+
+<!-- 登陆结束 -->
+<div class="body2">
+  <div class="logo2"><img src="/Public/xmxx/logo.png" alt=""></div>
+  <div class="lunbotext">
+    <div class="zhegai"> <!-- 此层作为遮盖层 下面是轮播 超过这个层的都会被隐藏 -->
+      <div class="lbtext">
+        <ul>
+          <!-- 这里会要修改成动态的 -->
+          <li><img src="/Public/xmxx/lb1.png" alt=""></li>
+          <li><img src="/Public/xmxx/lb2.png" alt=""></li>
+          <li><img src="/Public/xmxx/lb3.png" alt=""></li>
+          <li><img src="/Public/xmxx/lb4.png" alt=""></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div style="clear:both;"></div> <!-- 清除浮动 不知道有什么意义 -->
